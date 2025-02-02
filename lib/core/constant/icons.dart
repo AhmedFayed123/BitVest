@@ -23,6 +23,7 @@ class AppIcons {
   static const IconData arrow_circle_upward = Icons.arrow_circle_up_outlined;
   static const IconData arrow_circle_down = Icons.arrow_circle_down_outlined;
 
+
   // Transaction Icons
   static const IconData swap_horiz = Icons.swap_horiz;
   static const IconData currency_exchange = Icons.currency_exchange;

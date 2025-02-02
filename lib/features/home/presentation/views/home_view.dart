@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/colors.dart';
+import '../../../wallet/presentation/views/wallet_view.dart';
 import '../controllers/navigation_bar_controller/bottom_nav_controller.dart';
 
 class HomeView extends StatelessWidget {
@@ -19,8 +20,7 @@ class HomeView extends StatelessWidget {
       HomeViewBody(scaffoldKey: scaffoldKey,),
       Center(child: Text('Market Page',style: TextStyle(color: kWhiteColor),)),
       Center(child: Text('Trade Page',style: TextStyle(color: kWhiteColor),)),
-      Center(child: Text('Wallet Page',style: TextStyle(color: kWhiteColor))),
-
+      WalletView(),
     ];
     return SafeArea(
       child: Scaffold(

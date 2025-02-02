@@ -40,12 +40,14 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kPositiveTrendColor, // Slightly faded black for normal text
-  );  static TextStyle textStyle18semiBold = TextStyle(
+  );
+  static TextStyle textStyle18semiBold = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kPrimaryTextColor, // Slightly faded black for normal text
-  );static TextStyle textStyle14semiBold = TextStyle(
+  );
+  static TextStyle textStyle14semiBold = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w600,
     fontFamily: Strings.kPoppins, // Font family applied here
@@ -62,14 +64,22 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kPrimaryTextColor, // Slightly faded black for normal text
-  ); static TextStyle textStyle14regular = TextStyle(
+  );
+  static TextStyle textStyle14regular = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kHintTextColor, // Slightly faded black for normal text
-  );  static TextStyle textStyle16regular = TextStyle(
+  );
+  static TextStyle textStyle16regular = TextStyle(
     fontSize: 16.sp,
     fontWeight: FontWeight.w400,
+    fontFamily: Strings.kPoppins, // Font family applied here
+    color: kPrimaryTextColor, // Slightly faded black for normal text
+  );
+  static TextStyle textStyle16bold = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w700,
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kPrimaryTextColor, // Slightly faded black for normal text
   );
@@ -83,11 +93,11 @@ class AppStyles {
   );
 
   // Style for button text
-  static TextStyle buttonTextStyle = TextStyle(
-    fontSize: Sizes.buttonFontSize.sp,
+  static TextStyle textStyle14w500 = TextStyle(
+    fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     fontFamily: Strings.kPoppins, // Font family applied here
-    color: kWhiteColor, // White text for buttons
+    color: kPrimaryTextColor, // White text for buttons
   );
 
   // Style for splash screen text

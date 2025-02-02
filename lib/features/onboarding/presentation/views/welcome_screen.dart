@@ -39,42 +39,40 @@ class WelcomeScreen extends StatelessWidget {
           color: kWhiteColor,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.paddingMedium),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(height: Sizes.spaceLargest),
-              Image.asset(Images.welcomeImage),
-              SizedBox(height: Sizes.kVerticalSpacing),
-              Text(
-                'appDescription'.tr,
-                style: TextStyle(
-                  color: kWhiteColor,
-                  fontSize: Sizes.kHeadingSize,
-                  fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Sizes.paddingMedium),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: Sizes.spaceLargest),
+            Image.asset(Images.welcomeImage),
+            SizedBox(height: Sizes.kVerticalSpacing),
+            Text(
+              'appDescription'.tr,
+              style: TextStyle(
+                color: kWhiteColor,
+                fontSize: Sizes.kHeadingSize,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: Sizes.spaceLargest),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                WelcomeButton(
+                  text: Strings.signUp,
+                  onPressed: () => Get.to(() => const SignUpScreen()),
+                  isOutlined: true,
                 ),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: Sizes.spaceLargest),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  WelcomeButton(
-                    text: Strings.signUp,
-                    onPressed: () => Get.to(() => const SignUpScreen()),
-                    isOutlined: true,
-                  ),
-                  WelcomeButton(
-                    text: Strings.login,
-                    onPressed: () => Get.to(() => const LoginScreen()),
-                  ),
-                ],
-              ),
-              SizedBox(height: Sizes.kButtonSpacing),
-            ],
-          ),
+                WelcomeButton(
+                  text: Strings.login,
+                  onPressed: () => Get.to(() => const LoginScreen()),
+                ),
+              ],
+            ),
+            SizedBox(height: Sizes.kButtonSpacing),
+          ],
         ),
       ),
     );

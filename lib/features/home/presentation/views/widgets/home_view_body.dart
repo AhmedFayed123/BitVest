@@ -21,7 +21,7 @@ class HomeViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56.0.h),
+        preferredSize: Size.fromHeight(58.0.h),
         child: HomeAppBar(scaffoldKey: scaffoldKey),
       ),
       body: SingleChildScrollView(
@@ -29,14 +29,23 @@ class HomeViewBody extends StatelessWidget {
           children: [
             TotalBalanceContainer(),
             AdvertSlider(),
-            CustomSeeAllRow(title: "most popular", onPressed: () {  },),
+            CustomSeeAllRow(
+              title: "most popular",
+              onPressed: () {},
+              isSeeAll: true,
+            ),
             CryptoCardList(),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
             CryptoTicker(),
             const TabBarSection(),
-            CustomSeeAllRow(title: "News", onPressed: () {  },),
+            CustomSeeAllRow(
+              title: "News",
+              onPressed: () {},
+              isSeeAll: true,
+            ),
             NewsList(),
-
           ],
         ),
       ),

@@ -53,7 +53,7 @@ class CustomSocialButton extends StatelessWidget {
             SizedBox(width: 12.w),
             Text(
               title,
-              style: AppStyles.buttonTextStyle.copyWith(color: textColor),
+              style: AppStyles.textStyle14w500.copyWith(color: textColor),
             ),
           ],
         ),

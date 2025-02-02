@@ -1,3 +1,4 @@
+import 'package:bitvest/core/settings/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -29,23 +30,24 @@ class CustomCryptoListItem extends StatelessWidget {
       child: Card(
         color: kCardBackgroundColor,
         elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12.sp),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // أيقونة العملة
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(6.sp),
                 decoration: BoxDecoration(
                   color: Colors.amber.shade200,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.currency_bitcoin,
-                    color: Colors.amber, size: 30),
+                child: Icon(Icons.currency_bitcoin,
+                    color: Colors.amber, size: 30.sp),
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
 
               // اسم العملة والمعلومات الأساسية
               Expanded(
@@ -54,23 +56,24 @@ class CustomCryptoListItem extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: AppStyles.textStyle16regular,
+                      style: AppStyles.textStyle12regular
                     ),
-                    Text(symbol,
-                      style: AppStyles.textStyle18semiBold,
+                    Text(
+                      symbol,
+                      style: AppStyles.textStyle16bold,
                     ),
-                    const SizedBox(height: 5),
-                    Text("\$$price",
+                    SizedBox(height: 5.h),
+                    Text(
+                      "\$$price",
                       style: AppStyles.textStyle14regular,
                     ),
                   ],
                 ),
               ),
 
-              // الرسم البياني الصغير
               SizedBox(
-                width: 100,
-                height: 40,
+                width: 100.w,
+                height: 40.h,
                 child: SfCartesianChart(
                   plotAreaBorderWidth: 0,
                   primaryXAxis: CategoryAxis(isVisible: false),
@@ -81,13 +84,13 @@ class CustomCryptoListItem extends StatelessWidget {
                       xValueMapper: (ChartData data, _) => data.x,
                       yValueMapper: (ChartData data, _) => data.y,
                       color: isNegative ? Colors.red : Colors.green,
-                      width: 2,
+                      width: 2.w,
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
 
               // التغييرات في السعر
               Column(
@@ -97,13 +100,13 @@ class CustomCryptoListItem extends StatelessWidget {
                     "$change | $percent",
                     style: TextStyle(
                       color: isNegative ? Colors.red : Colors.green,
-                      fontSize: 14,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   IconButton(
-                    icon: const Icon(Icons.star_border, color: Colors.grey),
+                    icon: const Icon(Icons.star_border, color: kGreyColor),
                     onPressed: () {},
                   ),
                 ],

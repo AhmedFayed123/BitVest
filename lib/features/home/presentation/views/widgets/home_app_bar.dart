@@ -47,7 +47,7 @@ class HomeAppBar extends StatelessWidget {
                   Strings.appName,
                   style: AppStyles.regularTextStyle.copyWith(
                     color: kWhiteColor, // Override color for error text
-                    fontWeight: FontWeight.w100, // Bold the message
+                    fontWeight: FontWeight.w600, // Bold the message
                     fontSize:
                     Sizes.kSubHeadingSize, // Use the correct font size
                   ),

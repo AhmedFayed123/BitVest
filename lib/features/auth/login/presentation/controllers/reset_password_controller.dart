@@ -9,6 +9,7 @@ class ResetPasswordController extends GetxController {
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   var isLoading = false.obs;
+  var isPasswordVisible = false.obs;
 
   void resetPassword() async {
     if (!formKey.currentState!.validate()) return;
@@ -25,7 +26,9 @@ class ResetPasswordController extends GetxController {
       isLoading.value = false;
     }
   }
-
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
   @override
   void onClose() {
     newPasswordController.dispose();

@@ -7,10 +7,11 @@ import '../../constant/strings.dart';
 import '../../constant/styles.dart';
 
 class CustomSeeAllRow extends StatelessWidget {
-  const CustomSeeAllRow({super.key, required this.title, required this.onPressed});
+  const CustomSeeAllRow({super.key, required this.title, required this.onPressed, required this.isSeeAll});
 
   final String title;
   final VoidCallback onPressed;
+  final bool isSeeAll;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,11 @@ class CustomSeeAllRow extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  Strings.seeAll,
+                  isSeeAll?Strings.seeAll:'',
                   style: AppStyles.textStyle12regular,
                 ),
                 Icon(
-                  AppIcons.arrow_forward,
+                  isSeeAll?AppIcons.arrow_forward:null,
                   color: kPrimaryTextColor,
                   size: 12,
                 )

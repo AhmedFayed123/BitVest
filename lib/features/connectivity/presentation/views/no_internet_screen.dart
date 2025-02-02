@@ -71,7 +71,7 @@ class NoInternetScreen extends StatelessWidget {
                     child: Text(
                       Strings.kRetryButtonText,
                       style: AppStyles
-                          .buttonTextStyle, // Use buttonTextStyle from AppStyles
+                          .textStyle14w500, // Use buttonTextStyle from AppStyles
                     ),
                   ),
                 ],
