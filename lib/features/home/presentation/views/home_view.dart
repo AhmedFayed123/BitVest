@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/colors.dart';
+import '../../../market/presentation/views/market_view.dart';
+import '../../../trade/presentation/views/trade_view.dart';
 import '../../../wallet/presentation/views/wallet_view.dart';
 import '../controllers/navigation_bar_controller/bottom_nav_controller.dart';
 
@@ -14,12 +16,15 @@ class HomeView extends StatelessWidget {
 
   final BottomNavController _bottomNavController =
       Get.put(BottomNavController());
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
-      HomeViewBody(scaffoldKey: scaffoldKey,),
-      Center(child: Text('Market Page',style: TextStyle(color: kWhiteColor),)),
-      Center(child: Text('Trade Page',style: TextStyle(color: kWhiteColor),)),
+      HomeViewBody(
+        scaffoldKey: scaffoldKey,
+      ),
+      MarketView(),
+      TradeScreen(),
       WalletView(),
     ];
     return SafeArea(
@@ -38,7 +43,6 @@ class HomeView extends StatelessWidget {
                 icon: Icon(Icons.home),
                 label: "Home",
               ),
-
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
                 icon: Icon(Icons.show_chart),

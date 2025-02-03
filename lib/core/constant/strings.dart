@@ -198,5 +198,6 @@ class Strings {
       "Are you sure you want to perform this action?"; // Confirmation for actions
   static const String yes = "Yes"; // Yes button text
   static const String no = "No"; // No button text
+  static const String confirm = "Confirm"; // No button text
 
 }

@@ -18,8 +18,8 @@ class WalletView extends StatelessWidget {
         ],
         tabBarViewChildren: const [
           WalletViewBody(),
-          Center(child: Text('Spot'),),
-          Center(child: Text('Funding'),),
+          Center(child: Text('Spot',style: TextStyle(color: Colors.white),),),
+          Center(child: Text('Funding',style: TextStyle(color: Colors.white),),),
         ],
       ),
     );

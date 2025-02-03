@@ -32,9 +32,8 @@ class ActionButton extends StatelessWidget {
             Icon(
               icon,
               color: kPrimaryTextColor,
-              size: 24.sp,
+              size: 22.sp,
             ),
-            SizedBox(width: 5.w,),
             Text(
               title,
               style: AppStyles.textStyle14w500,

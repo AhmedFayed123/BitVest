@@ -22,6 +22,7 @@ class CustomTabBar extends StatelessWidget {
       child: Column(
         children: [
           TabBar(
+
             labelColor: kAmberColor,
             unselectedLabelColor: kGreyColor,
             indicatorColor: kAmberColor,
