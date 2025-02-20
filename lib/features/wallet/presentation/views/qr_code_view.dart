@@ -1,9 +1,11 @@
 import 'package:bitvest/core/constant/colors.dart';
 import 'package:bitvest/core/constant/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../../core/components/widgets/camera_overlay.dart';
 import '../controllers/qr_code_scanner_controller.dart';
 
 class QrCodeView extends StatelessWidget {
@@ -26,13 +28,13 @@ class QrCodeView extends StatelessWidget {
             onDetect: (barcodeCapture) => controller.onDetect(barcodeCapture),
           ),
           Center(
-            child: Container(
-              width: 250,
-              height: 250,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.red, width: 4),
-                borderRadius: BorderRadius.circular(12),
-              ),
+            child: CameraOverlay(
+              scanAreaWidth: 310.w,
+              scanAreaHeight: 291.h,
+              cornerLength: 20,
+              cornerThickness: 2,
+              cornerColor: kPositiveTrendColor,
+              cornerRadius: 58,
             ),
           ),
           Positioned(

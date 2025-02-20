@@ -1,37 +1,44 @@
+import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
+import '../../../../trade/presentation/views/coin_details_view.dart';
+import '../../controller/market_controller.dart';
 
 class HotList extends StatelessWidget {
   const HotList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: ListView.builder(
+    final MarketController controller = Get.put(MarketController());
+
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const CircleLoading();
+      }
+
+      return ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: 15,
+        itemCount: controller.marketData.length,
         itemBuilder: (context, index) {
+          final market = controller.marketData[index];
+
           return CustomCryptoListItem(
-            name: "Polygon",
-            symbol: "MATIC",
-            price: "0.51",
-            change: "-0.02",
-            percent: "-0.49%",
-            isNegative: true,
-            chartData: [
-              ChartData('0', 0.55),
-              ChartData('1', 0.54),
-              ChartData('2', 0.53),
-              ChartData('3', 0.52),
-              ChartData('4', 0.51),
-              ChartData('5', 0.50),
-              ChartData('6', 0.51),
-            ],
+            onTap: ()=>Get.to(() => CoinDetailsView(coinId: market.id!,)),
+            name: market.name ?? "Unknown",
+            symbol: market.symbol ?? "--",
+            price: market.price?.toStringAsFixed(2) ?? "0.00",
+            change: market.changeRateUsdt?.toStringAsFixed(2) ?? "0.00",
+            percent:
+                "${market.changeRatePercentage?.toStringAsFixed(2) ?? "0.00"}%",
+            isNegative: (market.changeRatePercentage ?? 0) < 0,
+            chartData: generateDummyChartData(market.changeRatePercentage ?? 0),
+            img: market.icon??'',
           );
         },
-      ),
-    );
+      );
+    });
   }
 }

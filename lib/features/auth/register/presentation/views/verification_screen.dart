@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -11,7 +12,9 @@ import '../../../../../core/resources/images.dart';
 import '../controller/sign_up_controller.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({super.key});
+  const VerificationScreen({super.key, required this.email});
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +22,10 @@ class VerificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(Strings.verifyCode, style: TextStyle(color: kWhiteColor)),
+        automaticallyImplyLeading: false,
+        // iconTheme: const IconThemeData(color: kWhiteColor),
+        title: const Text(Strings.verifyCode,
+            style: TextStyle(color: kWhiteColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -38,8 +43,7 @@ class VerificationScreen extends StatelessWidget {
                   Image.asset(
                     Images.appLogo, // Path to your logo image
                     width: Sizes.iconSizeLarge, // Set the width of the logo
-                    height:
-                    Sizes.iconSizeLarge, // Set the height of the logo
+                    height: Sizes.iconSizeLarge, // Set the height of the logo
                   ),
                   Center(
                     child: Text(
@@ -47,15 +51,22 @@ class VerificationScreen extends StatelessWidget {
                       style: AppStyles.regularTextStyle.copyWith(
                         color: kWhiteColor, // Override color for error text
                         fontWeight: FontWeight.bold, // Bold the message
-                        fontSize: Sizes
-                            .fontSizeLarge, // Use the correct font size
+                        fontSize:
+                            Sizes.fontSizeLarge, // Use the correct font size
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: Sizes.spaceLarger,
+                height: Sizes.spaceMedium,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
+                child: Text(
+                  email,
+                  style: AppStyles.textStyle14regular,
+                ),
               ),
               // OTP Text Field
               OtpTextField(

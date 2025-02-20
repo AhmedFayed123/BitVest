@@ -5,11 +5,12 @@ import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/styles.dart';
 
 class ActionButton extends StatelessWidget {
-  const ActionButton(
-      {super.key,
-      required this.title,
-      required this.onPressed,
-      required this.icon});
+  const ActionButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+    required this.icon,
+  });
 
   final String title;
   final VoidCallback onPressed;
@@ -20,25 +21,29 @@ class ActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 38.h,
-        width: 140.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.r),
           color: kHintTextColor,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: kPrimaryTextColor,
-              size: 22.sp,
-            ),
-            Text(
-              title,
-              style: AppStyles.textStyle14w500,
-            )
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: kPrimaryTextColor,
+                size: 22.sp,
+              ),
+              SizedBox(width: 2.w), // إضافة مسافة بين الأيقونة والنص
+              Text(
+                title,
+                style: AppStyles.textStyle14w500.copyWith(
+                  color: kPrimaryTextColor, // التأكد من أن اللون واضح
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -68,8 +68,8 @@ class Strings {
       "Login to Your Account"; // Title for the login page
   static const String signupTitle =
       "Create a New Account"; // Title for the signup page
-  static const String phoneOrEmail =
-      "Phone or Email"; // Label for phone/email input
+  static const String Email =
+      "Email"; // Label for phone/email input
   static const String password = "Password"; // Label for password input
   static const String confirmPassword =
       "Confirm Password"; // Label for confirming password
@@ -78,10 +78,10 @@ class Strings {
   static const String login = "login"; // Sign-in button text
   static const String signUp = "Sign Up"; // Sign-up button text
   static const String logout = "Logout"; // Logout button text
-  static const String kEmailOrPhoneValidation =
-      'Please enter an email or phone number.';
-  static const String kInvalidEmailOrPhone =
-      'Enter a valid email or phone number.';
+  static const String kEmailValidation =
+      'Please enter an email.';
+  static const String kInvalidEmail =
+      'Enter a valid email.';
   static const String kPasswordValidation = 'Please enter your password';
   static const String kPasswordTooShort =
       'Password must be at least 6 characters';
@@ -96,8 +96,7 @@ class Strings {
   static const String verificationCode = "Verification Code";
   static const resetPasswordInstructions =
       "Enter your email address to receive a password reset link.";
-  static const kEmailValidation = "Email is required.";
-  static const kInvalidEmail = "Please enter a valid email.";
+
   static const resetPassword = "Reset Password";
 
   static const String verificationSent = "Verification code sent successfully!";

@@ -1,3 +1,5 @@
+import 'package:bitvest/core/constant/styles.dart';
+import 'package:bitvest/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,16 +12,21 @@ import 'Locale/locale.dart';
 import 'core/constant/colors.dart';
 import 'core/constant/sizes.dart';
 import 'core/constant/strings.dart';
+import 'core/network/dio_helper/dio_helper.dart';
+import 'core/services/service_locator.dart';
 import 'features/connectivity/presentation/controllers/connectivity_controller.dart';
 import 'features/connectivity/presentation/views/no_internet_screen.dart';
 import 'features/connectivity/presentation/views/splash_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  await ServiceLocator().init();
+  await DioHelper.init();
 
   await GetStorage.init();
 
@@ -49,13 +56,20 @@ class MyApp extends StatelessWidget {
               backgroundColor: kPrimaryColor,
             ),
             scaffoldBackgroundColor: kBackgroundColor,
-            appBarTheme: const AppBarTheme(color: kBackgroundColor),
+            appBarTheme: AppBarTheme(
+              color: kBackgroundColor,
+              iconTheme: IconThemeData(color: kWhiteColor),
+              titleTextStyle: AppStyles.textStyle16regular,
+            ),
             fontFamily: Strings.kPoppins,
             useMaterial3: true,
           ),
-          translations: LocaleStrings(), // إضافة الترجمة
-          locale: Get.locale ?? const Locale('en'), // استخدام لغة الجهاز أو الإنجليزية
-          fallbackLocale: const Locale('en'), // اللغة الافتراضية
+          translations: LocaleStrings(),
+          // إضافة الترجمة
+          locale: Get.locale ?? const Locale('en'),
+          // استخدام لغة الجهاز أو الإنجليزية
+          fallbackLocale: const Locale('en'),
+          // اللغة الافتراضية
           home: Obx(() {
             if (connectivityController.isOnline.value) {
               // Navigate to the SplashScreen after a delay

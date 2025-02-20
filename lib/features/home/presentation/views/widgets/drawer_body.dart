@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/constant/colors.dart';
+import '../../../../../core/services/service_locator.dart';
+import '../../../../../core/services/storage_service.dart';
 import '../../../../onboarding/presentation/views/welcome_screen.dart';
 import '../../../../profile/presentation/views/profile_view.dart';
 import '../../../../settings/presentation/views/settings.dart';
@@ -84,10 +86,28 @@ class DrawerBody extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.exit_to_app, color: Colors.red),
               title: Text('Logout', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Get.offAll(WelcomeScreen());
+              onTap: () async {
+                bool? confirmLogout = await Get.defaultDialog(
+                  title: "Logout",
+                  middleText: "Are you sure you want to log out?",
+                  textConfirm: "Yes",
+                  textCancel: "No",
+                  confirmTextColor: Colors.white,
+                  onConfirm: () {
+                    Get.back(result: true);
+                  },
+                  onCancel: () {
+                    Get.back(result: false);
+                  },
+                );
+
+                if (confirmLogout == true) {
+                  await sl<StorageService>().logOut();
+                  Get.offAll(WelcomeScreen());
+                }
               },
             ),
+
           ],
         ),
       ),

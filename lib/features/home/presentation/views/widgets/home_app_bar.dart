@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/icons.dart';
@@ -7,6 +9,7 @@ import '../../../../../core/constant/sizes.dart';
 import '../../../../../core/constant/strings.dart';
 import '../../../../../core/constant/styles.dart';
 import '../../../../../core/resources/images.dart';
+import '../../../../account_verification/presentation/views/gender_screen.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key, required this.scaffoldKey});
@@ -67,7 +70,7 @@ class HomeAppBar extends StatelessWidget {
                 AppIcons.qrCode,
                 color: kWhiteColor,
               ),
-              onPressed: () {},
+              onPressed: () {Get.to(GenderScreen(),);},
             ),
             IconButton(
               icon: const Icon(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../constant/sizes.dart';
 import '../../constant/styles.dart';
@@ -31,30 +30,32 @@ class CustomSocialButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: double.infinity, // يجعل الزر يأخذ العرض الكامل
-        height: Sizes.buttonHeightMedium, // تحديد ارتفاع الزر
+        width: double.infinity,
         decoration: BoxDecoration(
           border: Border.all(
             color: borderColor,
-            width: 1.2,
+            width: 1.2.w,
           ),
           borderRadius:
           BorderRadius.circular(kBorderRadius),
           color: buttonColor,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              icon,
-              width: 25.w,
-              height: 25.h,
-            ),
-            Text(
-              title,
-              style: AppStyles.textStyle14w500.copyWith(color: textColor),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 6.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                icon,
+                width: 25.w,
+                height: 25.h,
+              ),
+              Text(
+                title,
+                style: AppStyles.textStyle14w500.copyWith(color: textColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

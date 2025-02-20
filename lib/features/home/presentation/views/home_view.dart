@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../../core/constant/colors.dart';
 import '../../../market/presentation/views/market_view.dart';
-import '../../../trade/presentation/views/trade_view.dart';
 import '../../../wallet/presentation/views/wallet_view.dart';
 import '../controllers/navigation_bar_controller/bottom_nav_controller.dart';
 
@@ -24,7 +23,8 @@ class HomeView extends StatelessWidget {
         scaffoldKey: scaffoldKey,
       ),
       MarketView(),
-      TradeScreen(),
+      SizedBox(child: Center(child: Text('trade screen',style: TextStyle(color: Colors.white),),),),
+      // TradeScreen(),
       WalletView(),
     ];
     return SafeArea(

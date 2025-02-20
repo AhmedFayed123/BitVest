@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../constant/colors.dart';
 import '../../constant/sizes.dart';
 import '../../settings/theme.dart';
+import 'circle_loading.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -67,8 +68,8 @@ class CustomButton extends StatelessWidget {
               ),
               child: isLoading
                   ? const SpinKitFadingCircle(
-                      color: kAmberColor, // لون الذهب
-                      size: 30.0, // يمكنك تعديل الحجم كما تشاء
+                      color: kAmberColor, // Set the color to gold (amber)
+                      size: 30, // Set the size of the spinner
                     )
                   : Text(
                       text,

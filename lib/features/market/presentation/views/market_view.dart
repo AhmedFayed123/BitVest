@@ -18,10 +18,10 @@ class MarketView extends StatelessWidget {
           Tab(text: "Favorites"),
         ],
         tabBarViewChildren: const [
-          Expanded(child: HotList(),),
-          Center(child: Text('Hot',style: TextStyle(color: Colors.white),),),
-          Center(child: Text('New',style: TextStyle(color: Colors.white),),),
-          Center(child: Text('Favorites',style: TextStyle(color: Colors.white),),),
+          HotList(),
+          Center(child: Text('Hot', style: TextStyle(color: Colors.white))),
+          Center(child: Text('New', style: TextStyle(color: Colors.white))),
+          Center(child: Text('Favorites', style: TextStyle(color: Colors.white))),
         ],
       ),
     );

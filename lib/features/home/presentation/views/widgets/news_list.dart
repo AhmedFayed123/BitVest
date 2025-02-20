@@ -39,3 +39,44 @@ class NewsList extends StatelessWidget {
     );
   }
 }
+// class NewsList extends StatelessWidget {
+//   const NewsList({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final HomeController newsController = Get.put(HomeController());
+//
+//     return Obx(() {
+//       if (newsController.isLoading.value) {
+//         return CircleLoading();
+//       }
+//
+//       if (newsController.errorMessage.value.isNotEmpty) {
+//         return Center(
+//           child: Text(
+//             newsController.errorMessage.value,
+//             style: TextStyle(color: Colors.red, fontSize: 16),
+//           ),
+//         );
+//       }
+//
+//       // في حال كانت البيانات موجودة
+//       final news = newsController.news.value?.data ?? [];
+//
+//       return ListView.builder(
+//         shrinkWrap: true,
+//         physics: NeverScrollableScrollPhysics(),
+//         itemCount: news.length,
+//         itemBuilder: (context, index) {
+//           final newsItem = news[index];
+//           return NewsCard(
+//             imageUrl: newsItem.imageurl ?? '',
+//             title: newsItem.title ?? 'No Title',
+//             description: newsItem.body ?? 'No description available',
+//             url: newsItem.url ?? '',
+//           );
+//         },
+//       );
+//     });
+//   }
+// }

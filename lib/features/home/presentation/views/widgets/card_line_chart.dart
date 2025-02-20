@@ -13,19 +13,19 @@ class CardLineChart extends StatelessWidget {
       plotAreaBorderWidth: 0,
       primaryXAxis: CategoryAxis(isVisible: false),
       primaryYAxis: NumericAxis(isVisible: false),
-      series: <LineSeries<ChartData, String>>[
-        LineSeries<ChartData, String>(
+      series: <LineSeries<CustomChartData, String>>[
+        LineSeries<CustomChartData, String>(
           dataSource: [
-            ChartData('0', 1),
-            ChartData('1', 90.5),
-            ChartData('2', 200.4),
-            ChartData('3', 3.4),
-            ChartData('4', 400),
-            ChartData('5', 100.2),
-            ChartData('6', 2.8),
+            CustomChartData('0', 1),
+            CustomChartData('1', 90.5),
+            CustomChartData('2', 200.4),
+            CustomChartData('3', 3.4),
+            CustomChartData('4', 400),
+            CustomChartData('5', 100.2),
+            CustomChartData('6', 2.8),
           ],
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y,
+          xValueMapper: (CustomChartData data, _) => data.x,
+          yValueMapper: (CustomChartData data, _) => data.y,
           color: kPositiveTrendColor,
           width: 2,
         ),

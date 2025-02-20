@@ -15,6 +15,12 @@ class AppStyles {
     fontFamily: Strings.kPoppins, // Font family applied here
     color: kBlackColor, // Default color
   );
+  static TextStyle headingStyle2 = TextStyle(
+    fontSize: 22.sp,
+    fontWeight: FontWeight.w500,
+    fontFamily: Strings.kPoppins, // Font family applied here
+    color: kWhiteColor, // Default color
+  );
 
   // Standard TextStyle for regular text
   static TextStyle regularTextStyle = TextStyle(

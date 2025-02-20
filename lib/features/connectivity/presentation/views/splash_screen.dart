@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import '../../../../core/components/widgets/circle_loading.dart';
 import '../../../../core/constant/colors.dart';
 import '../../../../core/constant/sizes.dart';
 import '../../../../core/constant/strings.dart';
 import '../../../../core/constant/styles.dart';
 import '../../../../core/resources/images.dart';
-import '../../../../core/utils/app_session.dart';
+import '../../../../core/services/service_locator.dart';
+import '../../../../core/services/storage_service.dart';
+import '../../../home/presentation/views/home_view.dart';
 import '../../../onboarding/presentation/views/onboarding_screen.dart';
 import '../../../onboarding/presentation/views/welcome_screen.dart';
 
@@ -15,8 +18,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _navigateToNextScreen(); // Call the check function
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _navigateToNextScreen();
+    });
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -71,10 +75,7 @@ class SplashScreen extends StatelessWidget {
               ),
               SizedBox(height: Sizes.cardHeightSmall),
               // Replacing CircularProgressIndicator with SpinKit
-              SpinKitFadingCircle(
-                color: kAmberColor, // Set the color to gold (amber)
-                size: Sizes.buttonHeightMedium, // Set the size of the spinner
-              ),
+              CircleLoading(),
             ],
           ),
         ),
@@ -82,17 +83,22 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
-  // Check onboarding status and navigate accordingly
   void _navigateToNextScreen() async {
-    final sessionManager = SessionManager();
-    bool isFirstLaunch = await sessionManager.isFirstLaunch();
+    // استرجاع حالة أول تشغيل وتسجيل الدخول
+    bool isFirstLaunch = await sl<StorageService>().isFirstLaunch();
+    bool isLoggedIn = await sl<StorageService>().isUserLoggedIn();
 
-    Future.delayed(const Duration(seconds: 2), () {
-      if (isFirstLaunch) {
-        Get.off(() => OnboardingScreen()); // Navigate to onboarding screen
-      } else {
-        Get.off(() => const WelcomeScreen()); // Navigate to the main screen
-      }
-    });
+    // تأخير الشاشة لمدة ثانيتين
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (isFirstLaunch) {
+      Get.offAll(() => OnboardingScreen());// أول مرة يفتح التطبيق -> يروح Onboarding
+    } else if (isLoggedIn) {
+      Get.offAll(() => HomeView()); // المستخدم مسجل دخول -> يروح Home
+
+    } else {
+      Get.offAll(() => const WelcomeScreen()); // مش مسجل دخول -> يروح Welcome
+    }
   }
+
 }

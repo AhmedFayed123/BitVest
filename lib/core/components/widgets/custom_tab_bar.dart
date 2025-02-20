@@ -8,7 +8,7 @@ class CustomTabBar extends StatelessWidget {
     super.key,
     required this.tabs,
     required this.tabBarViewChildren,
-    this.tabBarViewHeight = 285.0,
+    this.tabBarViewHeight = 320.0,
   });
 
   final List<Tab> tabs;
@@ -23,7 +23,7 @@ class CustomTabBar extends StatelessWidget {
         children: [
           TabBar(
 
-            labelColor: kAmberColor,
+            labelColor: kWhiteColor,
             unselectedLabelColor: kGreyColor,
             indicatorColor: kAmberColor,
             tabs: tabs,

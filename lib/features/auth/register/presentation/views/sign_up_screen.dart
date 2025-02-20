@@ -78,14 +78,14 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(height: Sizes.spaceLarge),
                   CustomTextFormField(
-                    hintText: Strings.phoneOrEmail,
-                    controller: controller.emailOrPhoneController,
+                    hintText: Strings.Email,
+                    controller: controller.emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kEmailOrPhoneValidation;
+                        return Strings.kEmailValidation;
                       }
                       if (!(GetUtils.isEmail(value) || GetUtils.isPhoneNumber(value))) {
-                        return Strings.kInvalidEmailOrPhone;
+                        return Strings.kInvalidEmail;
                       }
                       return null;
                     },
@@ -94,9 +94,7 @@ class SignUpScreen extends StatelessWidget {
                   Obx(() => CustomButton(
                     text: Strings.next,
                     onPressed: () {
-                      if (controller.formKey.currentState?.validate() ?? false) {
-                        controller.sendVerificationCode();
-                      }
+                      controller.signUp(context);
                     },
                     isLoading: controller.isLoading.value,
                   )),

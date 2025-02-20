@@ -23,7 +23,8 @@ class SetPasswordScreen extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kBackgroundColor,
-        iconTheme: const IconThemeData(color: kWhiteColor),
+        automaticallyImplyLeading: false,
+        // iconTheme: const IconThemeData(color: kWhiteColor),
         title: const Text(Strings.setPassword, style: TextStyle(color: kWhiteColor)),
       ),
       body: SingleChildScrollView(
@@ -100,19 +101,7 @@ class SetPasswordScreen extends StatelessWidget {
                 SizedBox(height: Sizes.spaceLarge),
                 CustomButton(
                   text: Strings.signUp,
-                  onPressed: () {
-                    if (controller.formKey.currentState?.validate() ?? false) {
-                      controller.signUp(context);
-                    } else {
-                      Get.snackbar(
-                        "Validation Error",
-                        "Please fix the errors in the form",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                        colorText: Colors.white,
-                      );
-                    }
-                  },
+                  onPressed: controller.setPassword,
                   isLoading: controller.isLoading.value,
                 ),
               ],

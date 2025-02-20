@@ -62,10 +62,10 @@ class TotalBalanceContainer extends StatelessWidget {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ActionButton(title: 'Withdraw', onPressed: () {  }, icon: AppIcons.arrow_circle_down,),
-                  ActionButton(title: 'Deposit', onPressed: () {  }, icon: AppIcons.arrow_circle_upward,)
+                  Expanded(child: ActionButton(title: 'Withdraw', onPressed: () {  }, icon: AppIcons.arrow_circle_down,)),
+                  SizedBox(width: 5.w,),
+                  Expanded(child: ActionButton(title: 'Deposit', onPressed: () {  }, icon: AppIcons.arrow_circle_upward,))
                 ],
               )
             ],

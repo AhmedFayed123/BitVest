@@ -72,17 +72,19 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(
                     height: Sizes.spaceLarger,
                   ),
-                  // حقل البريد الإلكتروني
                   CustomTextFormField(
-                    hintText: Strings.phoneOrEmail, // Use the existing Strings reference
-                    controller: controller.emailOrPhoneController,
-                    keyboardType: TextInputType.text, // Accept both text and numbers
+                    hintText: Strings.Email,
+                    // Use the existing Strings reference
+                    controller: controller.emailController,
+                    keyboardType: TextInputType.text,
+                    // Accept both text and numbers
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kEmailOrPhoneValidation; // Add this string in your index.dart
+                        return Strings
+                            .kEmailValidation; // Add this string in your index.dart
                       }
-                      if (!(GetUtils.isEmail(value) || GetUtils.isPhoneNumber(value))) {
-                        return Strings.kInvalidEmailOrPhone; // Add this string as well
+                      if (!(GetUtils.isEmail(value))) {
+                        return Strings.kInvalidEmail; // Add this string as well
                       }
                       return null;
                     },
@@ -112,7 +114,8 @@ class LoginScreen extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         // هنا تضيف الوظيفة الخاصة بك لفتح شاشة استعادة كلمة المرور
-                        Get.to(() => ForgetPasswordScreen()); // الانتقال إلى الشاشة الجديدة
+                        Get.to(() =>
+                            ForgetPasswordScreen()); // الانتقال إلى الشاشة الجديدة
                       },
                       child: Text(
                         Strings.forgotPassword, // نص "نسيت كلمة المرور؟"
@@ -129,13 +132,7 @@ class LoginScreen extends StatelessWidget {
                   // زر تسجيل الدخول
                   Obx(() => CustomButton(
                         text: Strings.login,
-                        onPressed: () {
-                          if (controller.formKey.currentState?.validate() ??
-                              false) {
-                            controller
-                                .login(); // فقط حاول تسجيل الدخول إذا كانت الحقول صحيحة
-                          }
-                        },
+                        onPressed: controller.login,
                         isLoading: controller.isLoading.value,
                       )),
                   OrLineWidget(),
@@ -164,7 +161,8 @@ class LoginScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           // هنا تضيف الوظيفة الخاصة بك لفتح صفحة التسجيل
-                          Get.off(()=>const SignUpScreen()); // مثال لتوجيه المستخدم إلى صفحة التسجيل
+                          Get.off(() =>
+                              const SignUpScreen()); // مثال لتوجيه المستخدم إلى صفحة التسجيل
                         },
                         child: Text(
                           Strings.createAccount, // نص "قم بإنشاء حساب"

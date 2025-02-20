@@ -60,8 +60,8 @@ class ForgetPasswordScreen extends StatelessWidget {
                 Obx(() => CustomButton(
                   text: Strings.resetPassword,
                   onPressed: controller.isLoading.value
-                      ? () {} // تمرير دالة فارغة إذا كان الزر معطل
-                      : controller.sendResetLink, // تمرير الدالة الحقيقية إذا كان الزر نشطًا
+                      ? () {}
+                      : controller.sendResetLink,
                   isLoading: controller.isLoading.value,
                 )),
               ],

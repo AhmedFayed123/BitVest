@@ -1,3 +1,4 @@
+import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class AdvertSliderItem extends StatelessWidget {
         height: 171.h,
         fit: BoxFit.fill,
         placeholder: (context, url) {
-          return const Center(child: CircularProgressIndicator());
+          return const CircleLoading();
         },
         errorWidget: (context, url, error) {
           return const Center(child: Text('Image not available'));

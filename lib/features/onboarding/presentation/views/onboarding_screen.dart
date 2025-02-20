@@ -8,12 +8,11 @@ import '../../../../core/constant/icons.dart';
 import '../../../../core/constant/sizes.dart';
 import '../../../../core/constant/strings.dart';
 import '../../../../core/resources/images.dart';
-import '../../../../core/utils/app_session.dart';
+import '../../../../core/services/service_locator.dart';
+import '../../../../core/services/storage_service.dart';
 
 class OnboardingScreen extends StatelessWidget {
   OnboardingScreen({super.key});
-
-  final SessionManager sessionManager = SessionManager();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,8 @@ class OnboardingScreen extends StatelessWidget {
             decoration: PageDecoration(
               imageFlex: Sizes.imageFlex,
               bodyTextStyle: const TextStyle(color: kWhiteColor),
-              titleTextStyle: TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
+              titleTextStyle:
+                  TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
             ),
           ),
           PageViewModel(
@@ -37,7 +37,8 @@ class OnboardingScreen extends StatelessWidget {
             decoration: PageDecoration(
               imageFlex: Sizes.imageFlex,
               bodyTextStyle: const TextStyle(color: kWhiteColor),
-              titleTextStyle: TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
+              titleTextStyle:
+                  TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
             ),
           ),
           PageViewModel(
@@ -47,7 +48,8 @@ class OnboardingScreen extends StatelessWidget {
             decoration: PageDecoration(
               imageFlex: Sizes.imageFlex,
               bodyTextStyle: const TextStyle(color: kWhiteColor),
-              titleTextStyle: TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
+              titleTextStyle:
+                  TextStyle(color: kAmberColor, fontSize: Sizes.kHeadingSize),
             ),
           ),
         ],
@@ -56,9 +58,11 @@ class OnboardingScreen extends StatelessWidget {
         },
         globalBackgroundColor: kBackgroundColor,
         showSkipButton: true,
-        skip: const Text(Strings.skipButton, style: TextStyle(color: kWhiteColor)),
+        skip: const Text(Strings.skipButton,
+            style: TextStyle(color: kWhiteColor)),
         next: const Icon(AppIcons.arrow_forward, color: kWhiteColor),
-        done: const Text(Strings.getStartedButton, style: TextStyle(color: kWhiteColor)),
+        done: const Text(Strings.getStartedButton,
+            style: TextStyle(color: kWhiteColor)),
         dotsDecorator: DotsDecorator(
           color: Colors.white.withOpacity(0.3),
           activeColor: kAmberColor,
@@ -73,7 +77,8 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   void _completeOnboarding() async {
-    await sessionManager.setFirstLaunch(false);
+    await sl<StorageService>().setFirstLaunch(false);
+
     Get.off(() => const WelcomeScreen());
   }
 }
