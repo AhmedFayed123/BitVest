@@ -9,12 +9,13 @@ import '../../../../../core/constant/strings.dart';
 import '../controllers/reset_password_controller.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen({super.key, required this.email});
 
+  final String email;
   @override
   Widget build(BuildContext context) {
     final ResetPasswordController controller =
-        Get.put(ResetPasswordController());
+        Get.put(ResetPasswordController(email: email));
 
     return Scaffold(
       appBar: AppBar(

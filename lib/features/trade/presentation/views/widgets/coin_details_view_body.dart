@@ -10,11 +10,13 @@ import '../../controller/coin_details_controller.dart';
 
 class CoinDetailsViewBody extends StatelessWidget {
   const CoinDetailsViewBody({super.key, required this.coinId});
+
   final String coinId;
 
   @override
   Widget build(BuildContext context) {
-    final CoinDetailsController controller = Get.put(CoinDetailsController(coinId));
+    final CoinDetailsController controller =
+        Get.put(CoinDetailsController(coinId));
     final ChartController chartController = Get.put(ChartController());
 
     return Obx(() {
@@ -24,31 +26,32 @@ class CoinDetailsViewBody extends StatelessWidget {
 
       final coin = controller.coinData.value?.original;
       if (coin == null) {
-        return const Center(
-          child: Text("No Data Available", style: TextStyle(color: Colors.white)),
-        );
+        return Scaffold(
+          appBar: AppBar(),
+            body: Center(
+              child: Text("No Data Available",
+                  style: TextStyle(color: Colors.white)),
+            ));
       }
 
-      final List<ChartSampleData> chartData = (controller.selectedChartData?.isNotEmpty ?? false)
-          ? controller.selectedChartData!
-          .map<ChartSampleData>((e) {
-        if (e.length >= 2) {
-          double price = (e[1] as num).toDouble();
-          return ChartSampleData(
-            x: DateTime.fromMillisecondsSinceEpoch(e[0]),
-            open: price,
-            high: price,
-            low: price,
-            close: price,
-          );
-        } else {
-          throw Exception("Invalid data format in selectedChartData: $e");
-        }
-      })
-          .toList()
+      final List<ChartSampleData> chartData = (controller
+                  .selectedChartData?.isNotEmpty ??
+              false)
+          ? controller.selectedChartData!.map<ChartSampleData>((e) {
+              if (e.length >= 2) {
+                double price = (e[1] as num).toDouble();
+                return ChartSampleData(
+                  x: DateTime.fromMillisecondsSinceEpoch(e[0]),
+                  open: price,
+                  high: price,
+                  low: price,
+                  close: price,
+                );
+              } else {
+                throw Exception("Invalid data format in selectedChartData: $e");
+              }
+            }).toList()
           : [];
-
-
 
       return Container(
         child: Column(
@@ -65,7 +68,9 @@ class CoinDetailsViewBody extends StatelessWidget {
                   Text(
                     "${coin.name}/USDT",
                     style: const TextStyle(
-                        color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   ),
                   Row(
                     children: const [
@@ -83,13 +88,15 @@ class CoinDetailsViewBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "\$${coin.price?.toString() ?? "0.00"}",
+                    "\$${coin.currentPrice?.toString() ?? "0.00"}",
                     style: const TextStyle(
-                        color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    "\$${coin.price?.toString() ?? "0.00"} (+0.45%)",
+                    "\$${coin.currentPrice?.toString() ?? "0.00"} (+0.45%)",
                     style: const TextStyle(color: Colors.green, fontSize: 14),
                   ),
                 ],
@@ -99,7 +106,6 @@ class CoinDetailsViewBody extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.0.h),
                 child: Obx(() {
-
                   return SfCartesianChart(
                     backgroundColor: Colors.grey.shade900,
                     plotAreaBorderWidth: 0,
@@ -109,25 +115,36 @@ class CoinDetailsViewBody extends StatelessWidget {
                       enableSelectionZooming: true,
                       enableDoubleTapZooming: true,
                     ),
-                    tooltipBehavior: TooltipBehavior(enable: true, color: Colors.black, textStyle: TextStyle(color: Colors.white)),
-
+                    tooltipBehavior: TooltipBehavior(
+                        enable: true,
+                        color: Colors.black,
+                        textStyle: TextStyle(color: Colors.white)),
                     primaryXAxis: DateTimeAxis(
-                      axisLine: AxisLine(color: chartController.showXAxis.value ? Colors.white : Colors.transparent),
-                      labelStyle: TextStyle(color: Colors.white, fontSize: 10),
-                      majorGridLines: MajorGridLines(width: chartController.showGrid.value ? 0.5 : 0),
-                      minorGridLines: MinorGridLines(width: chartController.showGrid.value ? 0.3 : 0),
-                    ),
-
-                    primaryYAxis: NumericAxis(
-                      axisLine: AxisLine(color: chartController.showYAxis.value ? Colors.white : Colors.transparent),
+                      axisLine: AxisLine(
+                          color: chartController.showXAxis.value
+                              ? Colors.white
+                              : Colors.transparent),
                       labelStyle: TextStyle(color: Colors.white, fontSize: 10),
                       majorGridLines: MajorGridLines(
-                        color: chartController.showGrid.value ? Colors.grey.shade800.withOpacity(0.3) : Colors.transparent,
+                          width: chartController.showGrid.value ? 0.5 : 0),
+                      minorGridLines: MinorGridLines(
+                          width: chartController.showGrid.value ? 0.3 : 0),
+                    ),
+                    primaryYAxis: NumericAxis(
+                      axisLine: AxisLine(
+                          color: chartController.showYAxis.value
+                              ? Colors.white
+                              : Colors.transparent),
+                      labelStyle: TextStyle(color: Colors.white, fontSize: 10),
+                      majorGridLines: MajorGridLines(
+                        color: chartController.showGrid.value
+                            ? Colors.grey.shade800.withOpacity(0.3)
+                            : Colors.transparent,
                         dashArray: [3, 3],
                       ),
-                      minorGridLines: MinorGridLines(width: chartController.showGrid.value ? 0.3 : 0),
+                      minorGridLines: MinorGridLines(
+                          width: chartController.showGrid.value ? 0.3 : 0),
                     ),
-
                     series: <CartesianSeries>[
                       LineSeries<ChartSampleData, DateTime>(
                         dataSource: chartData,
@@ -158,22 +175,27 @@ class CoinDetailsViewBody extends StatelessWidget {
                 return Column(
                   children: [
                     SwitchListTile(
-                      title: Text("إظهار الشبكة", style: TextStyle(color: Colors.white)),
+                      title: Text("إظهار الشبكة",
+                          style: TextStyle(color: Colors.white)),
                       value: chartController.showGrid.value,
                       onChanged: (val) => chartController.showGrid.value = val,
                     ),
                     SwitchListTile(
-                      title: Text("إظهار النقاط", style: TextStyle(color: Colors.white)),
+                      title: Text("إظهار النقاط",
+                          style: TextStyle(color: Colors.white)),
                       value: chartController.showMarkers.value,
-                      onChanged: (val) => chartController.showMarkers.value = val,
+                      onChanged: (val) =>
+                          chartController.showMarkers.value = val,
                     ),
                     SwitchListTile(
-                      title: Text("إظهار محور X", style: TextStyle(color: Colors.white)),
+                      title: Text("إظهار محور X",
+                          style: TextStyle(color: Colors.white)),
                       value: chartController.showXAxis.value,
                       onChanged: (val) => chartController.showXAxis.value = val,
                     ),
                     SwitchListTile(
-                      title: Text("إظهار محور Y", style: TextStyle(color: Colors.white)),
+                      title: Text("إظهار محور Y",
+                          style: TextStyle(color: Colors.white)),
                       value: chartController.showYAxis.value,
                       onChanged: (val) => chartController.showYAxis.value = val,
                     ),
@@ -191,31 +213,31 @@ class CoinDetailsViewBody extends StatelessWidget {
                 );
               }),
             ),
-
-
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: ['7D', '30D', '90D'].map((period) {
                   return Obx(() => TextButton(
-                    onPressed: () {
-                      controller.changePeriod(period);
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor:
-                      controller.selectedPeriod.value == period ? Colors.green : Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        side: BorderSide(
-                          color: controller.selectedPeriod.value == period
-                              ? Colors.green
-                              : Colors.white,
+                        onPressed: () {
+                          controller.changePeriod(period);
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor:
+                              controller.selectedPeriod.value == period
+                                  ? Colors.green
+                                  : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            side: BorderSide(
+                              color: controller.selectedPeriod.value == period
+                                  ? Colors.green
+                                  : Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    child: Text(period),
-                  ));
+                        child: Text(period),
+                      ));
                 }).toList(),
               ),
             ),

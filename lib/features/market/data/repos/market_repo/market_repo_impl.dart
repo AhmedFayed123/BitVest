@@ -11,17 +11,33 @@ import '../../models/market_model/Market_model.dart';
 
 class MarketRepoImpl extends MarketRepo{
   @override
-  Future<Either<Failure, MarketModel>> getCoinsList() async{
+  Future<Either<Failure, AllMarketModel>> getCoinsList() async{
     try {
       final response = await DioHelper.getData(
         url: AppEndpoints.cryptoAll,
         token: await sl<StorageService>().getToken(),
       );
-      return right(MarketModel.fromJson(response.data));
+      return right(AllMarketModel.fromJson(response.data));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MarketModel>> getNewList() async{
+    try {
+      final response = await DioHelper.getData(
+          url: AppEndpoints.cryptoNew,
+          token: await sl<StorageService>().getToken(),
+    );
+
+    return right(MarketModel.fromJson(response.data));
+    } on DioException catch (e) {
+    return left(ServerFailure.fromDioError(e));
+    } catch (e) {
+    return left(ServerFailure(e.toString()));
     }
   }
 }

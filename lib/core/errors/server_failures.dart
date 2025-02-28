@@ -2,15 +2,20 @@ import 'package:dio/dio.dart';
 
 abstract class Failure {
   final String message;
-
   const Failure(this.message);
 }
 
 class ServerFailure extends Failure {
   const ServerFailure(super.message);
 
-  // Factory method to create ServerFailure from DioError
+  // Factory method to create ServerFailure from DioException
   factory ServerFailure.fromDioError(DioException dioError) {
+    final errorMessage = dioError.message ?? 'Unknown error';
+    print('DioException: $errorMessage');
+    print('DioException Type: ${dioError.type}');
+    print('Response Data: ${dioError.response?.data}');
+    print('Status Code: ${dioError.response?.statusCode}');
+
     switch (dioError.type) {
       case DioExceptionType.connectionTimeout:
         return const ServerFailure('Connection timeout with the server.');
@@ -31,10 +36,10 @@ class ServerFailure extends Failure {
         return const ServerFailure('Request to the server was canceled.');
 
       case DioExceptionType.unknown:
-        if (dioError.message?.contains('SocketException') ?? false) {
+        if (dioError.message != null && dioError.message!.contains('SocketException')) {
           return const ServerFailure('No internet connection.');
         }
-        return const ServerFailure('Unexpected error, please try again.');
+        return ServerFailure('Unexpected error: ${dioError.error?.toString() ?? 'Unknown error'}');
 
       default:
         return const ServerFailure('An unknown error occurred, please try again.');
@@ -43,6 +48,8 @@ class ServerFailure extends Failure {
 
   // Factory method to create ServerFailure from the response
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
+    print('Handling error response: StatusCode = $statusCode, Response = $response');
+
     if (statusCode == null) {
       return const ServerFailure('An unknown error occurred, please try again.');
     }
@@ -51,18 +58,19 @@ class ServerFailure extends Failure {
       case 400:
       case 401:
       case 403:
-      // Check if error message exists in the response body
-        final errorMessage = response?['error']?['message'] ?? 'Unauthorized request.';
+        final errorMessage = response?['message'] ??
+            response?['error']?['message'] ??
+            'Unauthorized request.';
         return ServerFailure(errorMessage);
 
       case 404:
-        return const ServerFailure('The requested resource was not found.');
+        return ServerFailure(response?['message'] ?? 'The requested resource was not found.');
 
       case 500:
         return const ServerFailure('Internal server error, please try later.');
 
       default:
-        return const ServerFailure('An error occurred, please try again.');
+        return ServerFailure('Error $statusCode: ${response?['message'] ?? 'An error occurred, please try again.'}');
     }
   }
 }

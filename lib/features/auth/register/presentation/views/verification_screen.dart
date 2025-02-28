@@ -75,7 +75,7 @@ class VerificationScreen extends StatelessWidget {
                 focusedBorderColor: kAmberColor,
                 textStyle: const TextStyle(color: kWhiteColor),
                 showFieldAsBox: true,
-                fieldWidth: 45.0,
+                fieldWidth: 45.0.w,
                 onSubmit: (String verificationCode) {
                   // You can use the verification code here
                   controller.verificationCodeController.text = verificationCode;

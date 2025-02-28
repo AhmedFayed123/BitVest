@@ -1,9 +1,8 @@
 class SourceInfo {
   SourceInfo({
-    this.name,
-    this.img,
-    this.lang,
-  });
+      this.name, 
+      this.img, 
+      this.lang,});
 
   SourceInfo.fromJson(dynamic json) {
     name = json['name'];
@@ -21,4 +20,5 @@ class SourceInfo {
     map['lang'] = lang;
     return map;
   }
+
 }

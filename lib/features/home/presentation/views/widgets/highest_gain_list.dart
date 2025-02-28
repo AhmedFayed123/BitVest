@@ -1,14 +1,14 @@
+import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/components/widgets/circle_loading.dart';
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
-import '../../../../home/presentation/controllers/home_controller/home_controller.dart';
 import '../../../../trade/presentation/views/coin_details_view.dart';
+import '../../controllers/home_controller/home_controller.dart';
 
-class HotList extends StatelessWidget {
-  const HotList({super.key});
+class HighestGainList extends StatelessWidget {
+  const HighestGainList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class HotList extends StatelessWidget {
         }
 
 
-        final highestVolumeCoins = homeController.highestVolume.value?.coins ?? [];
+        final highestVolumeCoins = homeController.highestChangeUp.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
           return const Center(
@@ -31,7 +31,7 @@ class HotList extends StatelessWidget {
 
         return ListView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: highestVolumeCoins.length,
+          itemCount: 5,
           itemBuilder: (context, index) {
             final coin = highestVolumeCoins[index];
 
@@ -52,5 +52,4 @@ class HotList extends StatelessWidget {
       }),
     );
   }
-
 }

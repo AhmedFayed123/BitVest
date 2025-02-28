@@ -1,25 +1,46 @@
-class ChartData {
-  ChartData({
-    this.d7,
-    this.d30,
-    this.d90,
-  });
+import '30d.dart';
+import '7d.dart';
+import '90d.dart';
 
-  ChartData.fromJson(dynamic json) {
-    d7 = json['7d'] != null ? List<List<dynamic>>.from(json['7d']) : [];
-    d30 = json['30d'] != null ? List<List<dynamic>>.from(json['30d']) : [];
-    d90 = json['90d'] != null ? List<List<dynamic>>.from(json['90d']) : [];
+class ChartData {
+  List<SevenDays>? sevenDays;
+  List<ThirtyDays>? thirtyDays;
+  List<NinetyDays>? ninetyDays;
+
+  ChartData({this.sevenDays, this.thirtyDays, this.ninetyDays});
+
+  ChartData.fromJson(Map<String, dynamic> json) {
+    if (json['7d'] != null) {
+      sevenDays = [];
+      json['7d'].forEach((v) {
+        sevenDays?.add(SevenDays.fromJson(v));
+      });
+    }
+    if (json['30d'] != null) {
+      thirtyDays = [];
+      json['30d'].forEach((v) {
+        thirtyDays?.add(ThirtyDays.fromJson(v));
+      });
+    }
+    if (json['90d'] != null) {
+      ninetyDays = [];
+      json['90d'].forEach((v) {
+        ninetyDays?.add(NinetyDays.fromJson(v));
+      });
+    }
   }
 
-  List<List<dynamic>>? d7;
-  List<List<dynamic>>? d30;
-  List<List<dynamic>>? d90;
-
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['7d'] = d7;
-    map['30d'] = d30;
-    map['90d'] = d90;
+    final Map<String, dynamic> map = {};
+    if (sevenDays != null) {
+      map['7d'] = sevenDays?.map((v) => v.toJson()).toList();
+    }
+    if (thirtyDays != null) {
+      map['30d'] = thirtyDays?.map((v) => v.toJson()).toList();
+    }
+    if (ninetyDays != null) {
+      map['90d'] = ninetyDays?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 }

@@ -2,7 +2,9 @@ import 'package:bitvest/features/home/presentation/views/widgets/tab_bar_section
 import 'package:bitvest/features/home/presentation/views/widgets/total_balance_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../../../../../core/components/widgets/see_all_raw.dart';
+import '../../controllers/navigation_bar_controller/bottom_nav_controller.dart';
 import 'advert_slider.dart';
 import 'crypto_card_list.dart';
 import 'crypto_ticker.dart';
@@ -31,7 +33,10 @@ class HomeViewBody extends StatelessWidget {
             AdvertSlider(),
             CustomSeeAllRow(
               title: "most popular",
-              onPressed: () {},
+              onPressed: () {
+                final BottomNavController bottomNavController = Get.find<BottomNavController>();
+                bottomNavController.updateIndex(1);
+              },
               isSeeAll: true,
             ),
             CryptoCardList(),
@@ -43,7 +48,7 @@ class HomeViewBody extends StatelessWidget {
             CustomSeeAllRow(
               title: "News",
               onPressed: () {},
-              isSeeAll: true,
+              isSeeAll: false,
             ),
             NewsList(),
           ],

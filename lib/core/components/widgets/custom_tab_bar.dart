@@ -8,7 +8,7 @@ class CustomTabBar extends StatelessWidget {
     super.key,
     required this.tabs,
     required this.tabBarViewChildren,
-    this.tabBarViewHeight = 320.0,
+    this.tabBarViewHeight = 295.0,
   });
 
   final List<Tab> tabs;

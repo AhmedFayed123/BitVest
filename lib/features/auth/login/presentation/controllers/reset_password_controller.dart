@@ -8,28 +8,21 @@ import '../../data/repos/login_repo/login_repo.dart';
 import '../views/login_screen.dart';
 
 class ResetPasswordController extends GetxController {
+  final String email;
+  ResetPasswordController({required this.email});
+
   final formKey = GlobalKey<FormState>();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   var isLoading = false.obs;
   var isPasswordVisible = false.obs;
-  String? email;
-  String? token;
 
-  @override
-  void onInit() {
-    super.onInit();
-    email = Get.parameters['email'];
-    token = Get.parameters['token'];
-  }
+
+
 
   void resetPassword() async {
     if (!formKey.currentState!.validate()) return;
-    if (email == null || token == null) {
-      Get.snackbar('Error', 'Invalid reset link',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
+
 
     isLoading.value = true;
     try {
@@ -37,7 +30,6 @@ class ResetPasswordController extends GetxController {
         email: email!,
         password: newPasswordController.text,
         passwordConfirmation: confirmPasswordController.text,
-        token: token!,
       );
       final result = await sl<LoginRepo>().resetPassword(request);
       result.fold(

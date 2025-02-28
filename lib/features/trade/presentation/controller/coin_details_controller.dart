@@ -33,17 +33,26 @@ class CoinDetailsController extends GetxController {
       isLoading.value = false;
     }
   }
-
   List<List<dynamic>>? get selectedChartData {
     switch (selectedPeriod.value) {
+      case '7D':
+        return coinData.value?.original?.chartData?.sevenDays
+            ?.map((e) => [e.timestamp, e.price])
+            .toList();
       case '30D':
-        return coinData.value?.original?.chartData?.d30;
+        return coinData.value?.original?.chartData?.thirtyDays
+            ?.map((e) => [e.timestamp, e.price])
+            .toList();
       case '90D':
-        return coinData.value?.original?.chartData?.d90;
+        return coinData.value?.original?.chartData?.ninetyDays
+            ?.map((e) => [e.timestamp, e.price])
+            .toList();
       default:
-        return coinData.value?.original?.chartData?.d7;
+        return null;
     }
   }
+
+
 
   void changePeriod(String period) {
     selectedPeriod.value = period;

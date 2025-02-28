@@ -8,6 +8,7 @@ import '../../constant/clases.dart';
 import '../../constant/colors.dart';
 import '../../constant/styles.dart';
 import 'circle_loading.dart';
+
 class CustomCryptoListItem extends StatelessWidget {
   const CustomCryptoListItem({
     super.key,
@@ -17,10 +18,12 @@ class CustomCryptoListItem extends StatelessWidget {
     required this.change,
     required this.percent,
     required this.isNegative,
-    required this.chartData, required this.img, required this.onTap,
+    required this.chartData,
+    required this.img,
+    required this.onTap,
   });
 
-  final String name, symbol, price, change, percent,img;
+  final String name, symbol, price, change, percent, img;
   final bool isNegative;
   final List<CustomChartData> chartData;
   final VoidCallback onTap;
@@ -34,44 +37,54 @@ class CustomCryptoListItem extends StatelessWidget {
         child: Card(
           color: kCardBackgroundColor,
           elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
           child: Padding(
             padding: EdgeInsets.all(12.sp),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // أيقونة العملة
-
-                 ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: img ?? '',
-                      width: 30.sp,
-                      height: 30.sp,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => CircleLoading(), // 🔄 صورة تحميل مؤقتة
-                      errorWidget: (context, url, error) => Icon(
-                        Icons.error,
-                        color: Colors.red,
-                        size: 30.sp,
-                      ),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: img ?? '',
+                    width: 30.sp,
+                    height: 30.sp,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircleLoading(),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.error,
+                      color: Colors.red,
+                      size: 30.sp,
                     ),
                   ),
+                ),
                 SizedBox(width: 10.w),
-
-                // اسم العملة والمعلومات الأساسية
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(name, style: AppStyles.textStyle12regular),
-                      Text(symbol, style: AppStyles.textStyle16bold),
+                      Text(
+                        name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: AppStyles.textStyle12regular,
+                      ),
+                      Text(
+                        symbol,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: AppStyles.textStyle16bold,
+                      ),
                       SizedBox(height: 5.h),
-                      Text("\$$price", style: AppStyles.textStyle14regular),
+                      Text(
+                        "\$$price",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: AppStyles.textStyle14regular,
+                      ),
                     ],
                   ),
                 ),
-
-                // المخطط البياني
                 SizedBox(
                   width: 100.w,
                   height: 40.h,
@@ -83,17 +96,15 @@ class CustomCryptoListItem extends StatelessWidget {
                       LineSeries<CustomChartData, String>(
                         dataSource: chartData,
                         xValueMapper: (CustomChartData data, _) => data.x,
-                        yValueMapper: (CustomChartData data, _) => isNegative ? -data.y : data.y,
+                        yValueMapper: (CustomChartData data, _) =>
+                            isNegative ? -data.y : data.y,
                         color: isNegative ? Colors.red : Colors.green,
                         width: 2.w,
                       ),
                     ],
                   ),
                 ),
-
                 SizedBox(width: 10.w),
-
-                // التغييرات في السعر
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -120,7 +131,6 @@ class CustomCryptoListItem extends StatelessWidget {
     );
   }
 }
-
 
 // class CustomCryptoListItem extends StatelessWidget {
 //   const CustomCryptoListItem({

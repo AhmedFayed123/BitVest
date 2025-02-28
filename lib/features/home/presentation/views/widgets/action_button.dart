@@ -35,11 +35,11 @@ class ActionButton extends StatelessWidget {
                 color: kPrimaryTextColor,
                 size: 22.sp,
               ),
-              SizedBox(width: 2.w), // إضافة مسافة بين الأيقونة والنص
+              SizedBox(width: 2.w),
               Text(
                 title,
                 style: AppStyles.textStyle14w500.copyWith(
-                  color: kPrimaryTextColor, // التأكد من أن اللون واضح
+                  color: kPrimaryTextColor,
                 ),
               ),
             ],

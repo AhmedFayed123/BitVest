@@ -1,24 +1,23 @@
 import 'SourceInfo.dart';
 
-class Data {
-  Data({
-    this.id,
-    this.guid,
-    this.publishedOn,
-    this.imageurl,
-    this.title,
-    this.url,
-    this.body,
-    this.tags,
-    this.lang,
-    this.upvotes,
-    this.downvotes,
-    this.categories,
-    this.sourceInfo,
-    this.source,
-  });
+class NewsData {
+  NewsData({
+      this.id, 
+      this.guid, 
+      this.publishedOn, 
+      this.imageurl, 
+      this.title, 
+      this.url, 
+      this.body, 
+      this.tags, 
+      this.lang, 
+      this.upvotes, 
+      this.downvotes, 
+      this.categories, 
+      this.sourceInfo, 
+      this.source,});
 
-  Data.fromJson(dynamic json) {
+  NewsData.fromJson(dynamic json) {
     id = json['id'];
     guid = json['guid'];
     publishedOn = json['published_on'];
@@ -34,7 +33,6 @@ class Data {
     sourceInfo = json['source_info'] != null ? SourceInfo.fromJson(json['source_info']) : null;
     source = json['source'];
   }
-
   String? id;
   String? guid;
   int? publishedOn;
@@ -70,4 +68,5 @@ class Data {
     map['source'] = source;
     return map;
   }
+
 }

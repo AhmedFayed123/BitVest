@@ -4,6 +4,7 @@ import '../../../../../core/errors/server_failures.dart';
 import '../../models/market_model/Market_model.dart';
 
 abstract class MarketRepo {
-  Future<Either<Failure, MarketModel>> getCoinsList();
+  Future<Either<Failure, AllMarketModel>> getCoinsList();
+  Future<Either<Failure, MarketModel>> getNewList();
 
 }

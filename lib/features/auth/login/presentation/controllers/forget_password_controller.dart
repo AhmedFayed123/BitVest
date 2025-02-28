@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../core/constant/strings.dart';
 import '../../../../../core/services/service_locator.dart';
 import '../../data/repos/login_repo/login_repo.dart';
+import '../views/Otp_screen.dart';
 
 class ForgotPasswordController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -15,13 +15,16 @@ class ForgotPasswordController extends GetxController {
 
     isLoading.value = true;
     try {
-      final result =
-      await sl<LoginRepo>().forgetPassword(emailOrPhoneController.text);
+      final result = await sl<LoginRepo>().forgetPassword(emailOrPhoneController.text);
 
       result.fold(
-            (failure) => Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM),
+            (failure) {
+          Get.snackbar('Error', failure.message, snackPosition: SnackPosition.BOTTOM);
+        },
             (message) {
-          Get.snackbar('Success', Strings.verificationSent, snackPosition: SnackPosition.BOTTOM);
+          Get.snackbar('Success', 'OTP sent successfully!', snackPosition: SnackPosition.BOTTOM);
+
+          Get.to(() => OtpScreen(email: emailOrPhoneController.text,));
         },
       );
     } finally {

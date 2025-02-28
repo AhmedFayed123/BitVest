@@ -1,4 +1,6 @@
+import 'package:bitvest/features/market/presentation/views/widgets/all_list.dart';
 import 'package:bitvest/features/market/presentation/views/widgets/hot_list.dart';
+import 'package:bitvest/features/market/presentation/views/widgets/new_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/components/widgets/custom_tab_bar.dart';
@@ -12,15 +14,15 @@ class MarketView extends StatelessWidget {
       body: CustomTabBar(
         tabBarViewHeight: 644,
         tabs: const [
-          Tab(text: "Top"),
+          Tab(text: "All"),
           Tab(text: "Hot"),
           Tab(text: "New"),
           Tab(text: "Favorites"),
         ],
         tabBarViewChildren: const [
+          AllList(),
           HotList(),
-          Center(child: Text('Hot', style: TextStyle(color: Colors.white))),
-          Center(child: Text('New', style: TextStyle(color: Colors.white))),
+          NewList(),
           Center(child: Text('Favorites', style: TextStyle(color: Colors.white))),
         ],
       ),

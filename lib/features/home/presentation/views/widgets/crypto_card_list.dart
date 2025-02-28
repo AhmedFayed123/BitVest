@@ -1,5 +1,11 @@
+import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../../../../core/constant/clases.dart';
+import '../../../../trade/presentation/views/coin_details_view.dart';
+import '../../controllers/home_controller/home_controller.dart';
 import 'crypto_card.dart';
 
 class CryptoCardList extends StatelessWidget {
@@ -7,24 +13,47 @@ class CryptoCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.put(HomeController());
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
       child: SizedBox(
         height: 200.h,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return CryptoCard(
-              name: 'Bitcoin',
-              symbol: 'BTC',
-              price: '27,6642.01',
-              change: '+268.12',
-              percent: '+0.97%',
+        child: Obx(() {
+          if (homeController.isLoading.value) {
+            return const CircleLoading();
+          }
+
+          final popularCoins = homeController.popularCoins.value?.coins ?? [];
+
+          if (popularCoins.isEmpty) {
+            return const Center(
+              child: Text("No popular coins available", style: TextStyle(color: Colors.white)),
             );
-          },
-        ),
+          }
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: popularCoins.length,
+            itemBuilder: (context, index) {
+              final coin = popularCoins[index];
+
+              return CryptoCard(
+                name: coin.name??'',
+                symbol: coin.symbol?.toUpperCase()??'',
+                price: "\$${coin.price?.toStringAsFixed(2)??''}",
+                change: "${coin.changeRateUsdt?.toStringAsFixed(2)??""} USDT",
+                percent: "${coin.changeRatePercentage?.toStringAsFixed(2)??""}%",
+                chartData: generateDummyChartData(coin.changeRatePercentage??2),
+                isNegative: (coin.changeRatePercentage ?? 0) < 0,
+                imageUrl: coin.icon??"",
+                onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id??"")),
+              );
+            },
+          );
+        }),
       ),
     );
   }
 }
+

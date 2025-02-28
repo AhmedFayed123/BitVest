@@ -1,3 +1,4 @@
+import 'package:bitvest/features/home/presentation/views/widgets/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -63,7 +64,9 @@ class HomeAppBar extends StatelessWidget {
                 AppIcons.search,
                 color: kWhiteColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(SearchScreen());
+              },
             ),
             IconButton(
               icon: const Icon(
