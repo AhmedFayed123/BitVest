@@ -11,8 +11,11 @@ class MarketView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Market',),
+      ),
       body: CustomTabBar(
-        tabBarViewHeight: 644,
+        tabBarViewHeight: 600,
         tabs: const [
           Tab(text: "All"),
           Tab(text: "Hot"),

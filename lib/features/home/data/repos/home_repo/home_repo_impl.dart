@@ -27,9 +27,6 @@ class HomeRepoImpl extends HomeRepo {
       );
       return right(NewsModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -45,9 +42,6 @@ class HomeRepoImpl extends HomeRepo {
       );
       return right(PopularCoinsModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -63,10 +57,6 @@ class HomeRepoImpl extends HomeRepo {
       );
       return right(CoinsListModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
-
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -82,9 +72,6 @@ class HomeRepoImpl extends HomeRepo {
       );
       return right(CoinsListModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -98,13 +85,9 @@ class HomeRepoImpl extends HomeRepo {
         url: AppEndpoints.highestChangeUp,
         token: await sl<StorageService>().getToken(),
       );
-      print('///////////');
       print(response.data);
       return right(CoinsListModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -120,9 +103,6 @@ class HomeRepoImpl extends HomeRepo {
       );
       return right(AdsModel.fromJson(response.data));
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
@@ -138,8 +118,6 @@ class HomeRepoImpl extends HomeRepo {
         query: {'query': query},
       );
 
-      print("Response Data: ${response.data}");
-
       if (response.data is List) {
         List<SearchModel> results = (response.data as List)
             .map((item) => SearchModel.fromJson(item))
@@ -149,9 +127,6 @@ class HomeRepoImpl extends HomeRepo {
         return left(ServerFailure("Invalid response format"));
       }
     } on DioException catch (e) {
-      print("Error: ${e.response?.statusCode}");
-      print("Response Data: ${e.response?.data}");
-      print("Request URL: ${e.requestOptions.uri}");
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));

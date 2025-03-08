@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../core/components/widgets/circle_loading.dart';
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
 import '../../../../trade/presentation/views/coin_details_view.dart';
@@ -17,20 +17,53 @@ class BiggestMoversList extends StatelessWidget {
     return SizedBox(
       child: Obx(() {
         if (homeController.isLoading.value) {
-          return const CircleLoading();
+          return Skeletonizer(
+            enabled: true,
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return CustomCryptoListItem(
+                  name: "Loading...",
+                  symbol: "----",
+                  price: "---",
+                  change: "---",
+                  percent: "---%",
+                  isNegative: false,
+                  chartData: [],
+                  img: '',
+                  onTap: () {},
+                );
+              },
+            ),
+          );
         }
 
         final highestVolumeCoins = homeController.highestVolume.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
-          return const Center(
-            child: Text("No highest volume coins available", style: TextStyle(color: Colors.white)),
+          return Skeletonizer(
+            enabled: true,
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return CustomCryptoListItem(
+                  name: "Loading...",
+                  symbol: "----",
+                  price: "---",
+                  change: "---",
+                  percent: "---%",
+                  isNegative: false,
+                  chartData: [],
+                  img: '',
+                  onTap: () {},
+                );
+              },
+            ),
           );
         }
 
         return ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: 5,
+          itemCount: highestVolumeCoins.length,
           itemBuilder: (context, index) {
             final coin = highestVolumeCoins[index];
 
@@ -44,7 +77,6 @@ class BiggestMoversList extends StatelessWidget {
               chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
               img: coin.icon ?? '',
               onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)),
-
             );
           },
         );

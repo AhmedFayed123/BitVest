@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/constant/clases.dart';
 import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/styles.dart';
 
 class CryptoCard extends StatelessWidget {
-  const CryptoCard(
-      {super.key,
-      required this.name,
-      required this.symbol,
-      required this.price,
-      required this.change,
-      required this.percent,
-      required this.chartData,
-      required this.isNegative,
-      required this.onTap,
-      required this.imageUrl});
+  const CryptoCard({
+    super.key,
+    required this.name,
+    required this.symbol,
+    required this.price,
+    required this.change,
+    required this.percent,
+    required this.chartData,
+    required this.isNegative,
+    required this.onTap,
+    required this.imageUrl,
+  });
 
   final String name, symbol, price, change, percent, imageUrl;
   final List<CustomChartData> chartData;
@@ -44,16 +46,16 @@ class CryptoCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    imageUrl,
-                    width: 30.w,
-                    height: 30.h,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.error, color: Colors.red),
+                  ClipOval(
+                    child: Image.network(
+                      imageUrl,
+                      width: 30.w,
+                      height: 30.h,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Icon(Icons.error, color: Colors.red),
+                    ),
                   ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
                       name,
@@ -79,7 +81,7 @@ class CryptoCard extends StatelessWidget {
                       dataSource: chartData,
                       xValueMapper: (CustomChartData data, _) => data.x,
                       yValueMapper: (CustomChartData data, _) =>
-                          isNegative ? -data.y : data.y,
+                      isNegative ? -data.y : data.y,
                       color: isNegative ? Colors.red : Colors.green,
                       width: 2.w,
                     ),
@@ -87,13 +89,16 @@ class CryptoCard extends StatelessWidget {
                 ),
               ),
               Text(
-                "\$$price",
+                price,
                 style: AppStyles.textStyle16regular,
               ),
-              Text("$change | $percent",
-                  style: TextStyle(
-                      color: isNegative ? Colors.red : Colors.green,
-                      fontSize: 12)),
+              Text(
+                "$change | $percent",
+                style: TextStyle(
+                  color: isNegative ? Colors.red : Colors.green,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),

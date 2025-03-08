@@ -1,8 +1,9 @@
-import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
 import '../../../../market/presentation/controller/market_controller.dart';
 
 class CryptoTicker extends StatelessWidget {
@@ -16,9 +17,24 @@ class CryptoTicker extends StatelessWidget {
       color: Colors.black,
       child: Obx(() {
         if (controller.isLoading.value) {
-          return CircleLoading();
+          return Skeletonizer(
+            enabled: true,
+            child: Marquee(
+              text: "Loading...   •   Loading...   •   Loading...",
+              style: TextStyle(fontSize: 16.sp, color: Colors.white),
+              scrollAxis: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              blankSpace: 50.0.w,
+              velocity: 30.0,
+              pauseAfterRound: Duration(seconds: 1),
+              startPadding: 10.0,
+              accelerationDuration: Duration(seconds: 1),
+              accelerationCurve: Curves.linear,
+              decelerationDuration: Duration(milliseconds: 500),
+              decelerationCurve: Curves.easeOut,
+            ),
+          );
         }
-
 
         final marketData = controller.marketData;
         if (marketData.isEmpty) {

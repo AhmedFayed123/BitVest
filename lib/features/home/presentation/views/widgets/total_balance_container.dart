@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/icons.dart';
 import '../../../../../core/constant/styles.dart';
+
+import '../../../../wallet/presentation/controllers/wallet_controller.dart';
 import 'action_button.dart';
 
 class TotalBalanceContainer extends StatelessWidget {
@@ -11,6 +15,8 @@ class TotalBalanceContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final WalletController walletController = Get.put(WalletController());
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0.h, horizontal: 16.w),
       child: Center(
@@ -35,75 +41,84 @@ class TotalBalanceContainer extends StatelessWidget {
               ],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          child: Obx(() {
+            return Skeletonizer(
+              enabled: walletController.isLoading.value,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Total Balance',
-                        style: AppStyles.textStyle19regular.copyWith(
-                          color: kPrimaryTextColor.withOpacity(0.8),
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: AppStyles.textStyle19regular.copyWith(
+                              color: kPrimaryTextColor.withOpacity(0.8),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            '\$${walletController.balance.value.data?.balance ?? '0.00'}',
+                            style: AppStyles.textStyle24regular.copyWith(
+                              color: kPrimaryTextColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        '\$5,000',
-                        style: AppStyles.textStyle24regular.copyWith(
-                          color: kPrimaryTextColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Obx(() {
+                        bool isProfit = walletController.profitLossAmount.value >= 0;
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${isProfit ? "+" : ""}\$${walletController.profitLossAmount.value.toStringAsFixed(2)}',
+                              style: AppStyles.textStyle20regular.copyWith(
+                                color: isProfit ? Colors.green : Colors.red,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              '${isProfit ? "+" : ""}${walletController.profitLossPercentage.value.toStringAsFixed(2)}%',
+                              style: AppStyles.textStyle18regular.copyWith(
+                                color: isProfit ? Colors.green : Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  Row(
                     children: [
-                      Text(
-                        '+\$2,987',
-                        style: AppStyles.textStyle20regular.copyWith(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: ActionButton(
+                          title: 'Withdraw',
+                          onPressed: () {},
+                          icon: AppIcons.arrow_circle_down,
                         ),
                       ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        '+130.7%',
-                        style: AppStyles.textStyle18regular.copyWith(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: ActionButton(
+                          title: 'Deposit',
+                          onPressed: () {},
+                          icon: AppIcons.arrow_circle_upward,
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ActionButton(
-                      title: 'Withdraw',
-                      onPressed: () {},
-                      icon: AppIcons.arrow_circle_down,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: ActionButton(
-                      title: 'Deposit',
-                      onPressed: () {},
-                      icon: AppIcons.arrow_circle_upward,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            );
+          }),
         ),
       ),
     );

@@ -1,13 +1,10 @@
-import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
+import '../../../../../core/components/widgets/circle_loading.dart';
 import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/styles.dart';
-
-
 
 class NewsCard extends StatelessWidget {
   const NewsCard({
@@ -34,7 +31,12 @@ class NewsCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.r),
               child: imageUrl.isNotEmpty
                   ? Image.network(imageUrl, width: 80.w, height: 80.h, fit: BoxFit.cover)
-                  : Icon(Icons.image, size: 80.w),
+                  : Container(
+                width: 80.w,
+                height: 80.h,
+                color: Colors.grey[300],
+                child: Icon(Icons.image, size: 40.w, color: Colors.grey[600]),
+              ),
             ),
             SizedBox(width: 12.w),
             Expanded(
@@ -74,8 +76,13 @@ class NewsCard extends StatelessWidget {
       ),
     );
   }
-}
 
+  const NewsCard.skeleton({super.key})
+      : imageUrl = '',
+        title = 'Loading...',
+        description = 'Loading...',
+        url = '';
+}
 
 class NewsWebView extends StatefulWidget {
   final String url;
@@ -88,7 +95,7 @@ class NewsWebView extends StatefulWidget {
 
 class _NewsWebViewState extends State<NewsWebView> {
   late final WebViewController _controller;
-  bool _isLoading = true; // Track loading state
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -99,32 +106,31 @@ class _NewsWebViewState extends State<NewsWebView> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
-            setState(() => _isLoading = true); // Show loader
+            setState(() => _isLoading = true);
           },
           onPageFinished: (String url) {
-            setState(() => _isLoading = false); // Hide loader
+            setState(() => _isLoading = false);
           },
           onWebResourceError: (WebResourceError error) {
-            setState(() => _isLoading = false); // Hide loader on error
-            debugPrint("WebView error: ${error.description}");
+            setState(() => _isLoading = false);
+            debugPrint("WebView error: \${error.description}");
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url)); // Load the initial URL
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
   Widget build(BuildContext context) {
     bool isValidUrl = Uri.tryParse(widget.url)?.hasAbsolutePath ?? false;
 
-    // Show invalid URL message if URL is not valid
     if (!isValidUrl) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('News Detail'),
         ),
         body: Center(
-          child: Text('Invalid URL: ${widget.url}'),
+          child: Text('Invalid URL: \${widget.url}'),
         ),
       );
     }
@@ -135,15 +141,10 @@ class _NewsWebViewState extends State<NewsWebView> {
       ),
       body: Stack(
         children: [
-          WebViewWidget(controller: _controller), // Use WebViewWidget
-          if (_isLoading) // Show loader while loading
-            const CircleLoading(),
+          WebViewWidget(controller: _controller),
+          if (_isLoading) const CircleLoading(),
         ],
       ),
     );
   }
 }
-
-
-
-

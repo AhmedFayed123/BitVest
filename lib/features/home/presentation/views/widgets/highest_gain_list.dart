@@ -1,6 +1,6 @@
-import 'package:bitvest/core/components/widgets/circle_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
@@ -17,15 +17,49 @@ class HighestGainList extends StatelessWidget {
     return SizedBox(
       child: Obx(() {
         if (homeController.isLoading.value) {
-          return const CircleLoading();
+          return Skeletonizer(
+            enabled: true,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return CustomCryptoListItem(
+                  name: "Loading...",
+                  symbol: "XXX",
+                  price: "\$0.00",
+                  change: "0.00 USDT",
+                  percent: "0.00%",
+                  isNegative: false,
+                  chartData: generateDummyChartData(0),
+                  img: '',
+                  onTap: () {},
+                );
+              },
+            ),
+          );
         }
-
 
         final highestVolumeCoins = homeController.highestChangeUp.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
-          return const Center(
-            child: Text("No highest volume coins available", style: TextStyle(color: Colors.white)),
+          return Skeletonizer(
+            enabled: true,
+            child: ListView.builder(
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return CustomCryptoListItem(
+                  name: "Loading...",
+                  symbol: "----",
+                  price: "---",
+                  change: "---",
+                  percent: "---%",
+                  isNegative: false,
+                  chartData: [],
+                  img: '',
+                  onTap: () {},
+                );
+              },
+            ),
           );
         }
 
@@ -45,7 +79,6 @@ class HighestGainList extends StatelessWidget {
               chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
               img: coin.icon ?? '',
               onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)),
-
             );
           },
         );

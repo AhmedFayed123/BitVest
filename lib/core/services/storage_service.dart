@@ -6,6 +6,7 @@ class StorageService {
   static const String _keyUserEmail = 'user_email';
   static const String _keyFirstLaunch = 'firstLaunch';
   static const String _keyToken = 'user_token';
+  static const String _keyUserId = 'user_id';
 
   // تخزين قيمة في SharedPreferences
   Future<void> saveData(String key, String value) async {
@@ -27,12 +28,14 @@ class StorageService {
 
   // حفظ بيانات الجلسة (المستخدم)
   Future<void> saveUserSession({
+    required int userId,
     required String userName,
     required String userEmail,
     required String token,
   }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyUserLoggedIn, true);
+    await prefs.setInt(_keyUserId, userId);
     await prefs.setString(_keyUserName, userName);
     await prefs.setString(_keyUserEmail, userEmail);
     await prefs.setString(_keyToken, token);
@@ -60,13 +63,17 @@ class StorageService {
     return prefs.getString(_keyToken);
   }
 
+  Future<int?> getId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_keyUserId);
+  }
+
   // تسجيل الخروج
 // تسجيل الخروج
   Future<void> logOut() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
-
 
   // تخزين حالة الإطلاق الأول
   Future<void> setFirstLaunch(bool value) async {

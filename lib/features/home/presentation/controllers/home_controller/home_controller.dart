@@ -1,4 +1,3 @@
-import 'package:bitvest/features/home/data/models/ads_model/Ads_model.dart';
 import 'package:get/get.dart';
 import '../../../../../core/errors/server_failures.dart';
 import '../../../../../core/services/service_locator.dart';

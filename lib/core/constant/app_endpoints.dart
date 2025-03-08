@@ -15,4 +15,6 @@ class AppEndpoints {
   static const String highestChangeDown = "crypto/filter/highest-change-down";
   static const String ads = "crypto/ads";
   static const String search = "crypto/search";
+  static const String buyCrypto = "buy-crypto";
+  static const String sellCrypto = "sell-crypto";
 }

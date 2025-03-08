@@ -24,7 +24,7 @@ class CoinDetailsController extends GetxController {
         },
             (data) {
           coinData.value = data;
-          update(); // تحديث الـ UI بعد جلب البيانات
+          update();
         },
       );
     } catch (e) {

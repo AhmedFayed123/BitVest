@@ -2,6 +2,7 @@ import 'package:bitvest/features/home/presentation/controllers/home_controller/h
 import 'package:bitvest/features/trade/presentation/views/coin_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -12,11 +13,14 @@ class SearchScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Search',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -43,24 +47,54 @@ class SearchScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 if (searchController.isLoading.value) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.white)),
+                  return Skeletonizer(
+                    enabled: true,
+                    child: ListView.separated(
+                      itemCount: 10,
+                      separatorBuilder: (context, index) =>
+                      const Divider(color: Colors.white24),
+                      itemBuilder: (context, index) => ListTile(
+                        leading: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[700],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        title: Container(
+                          height: 16,
+                          width: double.infinity,
+                          color: Colors.grey[700],
+                        ),
+                        subtitle: Container(
+                          height: 14,
+                          width: 100,
+                          color: Colors.grey[600],
+                        ),
+                        trailing: Container(
+                          height: 16,
+                          width: 50,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
                   );
                 }
 
                 if (searchController.searchResults.isEmpty) {
                   return const Center(
-                    child: Text("No results found",
-                        style: TextStyle(color: Colors.white70, fontSize: 16)),
+                    child: Text(
+                      "No results found",
+                      style: TextStyle(color: Colors.white70, fontSize: 16),
+                    ),
                   );
                 }
 
                 return ListView.separated(
                   itemCount: searchController.searchResults.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(color: Colors.white24),
+                  const Divider(color: Colors.white24),
                   itemBuilder: (context, index) {
                     final result = searchController.searchResults[index];
 

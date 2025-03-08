@@ -11,6 +11,7 @@ class Assets {
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesOnboarding1 = 'assets/images/onboarding1.png';
   static const String imagesOnboarding3 = 'assets/images/onboarding3.png';
+  static const String imagesProfile = 'assets/images/profile.png';
   static const String poppinsOFL = 'assets/fonts/Poppins/OFL.txt';
   static const String poppinsPoppinsBlack = 'assets/fonts/Poppins/Poppins-Black.ttf';
   static const String poppinsPoppinsBlackItalic = 'assets/fonts/Poppins/Poppins-BlackItalic.ttf';

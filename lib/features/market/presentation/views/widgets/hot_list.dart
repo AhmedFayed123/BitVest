@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../core/components/widgets/circle_loading.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
 import '../../../../home/presentation/controllers/home_controller/home_controller.dart';
@@ -17,15 +16,36 @@ class HotList extends StatelessWidget {
     return SizedBox(
       child: Obx(() {
         if (homeController.isLoading.value) {
-          return const CircleLoading();
+          return Skeletonizer(
+            enabled: true,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return CustomCryptoListItem(
+                  name: "Loading...",
+                  symbol: "---",
+                  price: "\$0.00",
+                  change: "0.00 USDT",
+                  percent: "0.00%",
+                  isNegative: false,
+                  chartData: generateDummyChartData(0),
+                  img: '',
+                  onTap: () {},
+                );
+              },
+            ),
+          );
         }
-
 
         final highestVolumeCoins = homeController.highestVolume.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
           return const Center(
-            child: Text("No highest volume coins available", style: TextStyle(color: Colors.white)),
+            child: Text(
+              "No highest volume coins available",
+              style: TextStyle(color: Colors.white),
+            ),
           );
         }
 
@@ -45,12 +65,10 @@ class HotList extends StatelessWidget {
               chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
               img: coin.icon ?? '',
               onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)),
-
             );
           },
         );
       }),
     );
   }
-
 }

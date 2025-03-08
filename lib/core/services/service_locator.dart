@@ -2,8 +2,12 @@ import 'package:bitvest/features/home/data/repos/home_repo/home_repo.dart';
 import 'package:bitvest/features/home/data/repos/home_repo/home_repo_impl.dart';
 import 'package:bitvest/features/market/data/repos/market_repo/market_repo.dart';
 import 'package:bitvest/features/market/data/repos/market_repo/market_repo_impl.dart';
+import 'package:bitvest/features/profile/data/repo/profile_repo.dart';
+import 'package:bitvest/features/profile/data/repo/profile_repo_impl.dart';
 import 'package:bitvest/features/trade/data/repos/trade_repo.dart';
 import 'package:bitvest/features/trade/data/repos/trade_repo_impl.dart';
+import 'package:bitvest/features/wallet/data/repo/wallet_repo.dart';
+import 'package:bitvest/features/wallet/data/repo/wallet_repo_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +40,8 @@ class ServiceLocator {
     sl.registerLazySingleton<LoginRepo>(() => LoginRepoImpl());
     sl.registerLazySingleton<SignupRepo>(() => SignupRepoImpl());
     sl.registerLazySingleton<MarketRepo>(() => MarketRepoImpl());
+    sl.registerLazySingleton<ProfileRepo>(() => ProfileRepoImpl());
+    sl.registerLazySingleton<WalletRepo>(() => WalletRepoImpl());
     sl.registerLazySingleton<TradeRepo>(() => TradeRepoImpl());
     sl.registerLazySingleton<HomeRepo>(() => HomeRepoImpl(dio: Dio()));
 

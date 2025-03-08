@@ -34,22 +34,23 @@ class LoginController extends GetxController {
       );
 
       Either<Failure, LoginModel> result =
-      await sl<LoginRepo>().login(loginRequest);
+          await sl<LoginRepo>().login(loginRequest);
 
       isLoading.value = false;
 
       result.fold(
-            (failure) {
+        (failure) {
           Get.snackbar('Error', failure.message,
               backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
         },
-            (loginModel) async {
+        (loginModel) async {
           if (loginModel.token != null && loginModel.user != null) {
             // حفظ بيانات المستخدم
             await sl<StorageService>().saveUserSession(
               token: loginModel.token!,
               userName: loginModel.user!.name ?? '',
               userEmail: loginModel.user!.email ?? '',
+              userId: loginModel.user!.id ?? 0,
             );
 
             Get.snackbar('Success', Strings.loginSuccess,
@@ -64,7 +65,8 @@ class LoginController extends GetxController {
             Get.offAll(() => HomeView());
           } else {
             Get.snackbar('Error', loginModel.message ?? "Login failed",
-                backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
+                backgroundColor: Colors.red,
+                snackPosition: SnackPosition.BOTTOM);
           }
         },
       );
