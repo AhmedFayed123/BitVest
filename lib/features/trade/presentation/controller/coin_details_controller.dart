@@ -1,27 +1,25 @@
 import 'package:get/get.dart';
-
 import '../../../../core/services/service_locator.dart';
 import '../../data/models/Coin_data_model.dart';
 import '../../data/repos/trade_repo.dart';
 
 class CoinDetailsController extends GetxController {
   final TradeRepo tradeRepo = sl<TradeRepo>();
-  final String coinId;
 
-  CoinDetailsController(this.coinId);
-
-  var isLoading = true.obs;
+  var coinId = ''.obs;
+  var isLoading = false.obs;
   var coinData = Rxn<CoinDataModel>();
   var selectedPeriod = '7D'.obs;
 
   Future<void> fetchCoinDetails() async {
+    if (coinId.value.isEmpty || isLoading.value) return;
     try {
       isLoading.value = true;
-      final result = await tradeRepo.getCoinDetails(coinId);
+      update();
+
+      final result = await tradeRepo.getCoinDetails(coinId.value);
       result.fold(
-            (failure) {
-          Get.snackbar("Error", failure.message);
-        },
+            (failure) => Get.snackbar("Error", failure.message),
             (data) {
           coinData.value = data;
           update();
@@ -31,37 +29,50 @@ class CoinDetailsController extends GetxController {
       Get.snackbar("Error", "Something went wrong");
     } finally {
       isLoading.value = false;
+      update();
     }
   }
+
+  Future<void> refreshData() async {
+    if (isLoading.value) return;
+    await fetchCoinDetails();
+  }
+
+  void changeCoin(String newCoinId) {
+    if (coinId.value != newCoinId) {
+      coinId.value = newCoinId;
+      fetchCoinDetails();
+    }
+  }
+
   List<List<dynamic>>? get selectedChartData {
+    final chart = coinData.value?.original?.chartData;
+    if (chart == null) return null;
+
     switch (selectedPeriod.value) {
       case '7D':
-        return coinData.value?.original?.chartData?.sevenDays
-            ?.map((e) => [e.timestamp, e.price])
-            .toList();
+        return chart.sevenDays?.map((e) => [e.timestamp, e.price]).toList();
       case '30D':
-        return coinData.value?.original?.chartData?.thirtyDays
-            ?.map((e) => [e.timestamp, e.price])
-            .toList();
+        return chart.thirtyDays?.map((e) => [e.timestamp, e.price]).toList();
       case '90D':
-        return coinData.value?.original?.chartData?.ninetyDays
-            ?.map((e) => [e.timestamp, e.price])
-            .toList();
+        return chart.ninetyDays?.map((e) => [e.timestamp, e.price]).toList();
       default:
         return null;
     }
   }
 
-
-
   void changePeriod(String period) {
-    selectedPeriod.value = period;
-    update();
+    if (selectedPeriod.value != period) {
+      selectedPeriod.value = period;
+      update();
+    }
   }
 
   @override
   void onInit() {
     super.onInit();
-    fetchCoinDetails();
+    if (coinId.value.isNotEmpty) {
+      fetchCoinDetails();
+    }
   }
 }

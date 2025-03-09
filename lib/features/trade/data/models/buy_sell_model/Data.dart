@@ -12,7 +12,7 @@ class Data {
     totalCost = json['total_cost'];
   }
   String? currency;
-  int? amount;
+  double? amount;
   double? price;
   double? totalCost;
 

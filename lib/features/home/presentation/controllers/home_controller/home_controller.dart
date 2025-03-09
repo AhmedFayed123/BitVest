@@ -23,14 +23,29 @@ class HomeController extends GetxController {
   RxString errorMessage = ''.obs;
 
   @override
-  void onInit() async{
+  void onInit() {
     super.onInit();
-    await fetchAds();
-    await fetchNews();
-    await fetchPopularList();
-    await fetchHighestVolumeList();
-    await fetchHighestChangeDownList();
-    await fetchHighestChangeUpList();
+    fetchAllData();
+  }
+
+  Future<void> fetchAllData() async {
+    isLoading.value = true;
+    errorMessage.value = '';
+
+    await Future.wait([
+      fetchPopularList(),
+      fetchHighestVolumeList(),
+      fetchHighestChangeDownList(),
+      fetchHighestChangeUpList(),
+      fetchAds(),
+      fetchNews(),
+    ]);
+
+    isLoading.value = false;
+  }
+
+  Future<void> refreshData() async {
+    await fetchAllData();
   }
 
   Future<void> search(String query) async {
@@ -40,7 +55,6 @@ class HomeController extends GetxController {
     errorMessage.value = '';
 
     final result = await homeRepo.search(query);
-
     result.fold(
           (failure) {
         errorMessage.value = _getErrorMessage(failure);
@@ -55,7 +69,6 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchAds() async {
-    if (adsList.value != null) return;
     try {
       final result = await homeRepo.fetchAds();
       result.fold(
@@ -63,11 +76,11 @@ class HomeController extends GetxController {
             (ads) => adsList.value = ads.ads,
       );
     } catch (e) {
-      errorMessage.value = "Error loading news: ${e.toString()}";
+      errorMessage.value = "Error loading ads: ${e.toString()}";
     }
   }
+
   Future<void> fetchNews() async {
-    if (news.value != null) return;
     try {
       final result = await homeRepo.fetchNews();
       result.fold(
@@ -80,13 +93,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchPopularList() async {
-    if (popularCoins.value != null) return;
     try {
       final result = await homeRepo.fetchPopular();
       result.fold(
-        (failure) => errorMessage.value = _getErrorMessage(failure),
-        (popularCoinsModel) =>
-            popularCoins.value = popularCoinsModel,
+            (failure) => errorMessage.value = _getErrorMessage(failure),
+            (popularCoinsModel) => popularCoins.value = popularCoinsModel,
       );
     } catch (e) {
       errorMessage.value = "Error loading popular coins: ${e.toString()}";
@@ -94,13 +105,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchHighestVolumeList() async {
-    if (highestVolume.value != null) return;
     try {
       final result = await homeRepo.fetchHighestVolume();
       result.fold(
-        (failure) => errorMessage.value = _getErrorMessage(failure),
-        (coinsListModel) =>
-            highestVolume.value = _validateCoinsList(coinsListModel),
+            (failure) => errorMessage.value = _getErrorMessage(failure),
+            (coinsListModel) => highestVolume.value = _validateCoinsList(coinsListModel),
       );
     } catch (e) {
       errorMessage.value = "Error loading highest volume: ${e.toString()}";
@@ -108,13 +117,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchHighestChangeDownList() async {
-    if (highestChangeDown.value != null) return;
     try {
       final result = await homeRepo.fetchHighestChangeDown();
       result.fold(
-        (failure) => errorMessage.value = _getErrorMessage(failure),
-        (coinsListModel) =>
-            highestChangeDown.value = _validateCoinsList(coinsListModel),
+            (failure) => errorMessage.value = _getErrorMessage(failure),
+            (coinsListModel) => highestChangeDown.value = _validateCoinsList(coinsListModel),
       );
     } catch (e) {
       errorMessage.value = "Error loading highest change down: ${e.toString()}";
@@ -122,13 +129,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchHighestChangeUpList() async {
-    if (highestChangeUp.value != null) return;
     try {
       final result = await homeRepo.fetchHighestChangeUp();
       result.fold(
             (failure) => errorMessage.value = _getErrorMessage(failure),
-            (coinsListModel) =>
-            highestChangeUp.value = _validateCoinsList(coinsListModel),
+            (coinsListModel) => highestChangeUp.value = _validateCoinsList(coinsListModel),
       );
     } catch (e) {
       errorMessage.value = "Error loading highest change up: ${e.toString()}";

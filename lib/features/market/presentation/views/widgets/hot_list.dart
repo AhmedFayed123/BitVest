@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/components/widgets/custom_crypto_list_item.dart';
 import '../../../../../core/constant/clases.dart';
+import '../../../../../core/constant/colors.dart';
 import '../../../../home/presentation/controllers/home_controller/home_controller.dart';
 import '../../../../trade/presentation/views/coin_details_view.dart';
 
@@ -31,7 +33,7 @@ class HotList extends StatelessWidget {
                   isNegative: false,
                   chartData: generateDummyChartData(0),
                   img: '',
-                  onTap: () {},
+                  onTap: () {}, id: '',
                 );
               },
             ),
@@ -41,32 +43,50 @@ class HotList extends StatelessWidget {
         final highestVolumeCoins = homeController.highestVolume.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
-          return const Center(
-            child: Text(
-              "No highest volume coins available",
-              style: TextStyle(color: Colors.white),
+          return RefreshIndicator(
+            color: kAmberColor,
+            backgroundColor: kBlackColor,
+            strokeWidth: 3,
+            onRefresh: homeController.refreshData,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: 500.h,
+                child: const Center(
+                  child: Text(
+                    "No highest volume coins available",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
             ),
           );
         }
 
-        return ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: highestVolumeCoins.length,
-          itemBuilder: (context, index) {
-            final coin = highestVolumeCoins[index];
-
-            return CustomCryptoListItem(
-              name: coin.name ?? "Unknown",
-              symbol: coin.symbol.toUpperCase() ?? "N/A",
-              price: "\$${coin.price.toStringAsFixed(2) ?? "0.00"}",
-              change: "${coin.changeRateUsdt.toStringAsFixed(2) ?? "0.00"} USDT",
-              percent: "${coin.changeRatePercentage.toStringAsFixed(2) ?? "0.00"}%",
-              isNegative: (coin.changeRatePercentage ?? 0) < 0,
-              chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
-              img: coin.icon ?? '',
-              onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)),
-            );
-          },
+        return RefreshIndicator(
+          color: kAmberColor,
+          backgroundColor: kBlackColor,
+          strokeWidth: 3,
+          onRefresh: homeController.refreshData,
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: highestVolumeCoins.length,
+            itemBuilder: (context, index) {
+              final coin = highestVolumeCoins[index];
+          
+              return CustomCryptoListItem(
+                name: coin.name ?? "Unknown",
+                symbol: coin.symbol.toUpperCase() ?? "N/A",
+                price: "\$${coin.price.toStringAsFixed(2) ?? "0.00"}",
+                change: "${coin.changeRateUsdt.toStringAsFixed(2) ?? "0.00"} USDT",
+                percent: "${coin.changeRatePercentage.toStringAsFixed(2) ?? "0.00"}%",
+                isNegative: (coin.changeRatePercentage ?? 0) < 0,
+                chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
+                img: coin.icon ?? '',
+                onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)), id: coin.id,
+              );
+            },
+          ),
         );
       }),
     );

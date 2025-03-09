@@ -85,11 +85,20 @@ class HomeRepoImpl extends HomeRepo {
         url: AppEndpoints.highestChangeUp,
         token: await sl<StorageService>().getToken(),
       );
+
+      print('bbbbbbbbb');
       print(response.data);
       return right(CoinsListModel.fromJson(response.data));
     } on DioException catch (e) {
+      print('cccccccccc');
+      print('Requesting: ${AppEndpoints.highestChangeUp}');
+
+      print(e);
+
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
+      print('fffffffffff');
+      print(e);
       return left(ServerFailure(e.toString()));
     }
   }

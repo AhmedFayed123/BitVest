@@ -2,8 +2,10 @@ import 'package:bitvest/core/settings/theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../features/trade/presentation/controller/trade_controller.dart';
 import '../../constant/clases.dart';
 import '../../constant/colors.dart';
 import '../../constant/styles.dart';
@@ -20,16 +22,18 @@ class CustomCryptoListItem extends StatelessWidget {
     required this.isNegative,
     required this.chartData,
     required this.img,
-    required this.onTap,
+    required this.onTap, required this.id,
   });
 
-  final String name, symbol, price, change, percent, img;
+  final String name, symbol, price, change, percent, img,id;
   final bool isNegative;
   final List<CustomChartData> chartData;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final TradeController tradeController = Get.put(TradeController());
+
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -117,10 +121,19 @@ class CustomCryptoListItem extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 5.h),
-                    IconButton(
-                      icon: const Icon(Icons.star_border, color: kGreyColor),
-                      onPressed: () {},
+                    GestureDetector(
+                      onTap: () => tradeController.toggleFavourite(id), // استخدم اسم العملة كمفتاح
+                      child: Obx(() {
+                        return Icon(
+                          tradeController.isFavourite(id) // جلب الحالة الخاصة بكل عنصر
+                              ? Icons.star
+                              : Icons.star_border,
+                          color: Colors.white,
+                          size: 24.sp,
+                        );
+                      }),
                     ),
+
                   ],
                 ),
               ],

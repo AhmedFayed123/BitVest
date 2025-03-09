@@ -11,7 +11,7 @@ class BalanceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WalletController walletController = Get.put(WalletController());
+    final WalletController walletController = Get.find<WalletController>();
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 22.h),
@@ -61,6 +61,13 @@ class BalanceSection extends StatelessWidget {
                 style: AppStyles.textStyle12regular.copyWith(color: Colors.red),
               ),
             );
+          } else if (walletController.balance.value.data == null) {
+            return Center(
+              child: Text(
+                'No balance data available',
+                style: AppStyles.textStyle12regular,
+              ),
+            );
           } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,12 +81,12 @@ class BalanceSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '\$${walletController.balance.value.data!.balance ?? '0.00'}',
+                      '\$${walletController.balance.value.data?.balance ?? '0.00'}',
                       style: AppStyles.textStyle24regular,
                     ),
                     SizedBox(width: 3.w),
                     Text(
-                      '\$${walletController.balance.value.data!.currency ?? 'USDT'}',
+                      '${walletController.balance.value.data?.currency ?? 'USDT'}',
                       style: AppStyles.textStyle12regular,
                     ),
                   ],

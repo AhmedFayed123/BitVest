@@ -62,7 +62,7 @@ class TotalBalanceContainer extends StatelessWidget {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            '\$${walletController.balance.value.data?.balance ?? '0.00'}',
+                            '\$${walletController.balance.value.data?.balance}',
                             style: AppStyles.textStyle24regular.copyWith(
                               color: kPrimaryTextColor,
                               fontWeight: FontWeight.bold,

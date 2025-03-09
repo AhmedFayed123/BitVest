@@ -46,28 +46,11 @@ class CryptoCardList extends StatelessWidget {
         final popularCoins = homeController.popularCoins.value?.coins ?? [];
 
         if (popularCoins.isEmpty) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
-                child: Skeletonizer(
-                  enabled: true,
-                  child: CryptoCard(
-                    name: "Loading...",
-                    symbol: "XXX",
-                    price: "\$0.00",
-                    change: "0.00 USDT",
-                    percent: "0.00%",
-                    chartData: generateDummyChartData(2),
-                    isNegative: false,
-                    imageUrl: "",
-                    onTap: () {},
-                  ),
-                ),
-              );
-            },
+          return Center(
+            child: Text(
+              "No Most Popular Coins Available",
+              style: TextStyle(color: Colors.white),
+            ),
           );
         }
 

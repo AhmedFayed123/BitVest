@@ -31,7 +31,7 @@ class BiggestMoversList extends StatelessWidget {
                   isNegative: false,
                   chartData: [],
                   img: '',
-                  onTap: () {},
+                  onTap: () {}, id: '',
                 );
               },
             ),
@@ -41,23 +41,10 @@ class BiggestMoversList extends StatelessWidget {
         final highestVolumeCoins = homeController.highestVolume.value?.coins ?? [];
 
         if (highestVolumeCoins.isEmpty) {
-          return Skeletonizer(
-            enabled: true,
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return CustomCryptoListItem(
-                  name: "Loading...",
-                  symbol: "----",
-                  price: "---",
-                  change: "---",
-                  percent: "---%",
-                  isNegative: false,
-                  chartData: [],
-                  img: '',
-                  onTap: () {},
-                );
-              },
+          return Center(
+            child: Text(
+              "No Hot Coins Available",
+              style: TextStyle(color: Colors.white),
             ),
           );
         }
@@ -76,7 +63,7 @@ class BiggestMoversList extends StatelessWidget {
               isNegative: (coin.changeRatePercentage ?? 0) < 0,
               chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
               img: coin.icon ?? '',
-              onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)),
+              onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id)), id: coin.id,
             );
           },
         );

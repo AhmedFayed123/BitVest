@@ -58,7 +58,7 @@ class DrawerBody extends StatelessWidget {
                 return UserAccountsDrawerHeader(
                   decoration: BoxDecoration(color: kBackgroundColor),
                   accountName: Text(
-                    controller.profile.value!.name??'',
+                    controller.profile.value!.name ?? '',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -66,14 +66,31 @@ class DrawerBody extends StatelessWidget {
                     ),
                   ),
                   accountEmail: Text(
-                    controller.profile.value!.email??'',
+                    controller.profile.value!.email ?? '',
                     style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.account_circle, size: 50.0),
-                  ),
+                  currentAccountPicture: Obx(() {
+                    final imageUrl = controller.profile.value?.profilePicture?.url;
+                    return CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: imageUrl != null && imageUrl.isNotEmpty
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Image.network(
+                          imageUrl,
+                          width: 50.0,
+                          height: 50.0,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.account_circle, size: 50.0, color: Colors.grey);
+                          },
+                        ),
+                      )
+                          : Icon(Icons.account_circle, size: 50.0, color: Colors.grey),
+                    );
+                  }),
                 );
+
               } else {
                 return UserAccountsDrawerHeader(
                   decoration: BoxDecoration(color: kBackgroundColor),

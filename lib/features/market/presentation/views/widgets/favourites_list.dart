@@ -9,8 +9,8 @@ import '../../../../../core/constant/colors.dart';
 import '../../../../trade/presentation/views/coin_details_view.dart';
 import '../../controller/market_controller.dart';
 
-class AllList extends StatelessWidget {
-  const AllList({super.key});
+class FavouritesList extends StatelessWidget {
+  const FavouritesList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,10 @@ class AllList extends StatelessWidget {
           ),
         );
       }
-      if (controller.marketData.isEmpty) {
+
+      final favouritesList = controller.favouritesData;
+
+      if (favouritesList.isEmpty) {
         return RefreshIndicator(
           color: kAmberColor,
           backgroundColor: kBlackColor,
@@ -47,11 +50,11 @@ class AllList extends StatelessWidget {
           onRefresh: controller.refreshData,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: 500.h,
-              child: Center(
+              child: const Center(
                 child: Text(
-                  "No Coins Available",
+                  "No Favourite Coins Available",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -59,6 +62,7 @@ class AllList extends StatelessWidget {
           ),
         );
       }
+
       return RefreshIndicator(
         color: kAmberColor,
         backgroundColor: kBlackColor,
@@ -66,9 +70,9 @@ class AllList extends StatelessWidget {
         onRefresh: controller.refreshData,
         child: ListView.builder(
           scrollDirection: Axis.vertical,
-          itemCount: controller.marketData.length,
+          itemCount: favouritesList.length,
           itemBuilder: (context, index) {
-            final market = controller.marketData[index];
+            final market = favouritesList[index];
 
             return CustomCryptoListItem(
               onTap: () => Get.to(() => CoinDetailsView(coinId: market.id!)),
@@ -76,8 +80,7 @@ class AllList extends StatelessWidget {
               symbol: market.symbol ?? "--",
               price: market.price?.toStringAsFixed(2) ?? "0.00",
               change: market.changeRateUsdt?.toStringAsFixed(2) ?? "0.00",
-              percent:
-              "${market.changeRatePercentage?.toStringAsFixed(2) ?? "0.00"}%",
+              percent: "${market.changeRatePercentage?.toStringAsFixed(2) ?? "0.00"}%",
               isNegative: (market.changeRatePercentage ?? 0) < 0,
               chartData: generateDummyChartData(market.changeRatePercentage ?? 0),
               img: market.icon ?? '', id: market.id??'',

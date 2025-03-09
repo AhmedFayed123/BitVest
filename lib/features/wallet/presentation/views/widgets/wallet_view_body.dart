@@ -1,9 +1,12 @@
 import 'package:bitvest/core/constant/icons.dart';
 import 'package:bitvest/features/wallet/presentation/views/swap_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/components/widgets/see_all_raw.dart';
+import '../../../../../core/constant/colors.dart';
+import '../../controllers/wallet_controller.dart';
 import '../qr_code_view.dart';
 import 'balance_section.dart';
 import 'custom_wallet_button.dart';
@@ -14,48 +17,60 @@ class WalletViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BalanceSection(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+    final WalletController walletController = Get.put(WalletController());
+
+    return RefreshIndicator(
+      onRefresh: walletController.refreshData,
+      color: kAmberColor,
+      backgroundColor: kBlackColor,
+      strokeWidth: 3,
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
           children: [
-            CustomWalletButton(
-              icon: AppIcons.arrow_circle_upward,
+            BalanceSection(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomWalletButton(
+                  icon: AppIcons.arrow_circle_upward,
+                  onPressed: () {},
+                  title: 'Deposit',
+                ),
+                CustomWalletButton(
+                  icon: AppIcons.arrow_circle_down,
+                  onPressed: () {},
+                  title: 'Withdraw',
+                ),
+                CustomWalletButton(
+                  icon: AppIcons.swap_horiz,
+                  onPressed: () {
+                    Get.to(SwapView());
+                  },
+                  title: 'Swap',
+                ),
+                CustomWalletButton(
+                  icon: AppIcons.qrCode,
+                  onPressed: () {
+                    Get.to(QrCodeView());
+                  },
+                  title: 'QR',
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            CustomSeeAllRow(
+              title: "Your Assets",
               onPressed: () {},
-              title: 'Deposit',
+              isSeeAll: false,
             ),
-            CustomWalletButton(
-              icon: AppIcons.arrow_circle_down,
-              onPressed: () {},
-              title: 'Withdraw',
-            ),
-            CustomWalletButton(
-              icon: AppIcons.swap_horiz,
-              onPressed: () {
-                Get.to(SwapView());
-              },
-              title: 'Swap',
-            ),
-            CustomWalletButton(
-              icon: AppIcons.qrCode,
-              onPressed: () {
-                Get.to(QrCodeView());
-              },
-              title: 'QR',
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: MyAssetsList(),
             ),
           ],
         ),
-        SizedBox(
-          height: 16,
-        ),
-        CustomSeeAllRow(
-          title: "Your Assets",
-          onPressed: () {},
-          isSeeAll: false,
-        ),
-        Expanded(child: MyAssetsList()),
-      ],
+      ),
     );
   }
 }

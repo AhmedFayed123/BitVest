@@ -9,6 +9,7 @@ import '../../../../core/errors/server_failures.dart';
 import '../../../../core/network/dio_helper/dio_helper.dart';
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/services/storage_service.dart';
+import '../models/put_favourites_model/Put_favourites_model.dart';
 
 class TradeRepoImpl extends TradeRepo {
   @override
@@ -35,6 +36,8 @@ class TradeRepoImpl extends TradeRepo {
         token: await sl<StorageService>().getToken(),
         data: {"currency": currency, "amount": amount},
       );
+      print('vvvvvvvvvvv');
+      print(response.data);
       return right(BuySellModel.fromJson(response.data));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
@@ -52,7 +55,42 @@ class TradeRepoImpl extends TradeRepo {
           token: await sl<StorageService>().getToken(),
     data: {"currency": currency, "amount": amount},
     );
+      print('hhhhhhhhhhh');
+      print(response.data);
     return right(BuySellModel.fromJson(response.data));
+    } on DioException catch (e) {
+    return left(ServerFailure.fromDioError(e));
+    } catch (e) {
+    return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PutFavouritesModel>> putFavourites(String currency) async{
+    try {
+      final response = await DioHelper.postData(
+          url: AppEndpoints.putFavourites,
+          token: await sl<StorageService>().getToken(),
+        data: {"currency": currency,},
+
+    );
+
+    return right(PutFavouritesModel.fromJson(response.data));
+    } on DioException catch (e) {
+    return left(ServerFailure.fromDioError(e));
+    } catch (e) {
+    return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> deleteFavourite(String id) async{
+    try {
+      final response = await DioHelper.deleteData(
+          url: 'users/${await sl<StorageService>().getId()}/favourites/$id',
+          token: await sl<StorageService>().getToken(),
+    );
+    return right(response.data);
     } on DioException catch (e) {
     return left(ServerFailure.fromDioError(e));
     } catch (e) {

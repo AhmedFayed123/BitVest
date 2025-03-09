@@ -50,11 +50,12 @@ class DioHelper {
     required Object data,
     String? lang,
     String? token,
+    bool isMultipart = false,
   }) async {
     dio!.options.headers = {
       'lang': AppConstant.currentLanguage,
       'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json',
+      'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
     };
     return await dio!.post(
       url,

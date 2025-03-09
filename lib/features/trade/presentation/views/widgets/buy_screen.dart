@@ -1,5 +1,6 @@
 import 'package:bitvest/core/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../controller/trade_controller.dart';
@@ -34,7 +35,8 @@ class _BuyScreenState extends State<BuyScreen> {
           icon: const Icon(Icons.close, size: 30),
           onPressed: () => Get.back(),
         ),
-        title: Text('Buy ${widget.cryptoName}', style: const TextStyle(fontSize: 22)),
+        title: Text('Buy ${widget.cryptoName}',
+            style: const TextStyle(fontSize: 22)),
         centerTitle: true,
       ),
       body: Padding(
@@ -64,9 +66,10 @@ class _BuyScreenState extends State<BuyScreen> {
               value: selectedOrderType,
               items: ['Market Order', 'Limit Order']
                   .map((order) => DropdownMenuItem(
-                value: order,
-                child: Text(order, style: const TextStyle(color: Colors.green)),
-              ))
+                        value: order,
+                        child: Text(order,
+                            style: const TextStyle(color: Colors.green)),
+                      ))
                   .toList(),
               onChanged: (value) {
                 setState(() => selectedOrderType = value!);
@@ -77,7 +80,7 @@ class _BuyScreenState extends State<BuyScreen> {
 
             // إدخال الكمية
             Container(
-              height: 120,
+              height: 120.h,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.green, width: 2),
                 borderRadius: BorderRadius.circular(12),
@@ -94,8 +97,8 @@ class _BuyScreenState extends State<BuyScreen> {
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: '0.00 ${widget.cryptoId}',
-                  hintStyle: const TextStyle(fontSize: 36, color: Colors.grey),
+                  hintText: '0.00 ${widget.cryptoName}',
+                  hintStyle: const TextStyle(fontSize: 22, color: Colors.grey),
                 ),
                 onChanged: (value) {
                   setState(() => amount = double.tryParse(value) ?? 0.0);
@@ -107,7 +110,10 @@ class _BuyScreenState extends State<BuyScreen> {
             // عرض المبلغ الإجمالي بالدولار
             Text(
               'Total: \$${(amount * widget.marketPrice).toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),
             ),
             const SizedBox(height: 30),
 
@@ -115,18 +121,23 @@ class _BuyScreenState extends State<BuyScreen> {
             ElevatedButton(
               onPressed: amount > 0
                   ? () {
-                tradeController.buyCrypto(widget.cryptoId, amount);
-              }
+                      tradeController.buyCrypto(widget.cryptoId, amount);
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                disabledBackgroundColor: Colors.green.withOpacity(0.2),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
               child: const Center(
                 child: Text(
                   'Confirm',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.black),
                 ),
               ),
             ),

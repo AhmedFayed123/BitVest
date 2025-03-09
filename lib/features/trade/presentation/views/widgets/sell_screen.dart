@@ -1,5 +1,6 @@
 import 'package:bitvest/core/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../controller/trade_controller.dart';
@@ -34,7 +35,8 @@ class _SellScreenState extends State<SellScreen> {
           icon: const Icon(Icons.close, size: 30),
           onPressed: () => Get.back(),
         ),
-        title: Text('Sell ${widget.cryptoName}', style: const TextStyle(fontSize: 22)),
+        title: Text('Sell ${widget.cryptoName}',
+            style: const TextStyle(fontSize: 22)),
         centerTitle: true,
       ),
       body: Padding(
@@ -58,14 +60,14 @@ class _SellScreenState extends State<SellScreen> {
             Text('${widget.cryptoId} / USDT',
                 style: const TextStyle(fontSize: 14, color: Colors.grey)),
             const SizedBox(height: 20),
-
             DropdownButton<String>(
               value: selectedOrderType,
               items: ['Market Order', 'Limit Order']
                   .map((order) => DropdownMenuItem(
-                value: order,
-                child: Text(order, style: const TextStyle(color: Colors.red)),
-              ))
+                        value: order,
+                        child: Text(order,
+                            style: const TextStyle(color: Colors.red)),
+                      ))
                   .toList(),
               onChanged: (value) {
                 setState(() => selectedOrderType = value!);
@@ -73,9 +75,8 @@ class _SellScreenState extends State<SellScreen> {
               isExpanded: true,
             ),
             const SizedBox(height: 25),
-
             Container(
-              height: 120,
+              height: 120.h,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.red, width: 2),
                 borderRadius: BorderRadius.circular(12),
@@ -92,8 +93,8 @@ class _SellScreenState extends State<SellScreen> {
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: '0.00 ${widget.cryptoId}',
-                  hintStyle: const TextStyle(fontSize: 36, color: Colors.grey),
+                  hintText: '0.00 ${widget.cryptoName}',
+                  hintStyle: const TextStyle(fontSize: 22, color: Colors.grey),
                 ),
                 onChanged: (value) {
                   setState(() => amount = double.tryParse(value) ?? 0.0);
@@ -101,28 +102,34 @@ class _SellScreenState extends State<SellScreen> {
               ),
             ),
             const SizedBox(height: 10),
-
             Text(
               'Total: \$${(amount * widget.marketPrice).toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),
             ),
             const SizedBox(height: 30),
-
             ElevatedButton(
               onPressed: amount > 0
                   ? () {
-                tradeController.sellCrypto(widget.cryptoId, amount);
-              }
+                      tradeController.sellCrypto(widget.cryptoId, amount);
+                    }
                   : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                disabledBackgroundColor: Colors.red.withOpacity(0.2),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
               child: const Center(
                 child: Text(
                   'Confirm',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: Colors.black),
                 ),
               ),
             ),

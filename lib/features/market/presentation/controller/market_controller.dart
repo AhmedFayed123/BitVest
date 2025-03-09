@@ -2,57 +2,98 @@ import 'package:bitvest/features/market/data/repos/market_repo/market_repo.dart'
 import 'package:get/get.dart';
 
 import '../../../../core/services/service_locator.dart';
+import '../../data/models/favourites_model/Favourites_Data.dart';
 import '../../data/models/market_model/Market_model.dart';
 
 class MarketController extends GetxController {
   final MarketRepo marketRepo = sl<MarketRepo>();
 
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var marketData = <CoinModel>[].obs;
   var newData = <CoinModel>[].obs;
+  RxList<FavouritesData> favouritesData = RxList<FavouritesData>();
+
   var errorMessage = ''.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    await fetchNewList();
-    await fetchCoinsList();
+    fetchCoinsList();
+    fetchNewList();
+    fetchFavouritesList();
+  }
+
+
+  Future<void> refreshData() async {
+    errorMessage.value = '';
+
+      await fetchCoinsList();
+      await fetchNewList();
+      await fetchFavouritesList();
+
   }
 
   Future<void> fetchCoinsList() async {
+    if (isLoading.value) return;
     isLoading.value = true;
-    final result = await marketRepo.getCoinsList();
-
-    result.fold(
-      (failure) {
-        errorMessage.value = failure.message;
-        isLoading.value = false;
-        print("Fetching coins list...");
-      },
-      (marketModel) {
-        marketData.value = marketModel.coins;
-        isLoading.value = false;
-      },
-    );
+    try {
+      final result = await marketRepo.getCoinsList();
+      result.fold(
+        (failure) {
+          errorMessage.value = failure.message;
+        },
+        (marketModel) {
+          print(marketModel);
+          marketData.value = marketModel.coins;
+        },
+      );
+    } catch (e) {
+      errorMessage.value = "Error loading coins list: ${e.toString()}";
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> fetchNewList() async {
+    if (isLoading.value) return;
     isLoading.value = true;
-    final result = await marketRepo.getNewList();
+    try {
+      final result = await marketRepo.getNewList();
+      result.fold(
+        (failure) {
+          errorMessage.value = failure.message;
+        },
+        (marketModel) {
+          newData.value = marketModel.coins;
+        },
+      );
+    } catch (e) {
+      errorMessage.value = "Error fetching new list: ${e.toString()}";
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
-    print("Result from Repo: $result");
+  Future<void> fetchFavouritesList() async {
+    if (isLoading.value) return;
+    isLoading.value = true;
+    try {
+      final result = await marketRepo.getFavouriteList();
+      result.fold(
+        (failure) {
+          errorMessage.value = failure.message;
+          print("❌ Error fetchFavouritesList: ${failure.message}");
+        },
+        (marketModel) {
+          print("trueeeeee: ${marketModel.data}");
 
-    result.fold(
-      (failure) {
-        errorMessage.value = failure.message;
-        isLoading.value = false;
-        print("Error fetching new list: ${failure.message}");
-      },
-      (marketModel) {
-        newData.value = marketModel.coins;
-        isLoading.value = false;
-        print("New List Fetched: ${newData.length} items");
-      },
-    );
+          favouritesData.assignAll(marketModel.data ?? []);
+        },
+      );
+    } catch (e) {
+      errorMessage.value = "Error loading favourites list: ${e.toString()}";
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

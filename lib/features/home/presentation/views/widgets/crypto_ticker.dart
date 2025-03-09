@@ -38,12 +38,7 @@ class CryptoTicker extends StatelessWidget {
 
         final marketData = controller.marketData;
         if (marketData.isEmpty) {
-          return Center(
-            child: Text(
-              "No market data available",
-              style: TextStyle(color: Colors.white),
-            ),
-          );
+          return SizedBox();
         }
 
         return Marquee(
