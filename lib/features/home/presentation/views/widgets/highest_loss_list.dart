@@ -44,7 +44,7 @@ class HighestLossList extends StatelessWidget {
         if (highestVolumeCoins.isEmpty) {
           return Center(
             child: Text(
-              "No Top Losers Coins Available",
+              "No Top Losers Coins Available".tr,
               style: TextStyle(color: Colors.white),
             ),
           );

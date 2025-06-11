@@ -18,4 +18,13 @@ class AppEndpoints {
   static const String buyCrypto = "buy-crypto";
   static const String sellCrypto = "sell-crypto";
   static const String putFavourites = "put-favourites";
+  static const String deposit = "deposit";
+  static const String userTransaction = "user-transaction";
+  static const String createSellAd = "p2p/create-sell-ad";
+  static const String createBuyAd = "p2p/create-buy-ad";
+  static const String p2pGetBuyAd = "p2p/get-buy-ad";
+  static const String p2pGetSellAd = "p2p/get-sell-ad";
+  static const String p2pUserAds = "p2p/user_ads";
+  static const String p2pStart = "p2p/start/";
+  static const String p2pComplete = "p2p/complete/";
 }

@@ -20,8 +20,8 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(
-          Strings.resetPassword,
+        title: Text(
+          Strings.resetPassword.tr,
           style: TextStyle(color: kWhiteColor),
         ),
       ),
@@ -34,7 +34,7 @@ class ResetPasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Obx(() => CustomTextFormField(
-                      hintText: Strings.newPassword,
+                      hintText: Strings.newPassword.tr,
                       controller: controller.newPasswordController,
                       isPassword: true,
                       isPasswordVisible: controller.isPasswordVisible.value,
@@ -42,17 +42,17 @@ class ResetPasswordScreen extends StatelessWidget {
                           controller.togglePasswordVisibility,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return Strings.kPasswordValidation;
+                          return Strings.kPasswordValidation.tr;
                         }
                         if (value.length < Strings.kMinPasswordLength) {
-                          return Strings.kPasswordTooShort;
+                          return Strings.kPasswordTooShort.tr;
                         }
                         return null;
                       },
                     )),
                 SizedBox(height: Sizes.spaceLarge),
                 Obx(() => CustomTextFormField(
-                      hintText: Strings.confirmPassword,
+                      hintText: Strings.confirmPassword.tr,
                       controller: controller.confirmPasswordController,
                       isPassword: true,
                       isPasswordVisible: controller.isPasswordVisible.value,
@@ -60,17 +60,17 @@ class ResetPasswordScreen extends StatelessWidget {
                           controller.togglePasswordVisibility,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return Strings.kConfirmPasswordValidation;
+                          return Strings.kConfirmPasswordValidation.tr;
                         }
                         if (value != controller.newPasswordController.text) {
-                          return Strings.kPasswordsDoNotMatch;
+                          return Strings.kPasswordsDoNotMatch.tr;
                         }
                         return null;
                       },
                     )),
                 SizedBox(height: Sizes.spaceLarge),
                 Obx(() => CustomButton(
-                      text: Strings.resetPassword,
+                      text: Strings.resetPassword.tr,
                       onPressed: controller.isLoading.value
                           ? () {}
                           : controller.resetPassword,

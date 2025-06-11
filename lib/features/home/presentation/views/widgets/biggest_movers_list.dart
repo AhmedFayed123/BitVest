@@ -43,7 +43,7 @@ class BiggestMoversList extends StatelessWidget {
         if (highestVolumeCoins.isEmpty) {
           return Center(
             child: Text(
-              "No Hot Coins Available",
+              "No Hot Coins Available".tr,
               style: TextStyle(color: Colors.white),
             ),
           );

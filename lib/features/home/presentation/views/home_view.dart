@@ -37,26 +37,26 @@ class HomeView extends StatelessWidget {
             selectedItemColor: kAmberColor,
             currentIndex: _bottomNavController.selectedIndex.value,
             onTap: _bottomNavController.updateIndex,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
                 icon: Icon(Icons.home),
-                label: "Home",
+                label: "Home".tr,
               ),
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
                 icon: Icon(Icons.show_chart),
-                label: "Market",
+                label: "Market".tr,
               ),
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
                 icon: Icon(Icons.swap_horiz),
-                label: "Trade",
+                label: "Trade".tr,
               ),
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
                 icon: Icon(Icons.account_balance_wallet),
-                label: "Wallet",
+                label: "Wallet".tr,
               ),
             ],
           ),

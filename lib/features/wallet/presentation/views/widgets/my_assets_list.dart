@@ -1,4 +1,5 @@
 import 'package:bitvest/features/wallet/presentation/controllers/wallet_controller.dart';
+import 'package:bitvest/features/wallet/presentation/views/widgets/wallet_asset_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -39,7 +40,7 @@ class MyAssetsList extends StatelessWidget {
           );
         }
 
-        final walletsCoins = controller.wallets.value.data;
+        final walletsCoins = controller.wallets.value.data?.coinsoftheuser;
 
         if (walletsCoins == null || walletsCoins.isEmpty) {
           return const Center(
@@ -55,20 +56,16 @@ class MyAssetsList extends StatelessWidget {
           itemCount: walletsCoins.length,
           itemBuilder: (context, index) {
             final coin = walletsCoins[index];
-
-            return CustomCryptoListItem(
+            return WalletAssetItem(
               name: coin.name ?? "Unknown",
-              symbol: coin.symbol!.toUpperCase() ?? "N/A",
-              price: "\$${coin.price!.toStringAsFixed(2) ?? "0.00"}",
-              change:
-                  "${coin.changeRateUsdt!.toStringAsFixed(2) ?? "0.00"} USDT",
-              percent:
-                  "${coin.changeRatePercentage!.toStringAsFixed(2) ?? "0.00"}%",
+              symbol: coin.symbol?.toUpperCase() ?? "N/A",
+              price: coin.price ?? 0.0,
+              changeRateUsdt: coin.changeRateUsdt ?? 0.0,
+              changeRatePercentage: coin.changeRatePercentage ?? 0.0,
+              balance: coin.balance ?? "0",
+              icon: coin.icon ?? '',
               isNegative: (coin.changeRatePercentage ?? 0) < 0,
-              chartData: generateDummyChartData(coin.changeRatePercentage ?? 0),
-              img: coin.icon ?? '',
               onTap: () => Get.to(() => CoinDetailsView(coinId: coin.id ?? '')),
-              id: coin.id ?? '',
             );
           },
         );

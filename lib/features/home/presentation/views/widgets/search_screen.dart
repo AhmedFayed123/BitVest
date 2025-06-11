@@ -1,3 +1,4 @@
+import 'package:bitvest/core/constant/colors.dart';
 import 'package:bitvest/features/home/presentation/controllers/home_controller/home_controller.dart';
 import 'package:bitvest/features/trade/presentation/views/coin_details_view.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,8 @@ class SearchScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Search',
+        title: Text(
+          'Search'.tr,
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -31,7 +32,7 @@ class SearchScreen extends StatelessWidget {
             TextField(
               onChanged: (value) => searchController.search(value),
               decoration: InputDecoration(
-                hintText: "Search...",
+                hintText: "Search...".tr,
                 hintStyle: const TextStyle(color: Colors.white54),
                 prefixIcon: const Icon(Icons.search, color: Colors.white70),
                 filled: true,
@@ -83,9 +84,9 @@ class SearchScreen extends StatelessWidget {
                 }
 
                 if (searchController.searchResults.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      "No results found",
+                      "No results found".tr,
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                   );
@@ -127,7 +128,7 @@ class SearchScreen extends StatelessWidget {
                       trailing: Text(
                         "\$${result.price?.toStringAsFixed(2) ?? '0.00'}",
                         style: const TextStyle(
-                            color: Colors.greenAccent,
+                            color: kPositiveTrendColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),

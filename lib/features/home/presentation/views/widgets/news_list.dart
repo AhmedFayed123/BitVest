@@ -56,7 +56,7 @@ class NewsList extends StatelessWidget {
             TextButton(
               onPressed: () => isExpanded.value = !isExpanded.value,
               child: Text(
-                isExpanded.value ? 'Show Less' : 'Show More',
+                isExpanded.value ? 'showLess'.tr : 'showMore'.tr,
                 style:
                     AppStyles.textStyle14semiBold.copyWith(color: kAmberColor),
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/components/functons/show_language_selection_sheet.dart';
 import '../../../../core/constant/colors.dart';
 import '../../../onboarding/presentation/views/welcome_screen.dart';
 
@@ -35,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
               title: const Text('Profile', style: TextStyle(color: Colors.white, fontSize: 23)),
               onTap: () {},
             ),
-            SizedBox(height: 14),
+            SizedBox(height: 14.h),
             const Divider(color: Colors.white),
 
             // Language section
@@ -44,7 +45,9 @@ class SettingsScreen extends StatelessWidget {
               leading: Icon(Icons.language, color: Colors.white, size: 24.sp,),
               title: const Text('Language', style: TextStyle(color: Colors.white, fontSize: 23)),
               trailing: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-              onTap: () {},
+              onTap: () {
+                showLanguageSelectionSheet();
+              },
             ),
             SizedBox(height: 14),
             const Divider(color: Colors.white),

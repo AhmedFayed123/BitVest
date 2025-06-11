@@ -27,8 +27,8 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(
-          Strings.login,
+        title: Text(
+          Strings.login.tr,
           style: TextStyle(color: kWhiteColor),
         ),
       ),
@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                     height: Sizes.spaceLarger,
                   ),
                   CustomTextFormField(
-                    hintText: Strings.Email,
+                    hintText: Strings.Email.tr,
                     // Use the existing Strings reference
                     controller: controller.emailController,
                     keyboardType: TextInputType.text,
@@ -81,10 +81,10 @@ class LoginScreen extends StatelessWidget {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return Strings
-                            .kEmailValidation; // Add this string in your index.dart
+                            .kEmailValidation.tr; // Add this string in your index.dart
                       }
                       if (!(GetUtils.isEmail(value))) {
-                        return Strings.kInvalidEmail; // Add this string as well
+                        return Strings.kInvalidEmail.tr; // Add this string as well
                       }
                       return null;
                     },
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: Sizes.spaceLarge),
                   // حقل كلمة المرور
                   Obx(() => CustomTextFormField(
-                        hintText: Strings.password,
+                        hintText: Strings.password.tr,
                         controller: controller.passwordController,
                         isPassword: true,
                         isPasswordVisible: controller.isPasswordVisible.value,
@@ -100,10 +100,10 @@ class LoginScreen extends StatelessWidget {
                             controller.togglePasswordVisibility,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return Strings.kPasswordValidation;
+                            return Strings.kPasswordValidation.tr;
                           }
                           if (value.length < Strings.kMinPasswordLength) {
-                            return Strings.kPasswordTooShort;
+                            return Strings.kPasswordTooShort.tr;
                           }
                           return null;
                         },
@@ -118,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                             ForgetPasswordScreen()); // الانتقال إلى الشاشة الجديدة
                       },
                       child: Text(
-                        Strings.forgotPassword, // نص "نسيت كلمة المرور؟"
+                        Strings.forgotPassword.tr, // نص "نسيت كلمة المرور؟"
                         style: TextStyle(
                           color: kAmberColor,
                           fontSize: Sizes.kFontSizeSmall,
@@ -131,13 +131,13 @@ class LoginScreen extends StatelessWidget {
 
                   // زر تسجيل الدخول
                   Obx(() => CustomButton(
-                        text: Strings.login,
+                        text: Strings.login.tr,
                         onPressed: controller.login,
                         isLoading: controller.isLoading.value,
                       )),
                   OrLineWidget(),
                   CustomSocialButton(
-                    title: "Continue with Google",
+                    title: 'continue_with_google'.tr,
                     icon: Assets.imagesGoogle,
                     buttonColor: kBackgroundColor,
                     textColor: kPrimaryTextColor,
@@ -152,7 +152,7 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        Strings.dontHaveAccount, // نص "ليس لديك حساب؟"
+                        Strings.dontHaveAccount.tr, // نص "ليس لديك حساب؟"
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: Sizes.kFontSizeSmall,
@@ -165,7 +165,7 @@ class LoginScreen extends StatelessWidget {
                               const SignUpScreen()); // مثال لتوجيه المستخدم إلى صفحة التسجيل
                         },
                         child: Text(
-                          Strings.createAccount, // نص "قم بإنشاء حساب"
+                          Strings.createAccount.tr, // نص "قم بإنشاء حساب"
                           style: TextStyle(
                             color: kAmberColor,
                             fontSize: Sizes.kFontSizeSmall,

@@ -1,4 +1,6 @@
+import 'package:bitvest/core/constant/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/icons.dart';
@@ -45,7 +47,7 @@ class CustomTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey.shade900,
-            hintText: 'Enter Your $hintText',
+            hintText: Strings.enterYour.tr+' '+hintText,
             hintStyle: const TextStyle(color: kGreyColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(kBorderRadius),

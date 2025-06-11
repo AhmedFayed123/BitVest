@@ -45,7 +45,7 @@ dependencies:
   get_storage: ^2.1.1
   carousel_slider: ^5.0.0
   cached_network_image: ^3.4.1
-  syncfusion_flutter_charts: ^28.2.3
+  syncfusion_flutter_charts: ^29.1.33
   google_fonts: ^6.2.1
   flutter_charts: ^0.5.2
   marquee: ^2.3.0

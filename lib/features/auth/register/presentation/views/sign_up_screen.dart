@@ -25,8 +25,8 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(
-          Strings.createAccount,
+        title: Text(
+          Strings.createAccount.tr,
           style: TextStyle(color: kWhiteColor),
         ),
       ),
@@ -67,32 +67,32 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   SizedBox(height: Sizes.spaceLarge),
                   CustomTextFormField(
-                    hintText: Strings.name,
+                    hintText: Strings.name.tr,
                     controller: controller.nameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kNameValidation;
+                        return Strings.kNameValidation.tr;
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: Sizes.spaceLarge),
                   CustomTextFormField(
-                    hintText: Strings.Email,
+                    hintText: Strings.Email.tr,
                     controller: controller.emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kEmailValidation;
+                        return Strings.kEmailValidation.tr;
                       }
                       if (!(GetUtils.isEmail(value) || GetUtils.isPhoneNumber(value))) {
-                        return Strings.kInvalidEmail;
+                        return Strings.kInvalidEmail.tr;
                       }
                       return null;
                     },
                   ),
-                  SizedBox(height: Sizes.spaceLarge),
+                  SizedBox(height: Sizes.buttonHeightSmall),
                   Obx(() => CustomButton(
-                    text: Strings.next,
+                    text: Strings.next.tr,
                     onPressed: () {
                       controller.signUp(context);
                     },
@@ -100,7 +100,7 @@ class SignUpScreen extends StatelessWidget {
                   )),
                   OrLineWidget(),
                   CustomSocialButton(
-                    title: "Continue with Google",
+                    title: 'continue_with_google'.tr,
                     icon: Assets.imagesGoogle,
                     buttonColor: kBackgroundColor,
                     textColor: kPrimaryTextColor,
@@ -115,7 +115,7 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        Strings.alreadyHaveAnAccount,
+                        Strings.alreadyHaveAnAccount.tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: Sizes.kFontSizeSmall,
@@ -126,7 +126,7 @@ class SignUpScreen extends StatelessWidget {
                           Get.off(const LoginScreen());
                         },
                         child: Text(
-                          Strings.login,
+                          Strings.login.tr,
                           style: TextStyle(
                             color: kAmberColor,
                             fontSize: Sizes.kFontSizeSmall,

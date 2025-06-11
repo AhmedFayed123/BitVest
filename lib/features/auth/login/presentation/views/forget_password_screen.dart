@@ -19,8 +19,8 @@ class ForgetPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(
-          Strings.forgotPassword,
+        title: Text(
+          Strings.forgotPassword.tr,
           style: TextStyle(color: kWhiteColor),
         ),
       ),
@@ -34,7 +34,7 @@ class ForgetPasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  Strings.resetPasswordInstructions,
+                  Strings.resetPasswordInstructions.tr,
                   textAlign: TextAlign.center,
                   style: AppStyles.regularTextStyle.copyWith(
                     color: kWhiteColor,
@@ -43,22 +43,22 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: Sizes.spaceLarge),
                 CustomTextFormField(
-                  hintText: Strings.email,
+                  hintText: Strings.email.tr,
                   controller: controller.emailOrPhoneController, // استخدم الـ Controller هنا
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return Strings.kEmailValidation;
+                      return Strings.kEmailValidation.tr;
                     }
                     if (!GetUtils.isEmail(value)) {
-                      return Strings.kInvalidEmail;
+                      return Strings.kInvalidEmail.tr;
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: Sizes.spaceLarge),
                 Obx(() => CustomButton(
-                  text: Strings.resetPassword,
+                  text: Strings.resetPassword.tr,
                   onPressed: controller.isLoading.value
                       ? () {}
                       : controller.sendResetLink,

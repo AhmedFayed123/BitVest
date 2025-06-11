@@ -1,8 +1,10 @@
 import 'package:bitvest/features/onboarding/presentation/views/widgets/welcome_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../Locale/Locale_Controller.dart';
+import '../../../../core/components/functons/show_language_selection_sheet.dart';
 import '../../../../core/constant/colors.dart';
 import '../../../../core/constant/icons.dart';
 import '../../../../core/constant/sizes.dart';
@@ -61,56 +63,17 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 WelcomeButton(
-                  text: Strings.signUp,
+                  text: Strings.signUp.tr,
                   onPressed: () => Get.to(() => const SignUpScreen()),
                   isOutlined: true,
                 ),
                 WelcomeButton(
-                  text: Strings.login,
+                  text: Strings.login.tr,
                   onPressed: () => Get.to(() => const LoginScreen()),
                 ),
               ],
             ),
             SizedBox(height: Sizes.kButtonSpacing),
-          ],
-        ),
-      ),
-    );
-  }
-  void showLanguageSelectionSheet() {
-    MyLocaleController controllerLang = Get.find<MyLocaleController>();
-
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Get.isDarkMode ? Colors.grey[900] : Colors.white,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Select Language'.tr,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.language, color: Colors.blue),
-              title: const Text('English'),
-              onTap: () {
-                controllerLang.changeLang('en');
-                Get.back();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.language, color: Colors.green),
-              title: const Text('العربية'),
-              onTap: () {
-                controllerLang.changeLang('ar');
-                Get.back();
-              },
-            ),
           ],
         ),
       ),

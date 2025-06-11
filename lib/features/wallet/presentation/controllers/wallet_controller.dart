@@ -7,6 +7,7 @@ import 'package:bitvest/features/wallet/data/repo/wallet_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/services/service_locator.dart';
+import '../../data/models/transaction_history/Transaction_history.dart';
 
 class WalletController extends GetxController {
   final WalletRepo walletRepo = sl<WalletRepo>();
@@ -23,13 +24,46 @@ class WalletController extends GetxController {
   var profitLossAmount = 0.0.obs;
   var profitLossPercentage = 0.0.obs;
 
+  var transactionHistory = Rxn<TransactionHistory>();
+  var isTransactionLoading = false.obs;
+  var transactionErrorMessage = RxnString();
+
+
+
   @override
   void onInit() {
     super.onInit();
     loadPreviousBalance();
     getBalance();
     getWallets();
+    getTransactionHistory();
   }
+
+  Future<void> getTransactionHistory() async {
+    if (isTransactionLoading.value) return;
+    isTransactionLoading.value = true;
+    transactionErrorMessage.value = null;
+
+    try {
+      Either<Failure, TransactionHistory> result = await walletRepo.transactionHistory();
+
+      result.fold(
+            (failure) {
+          transactionErrorMessage.value = failure.message;
+          print("❌ Transaction Error: ${failure.message}");
+        },
+            (data) {
+          transactionHistory.value = data;
+          print("✅ Transaction History Loaded: ${data.data?.length ?? 0} items");
+        },
+      );
+    } catch (e) {
+      transactionErrorMessage.value = "حدث خطأ غير متوقع";
+    } finally {
+      isTransactionLoading.value = false;
+    }
+  }
+
 
   Future<void> _initializeWalletData() async {
     isLoading.value = true;

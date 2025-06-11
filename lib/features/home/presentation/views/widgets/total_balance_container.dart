@@ -54,7 +54,7 @@ class TotalBalanceContainer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Total Balance',
+                            'Total Balance'.tr,
                             style: AppStyles.textStyle19regular.copyWith(
                               color: kPrimaryTextColor.withOpacity(0.8),
                               fontWeight: FontWeight.w600,
@@ -79,16 +79,16 @@ class TotalBalanceContainer extends StatelessWidget {
                             Text(
                               '${isProfit ? "+" : ""}\$${walletController.profitLossAmount.value.toStringAsFixed(2)}',
                               style: AppStyles.textStyle20regular.copyWith(
-                                color: isProfit ? Colors.green : Colors.red,
-                                fontWeight: FontWeight.w600,
+                                color: isProfit ? Colors.greenAccent.shade700 : Colors.redAccent.shade700,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                             SizedBox(height: 4.h),
                             Text(
                               '${isProfit ? "+" : ""}${walletController.profitLossPercentage.value.toStringAsFixed(2)}%',
                               style: AppStyles.textStyle18regular.copyWith(
-                                color: isProfit ? Colors.green : Colors.red,
-                                fontWeight: FontWeight.w500,
+                                color: isProfit ? Colors.greenAccent.shade700 : Colors.redAccent.shade700,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -96,21 +96,28 @@ class TotalBalanceContainer extends StatelessWidget {
                       }),
                     ],
                   ),
+                  SizedBox(height: 4.h),
                   Row(
                     children: [
                       Expanded(
                         child: ActionButton(
-                          title: 'Withdraw',
+                          title: 'Withdraw'.tr,
                           onPressed: () {},
                           icon: AppIcons.arrow_circle_down,
+                          backgroundColor: Colors.redAccent.shade700,
+                          iconColor: Colors.white,
+                          textColor: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 15.w),
                       Expanded(
                         child: ActionButton(
-                          title: 'Deposit',
+                          title: 'Deposit'.tr,
                           onPressed: () {},
                           icon: AppIcons.arrow_circle_upward,
+                          backgroundColor: Colors.greenAccent.shade700,
+                          iconColor: Colors.white,
+                          textColor: Colors.white,
                         ),
                       ),
                     ],

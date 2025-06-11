@@ -23,8 +23,8 @@ class OtpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(
-          Strings.otpVerification,
+        title: Text(
+          Strings.otpVerification.tr,
           style: TextStyle(color: kWhiteColor),
         ),
       ),
@@ -34,8 +34,8 @@ class OtpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                Strings.enterOtpCode,
+              Text(
+                Strings.enterOtpCode.tr,
                 style: TextStyle(color: kWhiteColor, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
@@ -60,7 +60,7 @@ class OtpScreen extends StatelessWidget {
 
               SizedBox(height: Sizes.spaceLarge),
               Obx(() => CustomButton(
-                text: Strings.verify,
+                text: Strings.verify.tr,
                 onPressed: controller.isLoading.value
                     ? (){}
                     : controller.verifyOtp,

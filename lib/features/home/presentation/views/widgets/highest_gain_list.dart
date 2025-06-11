@@ -44,7 +44,7 @@ class HighestGainList extends StatelessWidget {
         if (highestVolumeCoins.isEmpty) {
           return Center(
             child: Text(
-              "No Top Gainers Coins Available",
+              "No Top Gainers Coins Available".tr,
               style: TextStyle(color: Colors.white),
             ),
           );

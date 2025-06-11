@@ -22,6 +22,12 @@ class AppStyles {
     color: kWhiteColor, // Default color
   );
 
+  static TextStyle textStyle32bold = TextStyle(
+    fontSize: 32.sp,
+    fontWeight: FontWeight.w600,
+    fontFamily: Strings.kPoppins, // Font family applied here
+    color: kWhiteColor, // Default color
+  );
   // Standard TextStyle for regular text
   static TextStyle regularTextStyle = TextStyle(
     fontSize: Sizes.kBodyTextSize.sp,

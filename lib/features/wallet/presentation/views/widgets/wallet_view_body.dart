@@ -1,4 +1,5 @@
 import 'package:bitvest/core/constant/icons.dart';
+import 'package:bitvest/features/p2p/presentation/views/p2p_view.dart';
 import 'package:bitvest/features/wallet/presentation/views/swap_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import '../../../../../core/components/widgets/see_all_raw.dart';
 import '../../../../../core/constant/colors.dart';
 import '../../controllers/wallet_controller.dart';
+import '../deposit_view.dart';
 import '../qr_code_view.dart';
 import 'balance_section.dart';
 import 'custom_wallet_button.dart';
@@ -34,12 +36,16 @@ class WalletViewBody extends StatelessWidget {
               children: [
                 CustomWalletButton(
                   icon: AppIcons.arrow_circle_upward,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(DepositView());
+                  },
                   title: 'Deposit',
                 ),
                 CustomWalletButton(
                   icon: AppIcons.arrow_circle_down,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(P2pView());
+                  },
                   title: 'Withdraw',
                 ),
                 CustomWalletButton(
@@ -65,7 +71,7 @@ class WalletViewBody extends StatelessWidget {
               isSeeAll: false,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.48,
               child: MyAssetsList(),
             ),
           ],

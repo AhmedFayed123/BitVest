@@ -19,7 +19,7 @@ class MarketView extends StatelessWidget {
         ),
       ),
       body: CustomTabBar(
-        tabBarViewHeight: 600,
+        tabBarViewHeight: 580,
         tabs: const [
           Tab(text: "All"),
           Tab(text: "Hot"),

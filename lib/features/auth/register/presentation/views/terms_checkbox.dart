@@ -23,7 +23,7 @@ class TermsCheckbox extends StatelessWidget {
         )),
         Expanded(
           child: Text(
-            Strings.acceptTerms,
+            Strings.acceptTerms.tr,
             style: TextStyle(color: kWhiteColor, fontSize: Sizes.kFontSizeSmall),
           ),
         ),

@@ -48,7 +48,7 @@ class CryptoCardList extends StatelessWidget {
         if (popularCoins.isEmpty) {
           return Center(
             child: Text(
-              "No Most Popular Coins Available",
+              "No Most Popular Coins Available".tr,
               style: TextStyle(color: Colors.white),
             ),
           );

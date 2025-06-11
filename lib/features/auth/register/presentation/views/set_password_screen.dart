@@ -25,7 +25,7 @@ class SetPasswordScreen extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         automaticallyImplyLeading: false,
         // iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(Strings.setPassword, style: TextStyle(color: kWhiteColor)),
+        title: Text(Strings.setPassword.tr, style: TextStyle(color: kWhiteColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -62,17 +62,17 @@ class SetPasswordScreen extends StatelessWidget {
                 SizedBox(height: Sizes.spaceLarger),
                 Obx(() {
                   return CustomTextFormField(
-                    hintText: Strings.password,
+                    hintText: Strings.password.tr,
                     controller: controller.passwordController,
                     isPassword: true,
                     isPasswordVisible: controller.isPasswordVisible.value,
                     togglePasswordVisibility: controller.togglePasswordVisibility,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kPasswordValidation;
+                        return Strings.kPasswordValidation.tr;
                       }
                       if (value.length < 6) {
-                        return "Password must be at least 6 characters long.";
+                        return "password_min_length".tr;
                       }
                       return null;
                     },
@@ -81,17 +81,17 @@ class SetPasswordScreen extends StatelessWidget {
                 SizedBox(height: Sizes.spaceLarge),
                 Obx(() {
                   return CustomTextFormField(
-                    hintText: Strings.confirmPassword,
+                    hintText: Strings.confirmPassword.tr,
                     controller: controller.confirmPasswordController,
                     isPassword: true,
                     isPasswordVisible: controller.isConfirmPasswordVisible.value,
                     togglePasswordVisibility: controller.toggleConfirmPasswordVisibility,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings.kConfirmPasswordValidation;
+                        return Strings.kConfirmPasswordValidation.tr;
                       }
                       if (value != controller.passwordController.text) {
-                        return Strings.kPasswordsDoNotMatch;
+                        return Strings.kPasswordsDoNotMatch.tr;
                       }
                       return null;
                     },
@@ -100,7 +100,7 @@ class SetPasswordScreen extends StatelessWidget {
                 const TermsCheckbox(),
                 SizedBox(height: Sizes.spaceLarge),
                 CustomButton(
-                  text: Strings.signUp,
+                  text: Strings.signUp.tr,
                   onPressed: controller.setPassword,
                   isLoading: controller.isLoading.value,
                 ),

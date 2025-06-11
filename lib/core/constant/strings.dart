@@ -18,7 +18,7 @@ class Strings {
 
   static const String getStartedButton = "Get Started";
   static const String skipButton = "Skip";
-  static const String seeAll = "see all";
+  static const String seeAll = "seeAll";
 
 // Define the missing strings
   static const String kPoppins = 'Poppins'; // font name
@@ -69,35 +69,37 @@ class Strings {
   static const String signupTitle =
       "Create a New Account"; // Title for the signup page
   static const String Email =
-      "Email"; // Label for phone/email input
-  static const String password = "Password"; // Label for password input
+      "email"; // Label for phone/email input
+  static const String password = "password"; // Label for password input
   static const String confirmPassword =
-      "Confirm Password"; // Label for confirming password
+      "confirmPassword"; // Label for confirming password
   static const String forgotPassword =
-      "Forgot Password?"; // Link for forgotten password
+      "forgotPassword"; // Link for forgotten password
   static const String login = "login"; // Sign-in button text
-  static const String signUp = "Sign Up"; // Sign-up button text
+  static const String signUp = "signUp"; // Sign-up button text
   static const String logout = "Logout"; // Logout button text
   static const String kEmailValidation =
-      'Please enter an email.';
+      'kEmailValidation';
   static const String kInvalidEmail =
-      'Enter a valid email.';
-  static const String kPasswordValidation = 'Please enter your password';
+      'kInvalidEmail';
+  static const String kPasswordValidation = 'kPasswordValidation';
+  static const String enterYour = 'enteryour';
+
   static const String kPasswordTooShort =
       'Password must be at least 6 characters';
   static const String setPassword =
       'Set Password';
-  static const String dontHaveAccount = "Don't have an account?";
-  static const String createAccount = "Create an account";
+  static const String dontHaveAccount = "dontHaveAccount";
+  static const String createAccount = "createAccount";
 
-  static const String alreadyHaveAnAccount = "Already have an account?";
+  static const String alreadyHaveAnAccount = "alreadyHaveAnAccount";
 
-  static const String verifyCode = "Verify Code";
+  static const String verifyCode = "verifyCode";
   static const String verificationCode = "Verification Code";
   static const resetPasswordInstructions =
-      "Enter your email address to receive a password reset link.";
+      "resetPasswordInstructions";
 
-  static const resetPassword = "Reset Password";
+  static const resetPassword = "resetPassword";
 
   static const String verificationSent = "Verification code sent successfully!";
   static const String failedToSend = "Failed to send verification code.";
@@ -108,23 +110,23 @@ class Strings {
   // OTP Strings
   static const String kOtpValidation = "Please enter a valid 6-digit OTP code.";
   static const String otpCode = "OTP Code";
-  static const String enterOtpCode = "Enter OTP Code";
-  static const String otpVerification = "OTP Verification";
+  static const String enterOtpCode = "enterOtpCode";
+  static const String otpVerification = "otpVerification";
 
   // New Password Strings
-  static const String newPassword = "Set New Password";
-  static const String name = 'Name';
-  static const String next = 'Next';
-  static const String verify = 'Verify';
-  static const String email = 'Email';
+  static const String newPassword = "newPassword";
+  static const String name = 'name';
+  static const String next = 'next';
+  static const String verify = 'verify';
+  static const String email = 'email';
   static const String phone = 'Phone Number';
-  static const String kNameValidation = 'Please enter your name';
+  static const String kNameValidation = 'kNameValidation';
   static const String kPhoneValidation = 'Please enter your phone number';
   static const String kConfirmPasswordValidation =
-      'Please confirm your password';
+      'kConfirmPasswordValidation';
   static const String kPasswordMismatch = 'Passwords do not match';
   static const String alreadyHaveAccount = 'Already have an account?';
-  static const kPasswordsDoNotMatch = 'Passwords do not match.';
+  static const kPasswordsDoNotMatch = 'kPasswordsDoNotMatch';
   static const successTitle = 'Success';
   static const successSignUp = 'Registration completed successfully';
   static const registrationSuccess = 'Registration Successful!';
@@ -190,7 +192,7 @@ class Strings {
   // Price Formatting
   static const String priceFormat =
       "\$%s"; // Price formatting for displaying crypto prices
-  static const String acceptTerms = "I accept the Terms of Use and Privacy Policy";
+  static const String acceptTerms = "acceptTerms";
 
   // Alerts and Confirmations
   static const String confirmAction =
@@ -198,5 +200,6 @@ class Strings {
   static const String yes = "Yes"; // Yes button text
   static const String no = "No"; // No button text
   static const String confirm = "Confirm"; // No button text
+  static const String amount = "amount";
 
 }

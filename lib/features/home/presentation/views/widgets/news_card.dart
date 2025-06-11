@@ -64,7 +64,7 @@ class NewsCard extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      'Read more',
+                      'Read more'.tr,
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),

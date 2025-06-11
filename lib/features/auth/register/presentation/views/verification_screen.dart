@@ -24,7 +24,7 @@ class VerificationScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         // iconTheme: const IconThemeData(color: kWhiteColor),
-        title: const Text(Strings.verifyCode,
+        title: Text(Strings.verifyCode.tr,
             style: TextStyle(color: kWhiteColor)),
       ),
       body: SingleChildScrollView(
@@ -85,7 +85,7 @@ class VerificationScreen extends StatelessWidget {
               SizedBox(height: Sizes.spaceLarge),
               // Button to verify the code
               CustomButton(
-                text: Strings.verify,
+                text: Strings.verify.tr,
                 onPressed: controller.verifyCode,
                 isLoading: controller.isLoading.value,
               ),

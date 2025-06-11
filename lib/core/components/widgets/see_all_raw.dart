@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../constant/colors.dart';
 import '../../constant/icons.dart';
@@ -29,7 +30,7 @@ class CustomSeeAllRow extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  isSeeAll?Strings.seeAll:'',
+                  isSeeAll?Strings.seeAll.tr:'',
                   style: AppStyles.textStyle12regular,
                 ),
                 Icon(

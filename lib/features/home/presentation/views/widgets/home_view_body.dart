@@ -41,7 +41,7 @@ class HomeViewBody extends StatelessWidget {
               TotalBalanceContainer(),
               AdvertSlider(),
               CustomSeeAllRow(
-                title: "most popular",
+                title: "most popular".tr,
                 onPressed: () {
                   final BottomNavController bottomNavController = Get.find<BottomNavController>();
                   bottomNavController.updateIndex(1);
@@ -55,7 +55,7 @@ class HomeViewBody extends StatelessWidget {
               CryptoTicker(),
               const TabBarSection(),
               CustomSeeAllRow(
-                title: "News",
+                title: "News".tr,
                 onPressed: () {},
                 isSeeAll: false,
               ),

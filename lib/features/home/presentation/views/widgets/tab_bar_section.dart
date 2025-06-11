@@ -1,5 +1,6 @@
 import 'package:bitvest/features/home/presentation/views/widgets/highest_gain_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../core/components/widgets/custom_tab_bar.dart';
 import 'biggest_movers_list.dart';
@@ -11,10 +12,10 @@ class TabBarSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTabBar(
-      tabs: const [
-        Tab(text: "Hot Coins"),
-        Tab(text: "Top Gainers"),
-        Tab(text: "Top Losers"),
+      tabs: [
+        Tab(text: "Hot Coins".tr),
+        Tab(text: "Top Gainers".tr),
+        Tab(text: "Top Losers".tr),
       ],
       tabBarViewChildren: const [
         BiggestMoversList(),
