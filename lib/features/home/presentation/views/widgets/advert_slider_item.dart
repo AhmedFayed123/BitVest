@@ -1,8 +1,6 @@
-import 'package:bitvest/core/constant/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class AdvertSliderItem extends StatelessWidget {
   final String imageUrl;
@@ -12,58 +10,41 @@ class AdvertSliderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10.r),
+    return Container(
+      width: 280.w,
+      height: 110.h,
+      margin: EdgeInsets.symmetric(horizontal: 6.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        color: Colors.grey.shade900,
+      ),
+      clipBehavior: Clip.antiAlias,
       child: Stack(
+        fit: StackFit.expand,
         children: [
-          Skeletonizer(
-            enabled: imageUrl.isEmpty,
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: 358.w,
-              height: 171.h,
-              fit: BoxFit.fill,
-              placeholder: (context, url) => Container(
-                width: 358.w,
-                height: 171.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                width: 358.w,
-                height: 171.h,
-                color: kWhiteColor,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Image not available',
-                  style: TextStyle(color: Colors.black54),
-                ),
-              ),
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            placeholder: (_, __) => Container(color: Colors.grey.shade800),
+            errorWidget: (_, __, ___) => Container(
+              color: Colors.black45,
+              alignment: Alignment.center,
+              child: const Icon(Icons.image_not_supported, color: Colors.white70, size: 24),
             ),
           ),
-          Align(
+          Container(
             alignment: Alignment.bottomCenter,
-            child: Skeletonizer(
-              enabled: text.isEmpty,
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(10.r)),
-                ),
-                child: Text(
-                  text.isNotEmpty ? text : 'Loading...',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
+            color: Colors.black.withOpacity(0.4),
+            child: Text(
+              text,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12.sp,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],

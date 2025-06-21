@@ -12,6 +12,7 @@ import '../../../../../core/constant/strings.dart';
 import '../../../../../core/constant/styles.dart';
 import '../../../../../core/resources/images.dart';
 import '../../../../../generated/assets.dart';
+import '../../../google_id.dart';
 import '../../../register/presentation/views/sign_up_screen.dart';
 import '../controllers/login_controller.dart';
 import 'forget_password_screen.dart';
@@ -80,11 +81,12 @@ class LoginScreen extends StatelessWidget {
                     // Accept both text and numbers
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return Strings
-                            .kEmailValidation.tr; // Add this string in your index.dart
+                        return Strings.kEmailValidation
+                            .tr; // Add this string in your index.dart
                       }
                       if (!(GetUtils.isEmail(value))) {
-                        return Strings.kInvalidEmail.tr; // Add this string as well
+                        return Strings
+                            .kInvalidEmail.tr; // Add this string as well
                       }
                       return null;
                     },
@@ -142,8 +144,18 @@ class LoginScreen extends StatelessWidget {
                     buttonColor: kBackgroundColor,
                     textColor: kPrimaryTextColor,
                     borderColor: kPrimaryTextColor,
-                    onPressed: () {
-                      print("Google Login Clicked");
+                    onPressed: () async {
+                      final idToken = await googleSignIn();
+                      print('idToken');
+                      print(idToken);
+                      if (idToken != null) {
+                        await controller.loginWithGoogle(idToken);
+                      } else {
+                        Get.snackbar(
+                            'Error', 'Google sign-in cancelled or failed',
+                            backgroundColor: Colors.red,
+                            snackPosition: SnackPosition.BOTTOM);
+                      }
                     },
                   ),
 

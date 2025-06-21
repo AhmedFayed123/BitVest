@@ -112,6 +112,7 @@ class P2pViewBody extends StatelessWidget {
           ],
         )
             : ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: controller.filteredTraders.length,
@@ -132,64 +133,77 @@ class P2pViewBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Trade Type Toggle
         SizedBox(height: 15.h),
         const P2pToggleButtons(),
 
-        // Currency Filter
-        _buildFilterSection(
-          title: 'Currency',
-          child: _buildCurrencyDropdown(controller),
+        // New: Filter Card
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          child: Card(
+            color: Colors.grey[850],
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 2,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _FilterLabel("Currency"),
+                        _buildCurrencyDropdown(controller),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _FilterLabel("Payment"),
+                        _buildPaymentDropdown(controller),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-
-        // Payment Filter
-        _buildFilterSection(
-          title: 'Payment Method',
-          child: _buildPaymentDropdown(controller),
-        ),
-
-        // Post Ad Button
-        _buildPostAdButton(controller),
 
         // Ad Form (if posting)
         Obx(() => controller.isAdPosting.value
             ? const P2pAdForm()
             : const SizedBox()),
 
-        const SizedBox(height: 20),
+        const SizedBox(height: 8),
 
-        // Traders List wrapped with RefreshIndicator
+        // Traders List
         Expanded(
-          child: RefreshIndicator(
-            color: kAmberColor,
-            backgroundColor: kBlackColor,
-            onRefresh: controller.refreshTraders,
-            child: Obx(() {
-              return controller.filteredTraders.isEmpty
-                  ? const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    "No traders found",
-                    style: TextStyle(color: Colors.white70, fontSize: 16),
-                  ),
-                ),
-              )
-                  : ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                itemCount: controller.filteredTraders.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final trader = controller.filteredTraders[index];
-                  return P2pTraderCard(trader: trader);
-                },
-              );
-            }),
-          ),
+          child: _buildTradersList(controller),
         ),
+
+        // Post Button at Bottom
+        _buildPostAdButton(controller),
+        SizedBox(height: 12.h),
       ],
     );
   }
+
+}
+Widget _FilterLabel(String text) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: 4.h),
+    child: Text(
+      text,
+      style: const TextStyle(
+        color: Colors.white60,
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
 }
 
 class _CustomDropdown extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/styles.dart';
 
 class ActionButton extends StatelessWidget {
@@ -11,8 +10,8 @@ class ActionButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     this.backgroundColor = Colors.grey,
-    this.iconColor = Colors.black,
-    this.textColor = Colors.black,
+    this.iconColor = Colors.white,
+    this.textColor = Colors.white,
   });
 
   final String title;
@@ -28,30 +27,20 @@ class ActionButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.r),
+          borderRadius: BorderRadius.circular(10.r),
           color: backgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: backgroundColor.withOpacity(0.6),
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            ),
-          ],
         ),
-        padding: EdgeInsets.symmetric(vertical: 12.h),
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: iconColor,
-              size: 22.sp,
-            ),
-            SizedBox(width: 8.w),
+            Icon(icon, color: iconColor, size: 16.sp),
+            SizedBox(width: 6.w),
             Text(
               title,
-              style: AppStyles.textStyle16bold.copyWith(
+              style: AppStyles.textStyle12regular.copyWith(
                 color: textColor,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

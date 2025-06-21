@@ -1,24 +1,22 @@
-import 'User.dart';
+class Data {
+  Data({
+      this.id, 
+      this.userId, 
+      this.counterpartyId, 
+      this.tradeType, 
+      this.currency, 
+      this.amount, 
+      this.fiatAmount, 
+      this.takenAmount, 
+      this.startedAt, 
+      this.fiatCurrency, 
+      this.paymentMethod, 
+      this.transferStatus, 
+      this.createdAt, 
+      this.updatedAt, 
+      this.paymentDetails,});
 
-class AdsData {
-  AdsData({
-    this.id,
-    this.userId,
-    this.counterpartyId,
-    this.tradeType,
-    this.currency,
-    this.amount,
-    this.fiatAmount,
-    this.fiatCurrency,
-    this.paymentMethod,
-    this.transferStatus,
-    this.createdAt,
-    this.updatedAt,
-    this.paymentDetails,   // أضف هنا
-    this.user,
-  });
-
-  AdsData.fromJson(dynamic json) {
+  Data.fromJson(dynamic json) {
     id = json['id'];
     userId = json['user_id'];
     counterpartyId = json['counterparty_id'];
@@ -26,15 +24,15 @@ class AdsData {
     currency = json['currency'];
     amount = json['amount'];
     fiatAmount = json['fiat_amount'];
+    takenAmount = json['taken_amount'];
+    startedAt = json['started_at'];
     fiatCurrency = json['fiat_currency'];
     paymentMethod = json['payment_method'];
     transferStatus = json['transfer_status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    paymentDetails = json['payment_details'];  // أضف هنا
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    paymentDetails = json['payment_details'];
   }
-
   int? id;
   int? userId;
   dynamic counterpartyId;
@@ -42,13 +40,14 @@ class AdsData {
   String? currency;
   String? amount;
   String? fiatAmount;
+  dynamic takenAmount;
+  dynamic startedAt;
   String? fiatCurrency;
   String? paymentMethod;
   String? transferStatus;
   String? createdAt;
   String? updatedAt;
-  String? paymentDetails;   // أضف هنا
-  User? user;
+  String? paymentDetails;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -59,15 +58,15 @@ class AdsData {
     map['currency'] = currency;
     map['amount'] = amount;
     map['fiat_amount'] = fiatAmount;
+    map['taken_amount'] = takenAmount;
+    map['started_at'] = startedAt;
     map['fiat_currency'] = fiatCurrency;
     map['payment_method'] = paymentMethod;
     map['transfer_status'] = transferStatus;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
-    map['payment_details'] = paymentDetails;  // أضف هنا
-    if (user != null) {
-      map['user'] = user?.toJson();
-    }
+    map['payment_details'] = paymentDetails;
     return map;
   }
+
 }

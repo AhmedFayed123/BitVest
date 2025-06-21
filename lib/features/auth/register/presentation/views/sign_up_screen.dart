@@ -98,18 +98,6 @@ class SignUpScreen extends StatelessWidget {
                     },
                     isLoading: controller.isLoading.value,
                   )),
-                  OrLineWidget(),
-                  CustomSocialButton(
-                    title: 'continue_with_google'.tr,
-                    icon: Assets.imagesGoogle,
-                    buttonColor: kBackgroundColor,
-                    textColor: kPrimaryTextColor,
-                    borderColor: kPrimaryTextColor,
-                    onPressed: () {
-                      print("Google Login Clicked");
-                    },
-                  ),
-
                   SizedBox(height: 40.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

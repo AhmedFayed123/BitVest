@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../../../core/constant/clases.dart';
-import '../../../../../core/constant/colors.dart';
-import '../../../../../core/constant/styles.dart';
+
 
 class CryptoCard extends StatelessWidget {
   const CryptoCard({
@@ -30,77 +27,104 @@ class CryptoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4.0.w),
-        child: Container(
-          width: 150.w,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: kCardBackgroundColor,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipOval(
-                    child: Image.network(
-                      imageUrl,
-                      width: 30.w,
-                      height: 30.h,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.error, color: Colors.red),
-                    ),
+      child: Container(
+        width: 140.w,
+        margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.h),
+        padding: EdgeInsets.all(10.w),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(18.r),
+          border: Border.all(color: Colors.white.withOpacity(0.08)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Logo + name
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    imageUrl,
+                    width: 28.w,
+                    height: 28.h,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Icon(Icons.error, color: Colors.red, size: 20.sp),
                   ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: Text(
-                      name,
-                      style: AppStyles.textStyle16regular,
-                      overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 4.h),
+
+            // Symbol
+            Text(
+              symbol,
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.grey.shade400,
+              ),
+            ),
+
+            // Chart
+            SizedBox(
+              height: 50.h,
+              child: SfCartesianChart(
+                plotAreaBorderWidth: 0,
+                margin: EdgeInsets.zero,
+                primaryXAxis: CategoryAxis(isVisible: false),
+                primaryYAxis: NumericAxis(isVisible: false),
+                series: <LineSeries<CustomChartData, String>>[
+                  LineSeries<CustomChartData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (CustomChartData data, _) => data.x,
+                    yValueMapper: (CustomChartData data, _) =>
+                    isNegative ? -data.y : data.y,
+                    color: isNegative ? Colors.redAccent : Colors.greenAccent,
+                    width: 2.2.w,
                   ),
                 ],
               ),
-              Text(
-                symbol,
-                style: AppStyles.textStyle14semiBold,
+            ),
+
+            // Price
+            Text(
+              price,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
-              SizedBox(
-                width: 100.w,
-                height: 65.h,
-                child: SfCartesianChart(
-                  plotAreaBorderWidth: 0,
-                  primaryXAxis: CategoryAxis(isVisible: false),
-                  primaryYAxis: NumericAxis(isVisible: false),
-                  series: <LineSeries<CustomChartData, String>>[
-                    LineSeries<CustomChartData, String>(
-                      dataSource: chartData,
-                      xValueMapper: (CustomChartData data, _) => data.x,
-                      yValueMapper: (CustomChartData data, _) =>
-                      isNegative ? -data.y : data.y,
-                      color: isNegative ? Colors.red : Colors.green,
-                      width: 2.w,
-                    ),
-                  ],
-                ),
+            ),
+
+            // Change info
+            Text(
+              "$change | $percent",
+              style: TextStyle(
+                fontSize: 11.sp,
+                color: isNegative ? Colors.redAccent : Colors.greenAccent,
               ),
-              Text(
-                price,
-                style: AppStyles.textStyle16regular,
-              ),
-              Text(
-                "$change | $percent",
-                style: TextStyle(
-                  color: isNegative ? Colors.red : Colors.green,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,49 +5,47 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../controller/p2p_controller.dart'; // لأختيار الصور
+import '../../controller/p2p_controller.dart';
 
 class PaymentScreen extends StatelessWidget {
   final ImagePicker _picker = ImagePicker();
   final int adId;
+  final String? paymentDetails;
 
-  PaymentScreen({super.key, required this.adId});
+  PaymentScreen({super.key, required this.adId, this.paymentDetails});
 
   Future<void> _uploadImage() async {
     try {
       final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
-        Get.snackbar('Success', 'Payment proof uploaded',
-            snackPosition: SnackPosition.BOTTOM);
         Get.find<P2pController>().paymentProofUrl.value = image.path;
+        Get.snackbar('Uploaded', 'Payment proof uploaded successfully',
+            backgroundColor: Colors.green, colorText: Colors.white);
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to upload image',
-          snackPosition: SnackPosition.BOTTOM);
+          backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
 
   void _submitPayment() {
     final controller = Get.find<P2pController>();
     if (controller.paymentProofUrl.isEmpty) {
-      Get.snackbar('Error', 'Please upload payment proof first',
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Notice', 'Please upload the payment proof first',
+          backgroundColor: Colors.orange, colorText: Colors.white);
       return;
     }
 
     controller.completeAd(adId: adId);
     Get.to(() => TradeConfirmationScreen());
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text("Payment"),
+        title: const Text("Payment Details"),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
@@ -60,6 +58,7 @@ class PaymentScreen extends StatelessWidget {
             _buildPaymentProofUpload(),
             const Spacer(),
             _buildConfirmButton(),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -69,22 +68,26 @@ class PaymentScreen extends StatelessWidget {
   Widget _buildPaymentInstructions() {
     return Card(
       color: Colors.grey[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              "Transfer the exact amount to:",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          children: [
+            const Text(
+              "Please transfer the amount to the following account:",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
             ),
-            SizedBox(height: 10),
-            Text("Bank: CIB", style: TextStyle(fontSize: 16, color: Colors.white)),
-            Text("Account: 123456789", style: TextStyle(fontSize: 16, color: Colors.white)),
-            Text("Name: Ahmed Mohamed", style: TextStyle(fontSize: 16, color: Colors.white)),
-            Divider(color: Colors.white),
-            Text("Note: You have 15 minutes to complete payment",
-                style: TextStyle(color: Colors.red)),
+            const SizedBox(height: 10),
+            Text(
+              paymentDetails!,
+              style: const TextStyle(fontSize: 15, color: Colors.white),
+            ),
+            const Divider(color: Colors.white),
+            const Text(
+              "Note: You have 15 minutes to complete the payment.",
+              style: TextStyle(color: Colors.redAccent, fontSize: 13),
+            ),
           ],
         ),
       ),
@@ -93,29 +96,35 @@ class PaymentScreen extends StatelessWidget {
 
   Widget _buildPaymentProofUpload() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Upload Payment Proof", style: TextStyle(fontSize: 16, color: Colors.white)),
+        const Text(
+          "Upload Proof (Image)",
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
         const SizedBox(height: 10),
         Obx(() {
           final proofUrl = Get.find<P2pController>().paymentProofUrl.value;
-          return Container(
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(10),
-              image: proofUrl.isNotEmpty
-                  ? DecorationImage(
-                  image: FileImage(File(proofUrl)),
-                  fit: BoxFit.cover)
+          return GestureDetector(
+            onTap: _uploadImage,
+            child: Container(
+              height: 150,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+                image: proofUrl.isNotEmpty
+                    ? DecorationImage(
+                    image: FileImage(File(proofUrl)), fit: BoxFit.cover)
+                    : null,
+              ),
+              child: proofUrl.isEmpty
+                  ? const Center(
+                child: Icon(Icons.upload_file, color: Colors.white, size: 40),
+              )
                   : null,
             ),
-            child: proofUrl.isEmpty
-                ? IconButton(
-              icon: const Icon(Icons.upload, size: 40, color: Colors.white),
-              onPressed: _uploadImage,
-            )
-                : null,
           );
         }),
       ],
@@ -125,13 +134,15 @@ class PaymentScreen extends StatelessWidget {
   Widget _buildConfirmButton() {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.green[700],
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: _submitPayment,
-        child: const Text("I've Paid",style: TextStyle(color: Colors.white),),
+        icon: const Icon(Icons.check, color: Colors.white),
+        label: const Text("Sent", style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }

@@ -7,6 +7,7 @@ class Data {
     this.fiatAmount,
     this.fiatCurrency,
     this.paymentMethod,
+    this.paymentDetails,
     this.transferStatus,
     this.updatedAt,
     this.createdAt,
@@ -21,6 +22,7 @@ class Data {
     fiatAmount = _parseInt(json['fiat_amount']);
     fiatCurrency = json['fiat_currency'];
     paymentMethod = json['payment_method'];
+    paymentDetails = json['payment_details'];
     transferStatus = json['transfer_status'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
@@ -30,10 +32,11 @@ class Data {
   int? userId;
   String? tradeType;
   String? currency;
-  int? amount; // Changed to int
-  int? fiatAmount; // Changed to int
+  int? amount;
+  int? fiatAmount;
   String? fiatCurrency;
   String? paymentMethod;
+  String? paymentDetails;
   String? transferStatus;
   String? updatedAt;
   String? createdAt;
@@ -48,6 +51,7 @@ class Data {
     map['fiat_amount'] = fiatAmount;
     map['fiat_currency'] = fiatCurrency;
     map['payment_method'] = paymentMethod;
+    map['payment_details'] = paymentDetails;
     map['transfer_status'] = transferStatus;
     map['updated_at'] = updatedAt;
     map['created_at'] = createdAt;
@@ -55,7 +59,7 @@ class Data {
     return map;
   }
 
-  // Helper method to safely parse integers from dynamic values
+  // Helper method to safely parse integers
   int? _parseInt(dynamic value) {
     if (value is String) {
       return int.tryParse(value);

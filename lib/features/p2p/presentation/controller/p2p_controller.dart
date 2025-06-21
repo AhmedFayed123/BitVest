@@ -1,9 +1,11 @@
 
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/errors/server_failures.dart';
 import '../../data/models/accept_ad_model/Accept_ad_model.dart';
+import '../../data/models/edit/edit_request/Edit_request.dart';
 import '../../data/models/get_ads_model/Data.dart';
 import '../../data/models/p2p_ad_response/P2p_ad_response.dart';
 import '../../data/models/p2p_request/P2p_request.dart';
@@ -20,9 +22,11 @@ class P2pController extends GetxController {
   final RxList<AdsData> filteredTraders = <AdsData>[].obs;
   final RxList<AdsData> userBuyAds = <AdsData>[].obs;
   final RxList<AdsData> userSellAds = <AdsData>[].obs;
+  final RxString paymentDetails = ''.obs;
   final List<String> availablePayments = ['All', 'Bank Transfer', 'Vodafone Cash', 'Orange Cash'];
   final List<String> postAdPayments = ['Bank Transfer', 'Vodafone Cash', 'Orange Cash'];
   final List<String> currencies = ['USDT', 'BTC', 'ETH'];
+  final RxBool isEditingAd = false.obs;
 
   var tradeAmount = ''.obs;
   var paymentProofUrl = ''.obs;
@@ -52,7 +56,63 @@ class P2pController extends GetxController {
       },
     );
   }
+  Future<bool> editBuyAd(EditRequest editRequest) async {
+    isEditingAd.value = true;
+    final result = await _repo.editBuyAd(editRequest);
+    isEditingAd.value = false;
 
+    return result.fold(
+          (failure) {
+        Get.snackbar("Error", failure.message);
+        return false;
+      },
+          (response) {
+        Get.snackbar("Success", "Buy ad updated successfully!");
+        fetchUserAds();
+        return true;
+      },
+    );
+  }
+
+  Future<bool> editSellAd(EditRequest editRequest) async {
+    isEditingAd.value = true;
+    final result = await _repo.editSellAd(editRequest);
+    isEditingAd.value = false;
+
+    return result.fold(
+          (failure) {
+        Get.snackbar("Error", failure.message);
+        return false;
+      },
+          (response) {
+        Get.snackbar("Success", "Sell ad updated successfully!");
+        fetchUserAds();
+        return true;
+      },
+    );
+  }
+
+  Future<void> deleteBuyAd(int adId) async {
+    final result = await _repo.deleteBuyAd(adId);
+    result.fold(
+          (failure) => Get.snackbar("Error", failure.message),
+          (message) {
+        Get.snackbar("Deleted", message);
+        fetchUserAds();
+      },
+    );
+  }
+
+  Future<void> deleteSellAd(int adId) async {
+    final result = await _repo.deleteSellAd(adId);
+    result.fold(
+          (failure) => Get.snackbar("Error", failure.message),
+          (message) {
+        Get.snackbar("Deleted", message);
+        fetchUserAds();
+      },
+    );
+  }
 
   void startTrade() {
     Get.to(() => TradeConfirmationScreen());
@@ -99,7 +159,9 @@ class P2pController extends GetxController {
       fiatAmount: int.tryParse(price.value),
       fiatCurrency: 'EGP',
       paymentMethod: selectedPayment.value,
+      paymentDetails: paymentDetails.value,
     );
+
 
     final result = isBuying.value
         ? await _repo.createBuyAd(request)
@@ -145,19 +207,34 @@ class P2pController extends GetxController {
     );
   }
 
-  Future<void> acceptAd({required double amount, required int adId}) async {
+  Future<bool> acceptAd({required double amount, required int adId}) async {
     final result = await _repo.postAcceptAd(amount, adId);
 
+    bool accepted = false;
 
     result.fold(
           (Failure failure) {
-        Get.snackbar("Error", failure.message);
+        // لو جت رسالة الخطأ المحددة دي، نعرض رسالة مخصصة وما ننقلش
+        if (failure.message.contains("already in progress")) {
+          Get.snackbar("Notice", "This ad is already in progress.",
+              backgroundColor: Colors.orange, colorText: Colors.white);
+        } else {
+          Get.snackbar("Error", failure.message,
+              backgroundColor: Colors.red, colorText: Colors.white);
+        }
       },
           (AcceptAdModel response) {
-        Get.snackbar("Success", "Ad accepted successfully!");
+        Get.snackbar("Success", "Ad accepted successfully!",
+            backgroundColor: Colors.green, colorText: Colors.white);
+        accepted = true;
       },
     );
+
+    return accepted;
   }
+
+
+
   Future<void> completeAd({required int adId}) async {
     if (paymentProofUrl.value.isEmpty) {
       Get.snackbar("Error", "Please upload payment proof");

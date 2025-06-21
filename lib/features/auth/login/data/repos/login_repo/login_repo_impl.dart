@@ -1,4 +1,5 @@
 import 'package:bitvest/core/errors/server_failures.dart';
+import 'package:bitvest/features/auth/google_id.dart';
 
 import 'package:bitvest/features/auth/login/data/models/login_model/Login_model.dart';
 
@@ -51,6 +52,21 @@ class LoginRepoImpl extends LoginRepo {
         data: resetPasswordRequest,
       );
       return right(response.data["message"]);
+    } on DioException catch (e) {
+      return left(ServerFailure.fromDioError(e));
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LoginModel>> googleLogin(GoogleLoginRequest request) async{
+    try {
+      final Response response = await DioHelper.postDataWithoutToken(
+        url: AppEndpoints.googleLoginUrl,
+        data: request.toJson(),
+      );
+      return right(LoginModel.fromJson(response.data));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
     } catch (e) {

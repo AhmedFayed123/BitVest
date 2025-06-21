@@ -6,7 +6,7 @@ import '../../controller/p2p_controller.dart';
 
 class TradeDetailsScreen extends StatelessWidget {
 
-  const TradeDetailsScreen({super.key,required this.id, required this.price, required this.paymentMethod, required this.traderName, required this.limit, required this.currency});
+  const TradeDetailsScreen({super.key,required this.id, required this.price, required this.paymentMethod, required this.traderName, required this.limit, required this.currency, required this.paymentDetails});
 
   final int id;
   final String price;
@@ -14,6 +14,7 @@ class TradeDetailsScreen extends StatelessWidget {
   final String traderName;
   final String limit;
   final String currency;
+  final String paymentDetails;
 
 
 
@@ -167,10 +168,15 @@ class TradeDetailsScreen extends StatelessWidget {
       return;
     }
 
-    await controller.acceptAd(amount: amount, adId: id);
+    bool accepted = await controller.acceptAd(amount: amount, adId: id);
 
-    // بعد نجاح القبول، روح لصفحة الدفع أو أي حاجة تانية
-    Get.to(() =>  PaymentScreen(adId: id,));
+    if (accepted) {
+      Get.to(() => PaymentScreen(
+        adId: id,
+        paymentDetails: controller.paymentDetails.value,
+      ));
+    }
   }
+
 
 }

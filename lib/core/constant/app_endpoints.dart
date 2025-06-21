@@ -27,4 +27,9 @@ class AppEndpoints {
   static const String p2pUserAds = "p2p/user_ads";
   static const String p2pStart = "p2p/start/";
   static const String p2pComplete = "p2p/complete/";
+  static const String editBuyAd = "p2p/edit-buy-ad/";
+  static const String editSellAd = "p2p/edit-sell-ad/";
+  static const String deleteBuyAd = "p2p/delete-buy-ad/";
+  static const String deleteSellAd = "p2p/delete-sell-ad/";
+  static const String googleLoginUrl = "google/token-login";
 }

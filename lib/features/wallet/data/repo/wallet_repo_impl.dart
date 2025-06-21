@@ -16,9 +16,10 @@ class WalletRepoImpl extends WalletRepo {
   Future<Either<Failure, BalanceModel>> getBalance() async {
     try {
       final response = await DioHelper.getData(
-        url: 'users/${await sl<StorageService>().getId()}/balance',
+        url: 'users/${await sl<StorageService>().getId()}/live-wallet',
         token: await sl<StorageService>().getToken(),
       );
+      print('888888888');
       print(response.data);
       return right(BalanceModel.fromJson(response.data));
     } on DioException catch (e) {

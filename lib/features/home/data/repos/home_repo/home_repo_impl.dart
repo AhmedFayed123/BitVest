@@ -40,6 +40,9 @@ class HomeRepoImpl extends HomeRepo {
         url: AppEndpoints.popular,
         token: await sl<StorageService>().getToken(),
       );
+      print('ooooooooooo');
+      print(response.data);
+
       return right(PopularCoinsModel.fromJson(response.data));
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));

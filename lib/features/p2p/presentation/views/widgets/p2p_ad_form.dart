@@ -1,5 +1,6 @@
 import 'package:bitvest/core/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../controller/p2p_controller.dart';
 
@@ -15,61 +16,71 @@ class P2pAdForm extends StatelessWidget {
       final currency = controller.selectedCurrency.value;
 
       return Container(
-        margin: const EdgeInsets.only(top: 20),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: Colors.grey[900],
+          color: Colors.grey[850],
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey[700]!),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            )
+          ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isBuying ? 'Post New Buy Advertisement' : 'Post New Sell Advertisement',
+              isBuying ? 'Buy Advertisement' : 'Sell Advertisement',
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
-
-            // Amount Field
+            SizedBox(height: 12.h),
             _buildTextField(
               label: 'Amount ($currency)',
               onChanged: controller.amount,
-              hint: isBuying ? 'Enter the amount you want to buy' : 'Enter the amount you want to sell',
+              hint: 'Ex: 100',
             ),
-            const SizedBox(height: 12),
-
-            // Price Field
+            SizedBox(height: 10.h),
             _buildTextField(
               label: 'Price (EGP)',
               onChanged: controller.price,
-              hint: isBuying ? 'Enter your buy price' : 'Enter your sell price',
+              hint: 'Ex: 15000',
             ),
-            const SizedBox(height: 12),
-
-            // Payment Method
+             SizedBox(height: 10.h),
             _buildPaymentDropdown(controller),
-            const SizedBox(height: 16),
-
-            // Submit Button
-            ElevatedButton(
-              onPressed: controller.postAd,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isBuying ? kPositiveTrendColor : kNegativeTrendColor,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            SizedBox(height: 10.h),
+            _buildTextField(
+              label: 'Payment Details',
+              onChanged: controller.paymentDetails,
+              hint: 'Ex: Bank Name, Account Number, etc.',
+            ),
+            SizedBox(height: 12.h),
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: ElevatedButton(
+                onPressed: controller.postAd,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      isBuying ? kPositiveTrendColor : kNegativeTrendColor,
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  isBuying ? 'Post Buy Ad' : 'Post Sell Ad',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
                 ),
               ),
-              child: Text(
-                isBuying ? 'Post Buy Advertisement' : 'Post Sell Advertisement',
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
+            )
           ],
         ),
       );
@@ -82,22 +93,25 @@ class P2pAdForm extends StatelessWidget {
     String? hint,
   }) {
     return TextField(
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white, fontSize: 13),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        hintStyle: const TextStyle(color: Colors.white54),
-        labelStyle: const TextStyle(color: Colors.white70),
+        hintStyle: const TextStyle(color: Colors.white54, fontSize: 12),
+        labelStyle: const TextStyle(color: Colors.white70, fontSize: 13),
+        isDense: true,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: kPositiveTrendColor),
         ),
       ),
@@ -116,20 +130,26 @@ class P2pAdForm extends StatelessWidget {
         dropdownColor: Colors.grey[900],
         decoration: InputDecoration(
           labelText: 'Payment Method',
-          labelStyle: const TextStyle(color: Colors.white70),
+          labelStyle: const TextStyle(color: Colors.white70, fontSize: 13),
+          isDense: true,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.grey),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.grey),
           ),
         ),
-        items: items.map((e) => DropdownMenuItem(
-          value: e,
-          child: Text(e, style: const TextStyle(color: Colors.white)),
-        )).toList(),
+        style: const TextStyle(color: Colors.white, fontSize: 13),
+        items: items
+            .map((e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(e, style: const TextStyle(color: Colors.white)),
+                ))
+            .toList(),
         onChanged: controller.changePaymentMethod,
       );
     });

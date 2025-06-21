@@ -5,6 +5,7 @@ class P2pRequest {
     this.fiatAmount,
     this.fiatCurrency,
     this.paymentMethod,
+    this.paymentDetails,
   });
 
   P2pRequest.fromJson(dynamic json) {
@@ -13,6 +14,7 @@ class P2pRequest {
     fiatAmount = _parseInt(json['fiat_amount']);
     fiatCurrency = json['fiat_currency'];
     paymentMethod = json['payment_method'];
+    paymentDetails = json['payment_details'];
   }
 
   String? currency;
@@ -20,6 +22,7 @@ class P2pRequest {
   int? fiatAmount;
   String? fiatCurrency;
   String? paymentMethod;
+  String? paymentDetails;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -28,6 +31,7 @@ class P2pRequest {
     map['fiat_amount'] = fiatAmount;
     map['fiat_currency'] = fiatCurrency;
     map['payment_method'] = paymentMethod;
+    map['payment_details'] = paymentDetails;
     return map;
   }
 

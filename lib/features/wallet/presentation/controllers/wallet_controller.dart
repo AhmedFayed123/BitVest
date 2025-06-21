@@ -4,7 +4,6 @@ import 'package:bitvest/core/errors/server_failures.dart';
 import 'package:bitvest/features/wallet/data/models/balance_model/Balance_model.dart';
 import 'package:bitvest/features/wallet/data/models/wallets_model/Wallets_model.dart';
 import 'package:bitvest/features/wallet/data/repo/wallet_repo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/services/service_locator.dart';
 import '../../data/models/transaction_history/Transaction_history.dart';
@@ -12,7 +11,7 @@ import '../../data/models/transaction_history/Transaction_history.dart';
 class WalletController extends GetxController {
   final WalletRepo walletRepo = sl<WalletRepo>();
 
-  var balance = BalanceModel().obs;
+  var balance = Rxn<BalanceModel>();
   var isLoading = false.obs;
   var errorMessage = RxnString();
 
@@ -20,9 +19,6 @@ class WalletController extends GetxController {
   var isWalletsLoading = false.obs;
   var walletsErrorMessage = RxnString();
 
-  var previousBalance = "0.0".obs;
-  var profitLossAmount = 0.0.obs;
-  var profitLossPercentage = 0.0.obs;
 
   var transactionHistory = Rxn<TransactionHistory>();
   var isTransactionLoading = false.obs;
@@ -33,7 +29,6 @@ class WalletController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadPreviousBalance();
     getBalance();
     getWallets();
     getTransactionHistory();
@@ -67,7 +62,6 @@ class WalletController extends GetxController {
 
   Future<void> _initializeWalletData() async {
     isLoading.value = true;
-    await loadPreviousBalance();
     await getBalance();
     await getWallets();
     isLoading.value = false;
@@ -86,40 +80,25 @@ class WalletController extends GetxController {
       Either<Failure, BalanceModel> result = await walletRepo.getBalance();
 
       result.fold(
-        (failure) {
+            (failure) {
           errorMessage.value = failure.message;
+          print("❌ Balance Error: ${failure.message}");
         },
-        (data) async {
-          double newBalance =
-              double.tryParse(data.data?.balance ?? "0.0") ?? 0.0;
-          double oldBalance = double.tryParse(previousBalance.value) ?? 0.0;
-
-          double changeAmount = newBalance - oldBalance;
-          double changePercentage = (oldBalance > 0)
-              ? (changeAmount / oldBalance) * 100
-              : (changeAmount == 0 ? 0 : 100);
-
-          profitLossAmount.value = changeAmount;
-          profitLossPercentage.value = changePercentage;
-
+            (data) {
           balance.value = data;
-
-          previousBalance.value = newBalance.toString();
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('previous_balance', previousBalance.value);
+          print('999999999');
+          print("✅ Balance Loaded: ${data.data}");
         },
       );
     } catch (e) {
       errorMessage.value = "حدث خطأ غير متوقع";
+      print("❌ Exception in getBalance: $e");
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> loadPreviousBalance() async {
-    final prefs = await SharedPreferences.getInstance();
-    previousBalance.value = prefs.getString('previous_balance') ?? "0.0";
-  }
+
 
   Future<void> getWallets() async {
     if (isWalletsLoading.value) return;
