@@ -1,0 +1,2 @@
+C:/Users/ascom/Documents/BitVest Graduation Project/BitVest/android/app/.cxx/RelWithDebInfo/4u3f2q33/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/ascom/Documents/BitVest Graduation Project/BitVest/android/app/.cxx/RelWithDebInfo/4u3f2q33/armeabi-v7a/CMakeFiles/rebuild_cache.dir
