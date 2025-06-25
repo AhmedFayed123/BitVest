@@ -128,7 +128,7 @@ class TradeController extends GetxController {
     }
   }
 
-  Future<void> buyCrypto(String currency, double amount) async {
+  Future<void> buyCrypto(String currency, num amount) async {
     isLoading.value = true;
     clearResponse();
 
@@ -158,7 +158,7 @@ class TradeController extends GetxController {
     }
   }
 
-  Future<void> sellCrypto(String currency, double amount) async {
+  Future<void> sellCrypto(String currency, num amount) async {
     isLoading.value = true;
     clearResponse();
 

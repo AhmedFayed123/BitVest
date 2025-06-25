@@ -1,8 +1,6 @@
-import 'package:bitvest/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../controller/trade_controller.dart';
 
 class BuyScreen extends StatefulWidget {
@@ -23,124 +21,162 @@ class BuyScreen extends StatefulWidget {
 
 class _BuyScreenState extends State<BuyScreen> {
   final TradeController tradeController = Get.put(TradeController());
+  final TextEditingController amountController = TextEditingController();
+  num amount = 0.0;
 
-  String selectedOrderType = 'Market Order';
-  double amount = 0.0;
+  @override
+  void dispose() {
+    amountController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close, size: 30),
-          onPressed: () => Get.back(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h),
+        child: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.black, Colors.grey.shade900],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 8),
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Get.back(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Buy ${widget.cryptoName}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(width: 56),
+            ],
+          ),
         ),
-        title: Text('Buy ${widget.cryptoName}',
-            style: const TextStyle(fontSize: 22)),
-        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${widget.cryptoName} / USDT',
-                    style: const TextStyle(fontSize: 16, color: Colors.white)),
-                Text(
-                  'Market Price\n\$${widget.marketPrice.toStringAsFixed(2)}',
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(fontSize: 16, color: Colors.grey),
-                ),
+                Text('${widget.cryptoId.toUpperCase()} / USDT',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text('Market Price',
+                        style: TextStyle(color: Colors.grey, fontSize: 14)),
+                    Text(
+                      "\$${widget.marketPrice.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                          color: Colors.greenAccent,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )
               ],
             ),
-            const SizedBox(height: 4),
-            Text('${widget.cryptoId} / USDT',
-                style: const TextStyle(fontSize: 14, color: Colors.grey)),
-            const SizedBox(height: 20),
-
-            // اختيار نوع الطلب
-            DropdownButton<String>(
-              value: selectedOrderType,
-              items: ['Market Order', 'Limit Order']
-                  .map((order) => DropdownMenuItem(
-                        value: order,
-                        child: Text(order,
-                            style: const TextStyle(color: Colors.green)),
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() => selectedOrderType = value!);
-              },
-              isExpanded: true,
-            ),
-            const SizedBox(height: 25),
-
-            // إدخال الكمية
-            Container(
-              height: 120.h,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.green, width: 2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: kWhiteColor,
-                ),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: '0.00 ${widget.cryptoName}',
-                  hintStyle: const TextStyle(fontSize: 22, color: Colors.grey),
-                ),
-                onChanged: (value) {
-                  setState(() => amount = double.tryParse(value) ?? 0.0);
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-
-            // عرض المبلغ الإجمالي بالدولار
-            Text(
-              'Total: \$${(amount * widget.marketPrice).toStringAsFixed(2)}',
-              style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
-            ),
             const SizedBox(height: 30),
-
-            // زر تأكيد الشراء
-            ElevatedButton(
-              onPressed: amount > 0
-                  ? () {
-                      tradeController.buyCrypto(widget.cryptoId, amount);
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                disabledBackgroundColor: Colors.green.withOpacity(0.2),
-                padding: EdgeInsets.symmetric(vertical: 16.h),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+            TextField(
+              controller: amountController,
+              keyboardType:
+              const TextInputType.numberWithOptions(decimal: true),
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: '0.00 ${widget.cryptoId.toUpperCase()}',
+                hintStyle:
+                TextStyle(color: Colors.grey.shade600, fontSize: 20),
+                filled: true,
+                fillColor: Colors.grey.shade900,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                  const BorderSide(color: Colors.green, width: 2),
+                ),
               ),
-              child: const Center(
-                child: Text(
-                  'Confirm',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: Colors.black),
+              onChanged: (value) {
+                setState(() => amount = double.tryParse(value) ?? 0.0);
+              },
+            ),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Total: \$${(amount * widget.marketPrice).toStringAsFixed(2)}',
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey),
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: amount > 0
+                    ? () async {
+                  await tradeController.buyCrypto(
+                      widget.cryptoId, amount);
+
+                  setState(() {
+                    amount = 0;
+                    amountController.clear();
+                  });
+                }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  disabledBackgroundColor: Colors.green.withOpacity(0.3),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text(
+                  "Buy Now (Market)",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ),
+            SizedBox(height: 50.h),
           ],
         ),
       ),

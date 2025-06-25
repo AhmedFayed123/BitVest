@@ -14,6 +14,7 @@ class AppEndpoints {
   static const String highestChangeUp = "crypto//filter/highest-change-up";
   static const String highestChangeDown = "crypto/filter/highest-change-down";
   static const String ads = "crypto/ads";
+  static const String notification = "notifications";
   static const String search = "crypto/search";
   static const String buyCrypto = "buy-crypto";
   static const String sellCrypto = "sell-crypto";
@@ -32,4 +33,13 @@ class AppEndpoints {
   static const String deleteBuyAd = "p2p/delete-buy-ad/";
   static const String deleteSellAd = "p2p/delete-sell-ad/";
   static const String googleLoginUrl = "google/token-login";
+  static const String futureWallet = "futures/wallet";
+  static const String futuresAvailableCoins = "futures/available-coins";
+  static const String futuresTransfer = "futures/transfer";
+  static const String futuresTransferSpot = "futures/transfer-spot";
+  static const String futuresPositions = "futures/positions";
+  static const String paymobCallback = "paymob/callback";
+  static const String futuresPositionsOpen = "futures/positions/open";
+  static const String futuresPositionsClose = "futures/positions/close";
+  static const String futuresPositionsUpdatePnl = "futures/positions/update-pnl";
 }

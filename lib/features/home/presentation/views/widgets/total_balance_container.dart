@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../core/constant/colors.dart';
 import '../../../../../core/constant/icons.dart';
 import '../../../../../core/constant/styles.dart';
+import '../../../../p2p/presentation/views/p2p_view.dart';
 import '../../../../wallet/presentation/controllers/wallet_controller.dart';
+import '../../../../wallet/presentation/views/deposit_view.dart';
 import 'action_button.dart';
 
 class TotalBalanceContainer extends StatelessWidget {
@@ -48,7 +49,9 @@ class TotalBalanceContainer extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Total Balance', style: AppStyles.textStyle12regular.copyWith(color: Colors.white70)),
+                        Text('Total Balance',
+                            style: AppStyles.textStyle12regular
+                                .copyWith(color: Colors.white70)),
                         SizedBox(height: 4.h),
                         Text(
                           '\$${totalBalance.toStringAsFixed(2)}',
@@ -66,7 +69,9 @@ class TotalBalanceContainer extends StatelessWidget {
                         Text(
                           '${isProfit ? '+' : '-'}\$${pnlAmount.abs().toStringAsFixed(2)}',
                           style: TextStyle(
-                            color: isProfit ? Colors.greenAccent : Colors.redAccent,
+                            color: isProfit
+                                ? Colors.greenAccent
+                                : Colors.redAccent,
                             fontWeight: FontWeight.w600,
                             fontSize: 14.sp,
                           ),
@@ -74,7 +79,9 @@ class TotalBalanceContainer extends StatelessWidget {
                         Text(
                           '${isProfit ? '+' : '-'}${pnlPercent.abs().toStringAsFixed(2)}%',
                           style: TextStyle(
-                            color: isProfit ? Colors.greenAccent : Colors.redAccent,
+                            color: isProfit
+                                ? Colors.greenAccent
+                                : Colors.redAccent,
                             fontSize: 12.sp,
                           ),
                         ),
@@ -88,7 +95,8 @@ class TotalBalanceContainer extends StatelessWidget {
                 // 💲 USDT Balance
                 Text(
                   'USDT Balance: \$${usdtBalance.toStringAsFixed(2)}',
-                  style: AppStyles.textStyle12regular.copyWith(color: Colors.white70),
+                  style: AppStyles.textStyle12regular
+                      .copyWith(color: Colors.white70),
                 ),
 
                 SizedBox(height: 12.h),
@@ -99,7 +107,42 @@ class TotalBalanceContainer extends StatelessWidget {
                     Expanded(
                       child: ActionButton(
                         title: 'Withdraw',
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.defaultDialog(
+                            title: "Choose Withdraw Method",
+                            titleStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            backgroundColor: const Color(0xFF121212),
+                            radius: 12,
+                            content: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    backgroundColor: const Color(0xFF4CAF50),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                  icon: const Icon(Icons.swap_horiz,
+                                      color: Colors.white),
+                                  label: const Text("P2P Method",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white)),
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.to(() => P2pView());
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
+                          );
+                        },
                         icon: AppIcons.arrow_circle_down,
                         backgroundColor: Colors.redAccent.shade700,
                         iconColor: Colors.white,
@@ -110,7 +153,65 @@ class TotalBalanceContainer extends StatelessWidget {
                     Expanded(
                       child: ActionButton(
                         title: 'Deposit',
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.defaultDialog(
+                            title: "Choose Deposit Method",
+                            titleStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            backgroundColor: const Color(0xFF121212),
+                            // خلفية داكنة جداً
+                            radius: 12,
+                            content: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    backgroundColor: const Color(0xFF1F8EFA),
+                                    // أزرق هادي
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                  icon: const Icon(
+                                      Icons.account_balance_wallet_outlined,
+                                      color: Colors.white),
+                                  label: const Text("Deposit Method",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white)),
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.to(() => DepositView());
+                                  },
+                                ),
+                                const SizedBox(height: 15),
+                                ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        const Size(double.infinity, 50),
+                                    backgroundColor: const Color(0xFF4CAF50),
+                                    // أخضر هادي
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                  icon: const Icon(Icons.swap_horiz,
+                                      color: Colors.white),
+                                  label: const Text("P2P Method",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white)),
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.to(() => P2pView());
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
+                          );
+                        },
                         icon: AppIcons.arrow_circle_upward,
                         backgroundColor: Colors.greenAccent.shade700,
                         iconColor: Colors.black,

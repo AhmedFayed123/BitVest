@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../data/models/edit/edit_request/Edit_request.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../controller/p2p_controller.dart';
+import '../../../data/models/edit/edit_request/Edit_request.dart';
 
 class MyAdsScreen extends StatelessWidget {
   MyAdsScreen({super.key});
@@ -44,9 +44,7 @@ class MyAdsScreen extends StatelessWidget {
               ),
               if (controller.userBuyAds.length > 4)
                 TextButton(
-                  onPressed: () {
-                    showAllBuy.value = !showAllBuy.value;
-                  },
+                  onPressed: () => showAllBuy.value = !showAllBuy.value,
                   child: Text(
                     showAllBuy.value ? 'Show Less' : 'Show More',
                     style: const TextStyle(color: Colors.blueAccent),
@@ -62,9 +60,7 @@ class MyAdsScreen extends StatelessWidget {
               ),
               if (controller.userSellAds.length > 4)
                 TextButton(
-                  onPressed: () {
-                    showAllSell.value = !showAllSell.value;
-                  },
+                  onPressed: () => showAllSell.value = !showAllSell.value,
                   child: Text(
                     showAllSell.value ? 'Show Less' : 'Show More',
                     style: const TextStyle(color: Colors.blueAccent),
@@ -111,27 +107,25 @@ class AdsList extends StatelessWidget {
         final ad = ads[index];
         return Dismissible(
           key: ValueKey(ad.id),
-
-          // الاتجاهات المسموحة للسحب
           direction: DismissDirection.horizontal,
-
-          // مؤشر السحب يمين (للحذف)
           background: Container(
-            color: Colors.redAccent,
+            decoration: BoxDecoration(
+              color: Colors.red.shade700,
+              borderRadius: BorderRadius.circular(16),
+            ),
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 20),
-            child: const Icon(Icons.delete, color: Colors.white),
+            child: const Icon(Icons.delete, color: Colors.white, size: 28),
           ),
-
-          // مؤشر السحب شمال (للتعديل)
           secondaryBackground: Container(
-            color: Colors.blueAccent,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent.shade700,
+              borderRadius: BorderRadius.circular(16),
+            ),
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: 20),
-            child: const Icon(Icons.edit, color: Colors.white),
+            child: const Icon(Icons.edit, color: Colors.white, size: 28),
           ),
-
-          // دالة عند اكتمال السحب
           onDismissed: (direction) {
             final P2pController controller = Get.put(P2pController());
             if (direction == DismissDirection.startToEnd) {
@@ -140,56 +134,55 @@ class AdsList extends StatelessWidget {
               } else if (ad.tradeType.toLowerCase() == 'sell') {
                 controller.deleteSellAd(ad.id);
               }
-            }
-            else if (direction == DismissDirection.endToStart) {
-              // سحب شمال => تعديل
+            } else if (direction == DismissDirection.endToStart) {
               _showEditDialog(context, ad);
-              // بما إننا لم نحذف العنصر، لازم نعيده للعرض لأنه Dismissible يزيله تلقائيًا
-              // لذا تحتاج تعمل استرجاع أو تستخدم طريقة مختلفة (مثل عدم إزالة العنصر عند تعديل)
             }
           },
-
-          // لمنع إزالة العنصر عند السحب شمال (تعديل)
           confirmDismiss: (direction) async {
             if (direction == DismissDirection.endToStart) {
-              // لا نمسح العنصر عند السحب شمال (تعديل)
               _showEditDialog(context, ad);
-              return false; // لمنع الحذف التلقائي
+              return false;
             }
-            return true; // السماح بالحذف عند السحب يمين
+            return true;
           },
-
           child: Card(
-            color: Colors.grey[850],
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            elevation: 4,
-            shadowColor: Colors.blueAccent.withOpacity(0.3),
+            color: const Color(0xFF1E1E1E),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            elevation: 6,
+            shadowColor: Colors.black.withOpacity(0.2),
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               title: Text(
-                '${ad.currency} - ${ad.amount}',
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
+                '${ad.currency.toUpperCase()} - ${ad.amount}',
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                 overflow: TextOverflow.ellipsis,
               ),
-              subtitle: Text(
-                'Price: ${ad.fiatAmount} ${ad.fiatCurrency}\nPayment: ${ad.paymentMethod}',
-                style: const TextStyle(color: Colors.white70, fontSize: 14),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Price: ${ad.fiatAmount} ${ad.fiatCurrency}',
+                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Payment: ${ad.paymentMethod}',
+                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
+                  ],
+                ),
               ),
               trailing: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: _getStatusColor(ad.transferStatus),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   (ad.transferStatus ?? '').toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                 ),
               ),
             ),
@@ -225,102 +218,125 @@ void _showEditDialog(BuildContext context, ad) {
 
   final P2pController controller = Get.find();
 
-  showDialog(
+  showModalBottomSheet(
     context: context,
-    builder: (_) => AlertDialog(
-      title: const Text(
-        'Edit Ad',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    isScrollControlled: true,
+    backgroundColor: Colors.grey[900],
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        left: 20,
+        right: 20,
+        top: 20,
       ),
-      content: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildTextField(controller: currencyController, label: 'Currency'),
-            SizedBox(height: 10),
-            _buildTextField(controller: amountController, label: 'Amount', keyboardType: TextInputType.number),
-            SizedBox(height: 10),
-            _buildTextField(controller: fiatAmountController, label: 'Fiat Amount', keyboardType: TextInputType.number),
-            SizedBox(height: 10),
-            _buildTextField(controller: fiatCurrencyController, label: 'Fiat Currency'),
-            SizedBox(height: 10),
-            _buildTextField(controller: paymentMethodController, label: 'Payment Method'),
-            SizedBox(height: 10),
-            _buildTextField(controller: paymentDetailsController, label: 'Payment Details', maxLines: 2),
+            Text('Edit Ad',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(height: 20),
+
+            _buildDarkTextField(controller: currencyController, label: 'Currency'),
+            const SizedBox(height: 10),
+            _buildDarkTextField(
+              controller: amountController,
+              label: 'Amount',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 10),
+            _buildDarkTextField(
+              controller: fiatAmountController,
+              label: 'Fiat Amount',
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 10),
+            _buildDarkTextField(controller: fiatCurrencyController, label: 'Fiat Currency'),
+            const SizedBox(height: 10),
+            _buildDarkTextField(controller: paymentMethodController, label: 'Payment Method'),
+            const SizedBox(height: 10),
+            _buildDarkTextField(
+              controller: paymentDetailsController,
+              label: 'Payment Details',
+              maxLines: 2,
+            ),
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () async {
+                try {
+                  final editRequest = EditRequest(
+                    id: ad.id,
+                    currency: currencyController.text.trim().isEmpty
+                        ? ad.currency
+                        : currencyController.text.trim(),
+                    amount: amountController.text.trim().isEmpty
+                        ? ad.amount
+                        : double.parse(amountController.text.trim()),
+                    fiatAmount: fiatAmountController.text.trim().isEmpty
+                        ? ad.fiatAmount
+                        : double.parse(fiatAmountController.text.trim()),
+                    fiatCurrency: fiatCurrencyController.text.trim().isEmpty
+                        ? ad.fiatCurrency
+                        : fiatCurrencyController.text.trim(),
+                    paymentMethod: paymentMethodController.text.trim().isEmpty
+                        ? ad.paymentMethod
+                        : paymentMethodController.text.trim(),
+                    paymentDetails: paymentDetailsController.text.trim().isEmpty
+                        ? ad.paymentDetails
+                        : paymentDetailsController.text.trim(),
+                  );
+
+                  Navigator.pop(context);
+
+                  bool success = false;
+                  if (ad.tradeType.toLowerCase() == 'buy') {
+                    success = await controller.editBuyAd(editRequest);
+                  } else {
+                    success = await controller.editSellAd(editRequest);
+                  }
+
+                  Get.snackbar(
+                    success ? 'Success' : 'Error',
+                    success ? 'Ad updated successfully.' : 'Failed to update ad.',
+                    backgroundColor: success ? Colors.green : Colors.redAccent,
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                } catch (e) {
+                  Navigator.pop(context);
+                  Get.snackbar(
+                    'Error',
+                    'An error occurred: $e',
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
+              },
+              child: const Text('Update', style: TextStyle(color: Colors.white, fontSize: 16)),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          child: const Text('Cancel'),
-          onPressed: () => Navigator.pop(context),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: const Text('Update', style: TextStyle(fontSize: 16)),
-          onPressed: () async {
-            try {
-              final editRequest = EditRequest(
-                id: ad.id,
-                currency: currencyController.text.trim().isEmpty ? ad.currency : currencyController.text.trim(),
-                amount: amountController.text.trim().isEmpty
-                    ? ad.amount
-                    : double.parse(amountController.text.trim()),
-                fiatAmount: fiatAmountController.text.trim().isEmpty
-                    ? ad.fiatAmount
-                    : double.parse(fiatAmountController.text.trim()),
-                fiatCurrency: fiatCurrencyController.text.trim().isEmpty ? ad.fiatCurrency : fiatCurrencyController.text.trim(),
-                paymentMethod: paymentMethodController.text.trim().isEmpty ? ad.paymentMethod : paymentMethodController.text.trim(),
-                paymentDetails: paymentDetailsController.text.trim().isEmpty ? ad.paymentDetails : paymentDetailsController.text.trim(),
-              );
-
-              Navigator.pop(context);
-
-              bool success = false;
-              if (ad.tradeType.toLowerCase() == 'buy') {
-                success = await controller.editBuyAd(editRequest);
-              } else if (ad.tradeType.toLowerCase() == 'sell') {
-                success = await controller.editSellAd(editRequest);
-              }
-
-              if (success) {
-                Get.snackbar(
-                  'Success',
-                  'Ad updated successfully.',
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                  snackPosition: SnackPosition.BOTTOM,
-                );
-              } else {
-                Get.snackbar(
-                  'Error',
-                  'Failed to update ad.',
-                  backgroundColor: Colors.redAccent,
-                  colorText: Colors.white,
-                  snackPosition: SnackPosition.BOTTOM,
-                );
-              }
-            } catch (e) {
-              Navigator.pop(context);
-              Get.snackbar(
-                'Error',
-                'An error occurred: $e',
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-                snackPosition: SnackPosition.BOTTOM,
-              );
-            }
-          },
-        ),
-      ],
     ),
   );
 }
 
-Widget _buildTextField({
+Widget _buildDarkTextField({
   required TextEditingController controller,
   required String label,
   TextInputType keyboardType = TextInputType.text,
@@ -330,11 +346,21 @@ Widget _buildTextField({
     controller: controller,
     keyboardType: keyboardType,
     maxLines: maxLines,
+    style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
       labelText: label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      labelStyle: TextStyle(color: Colors.grey[400]),
+      filled: true,
+      fillColor: Colors.grey[850],
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.white),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.blueAccent),
+      ),
     ),
-    style: const TextStyle(fontSize: 16),
   );
 }
+

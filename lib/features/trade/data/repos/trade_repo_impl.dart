@@ -29,12 +29,19 @@ class TradeRepoImpl extends TradeRepo {
 
   @override
   Future<Either<Failure, BuySellModel>> buyCrypto(
-      String currency, double amount) async {
+      String currency, num amount) async {
+    final double parsedAmount = amount.toDouble();
+
     try {
       final response = await DioHelper.postData(
         url: AppEndpoints.buyCrypto,
         token: await sl<StorageService>().getToken(),
-        data: {"currency": currency, "amount": amount},
+        data: {
+          "currency": currency,
+          "amount": parsedAmount % 1 == 0
+              ? double.parse("${parsedAmount.toStringAsFixed(1)}")
+              : double.parse(parsedAmount.toStringAsFixed(8)),
+        },
       );
       print('vvvvvvvvvvv');
       print(response.data);
@@ -48,53 +55,62 @@ class TradeRepoImpl extends TradeRepo {
 
   @override
   Future<Either<Failure, BuySellModel>> sellCrypto(
-      String currency, double amount) async{
+      String currency, num amount) async {
+    final double parsedAmount = amount.toDouble();
     try {
       final response = await DioHelper.postData(
-          url: AppEndpoints.sellCrypto,
-          token: await sl<StorageService>().getToken(),
-    data: {"currency": currency, "amount": amount},
-    );
+        url: AppEndpoints.sellCrypto,
+        token: await sl<StorageService>().getToken(),
+        data: {
+          "currency": currency,
+          "amount": parsedAmount % 1 == 0
+              ? double.parse("${parsedAmount.toStringAsFixed(1)}")
+              : double.parse(parsedAmount.toStringAsFixed(8)),
+        },
+      );
       print('hhhhhhhhhhh');
       print(response.data);
-    return right(BuySellModel.fromJson(response.data));
+      return right(BuySellModel.fromJson(response.data));
     } on DioException catch (e) {
-    return left(ServerFailure.fromDioError(e));
+      return left(ServerFailure.fromDioError(e));
     } catch (e) {
-    return left(ServerFailure(e.toString()));
+      return left(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, PutFavouritesModel>> putFavourites(String currency) async{
+  Future<Either<Failure, PutFavouritesModel>> putFavourites(
+      String currency) async {
     try {
       final response = await DioHelper.postData(
-          url: AppEndpoints.putFavourites,
-          token: await sl<StorageService>().getToken(),
-        data: {"currency": currency,},
+        url: AppEndpoints.putFavourites,
+        token: await sl<StorageService>().getToken(),
+        data: {
+          "currency": currency,
+        },
+      );
 
-    );
-
-    return right(PutFavouritesModel.fromJson(response.data));
+      return right(PutFavouritesModel.fromJson(response.data));
     } on DioException catch (e) {
-    return left(ServerFailure.fromDioError(e));
+      return left(ServerFailure.fromDioError(e));
     } catch (e) {
-    return left(ServerFailure(e.toString()));
+      return left(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> deleteFavourite(String id) async{
+  Future<Either<Failure, Map<String, dynamic>>> deleteFavourite(
+      String id) async {
     try {
       final response = await DioHelper.deleteData(
-          url: 'users/${await sl<StorageService>().getId()}/favourites/$id',
-          token: await sl<StorageService>().getToken(),
-    );
-    return right(response.data);
+        url: 'users/${await sl<StorageService>().getId()}/favourites/$id',
+        token: await sl<StorageService>().getToken(),
+      );
+      return right(response.data);
     } on DioException catch (e) {
-    return left(ServerFailure.fromDioError(e));
+      return left(ServerFailure.fromDioError(e));
     } catch (e) {
-    return left(ServerFailure(e.toString()));
+      return left(ServerFailure(e.toString()));
     }
   }
 }

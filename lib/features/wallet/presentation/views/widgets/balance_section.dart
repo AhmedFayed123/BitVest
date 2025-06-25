@@ -23,30 +23,13 @@ class BalanceSection extends StatelessWidget {
           );
         }
 
-        if (walletController.errorMessage.value != null) {
-          return Center(
-            child: Text(
-              'Error: ${walletController.errorMessage.value}',
-              style: AppStyles.textStyle12regular.copyWith(color: Colors.red),
-            ),
-          );
-        }
-
+        // ❗️هنا بنجيب الداتا أو نستخدم أصفار لو حصل Error أو لو مفيش داتا
         final data = walletController.balance.value?.data;
 
-        if (data == null) {
-          return Center(
-            child: Text(
-              'No balance data available',
-              style: AppStyles.textStyle12regular,
-            ),
-          );
-        }
-
-        final totalBalance = (data.totalBalanceUsd ?? 0).toDouble();
-        final pnlAmount = (data.totalProfitLossUsd ?? 0).toDouble();
-        final pnlPercent = (data.totalProfitLossPercentage ?? 0).toDouble();
-        final usdtBalance = (data.usdtWalletBalance ?? 0).toDouble();
+        final totalBalance = (data?.totalBalanceUsd ?? 0).toDouble();
+        final pnlAmount = (data?.totalProfitLossUsd ?? 0).toDouble();
+        final pnlPercent = (data?.totalProfitLossPercentage ?? 0).toDouble();
+        final usdtBalance = (data?.usdtWalletBalance ?? 0).toDouble();
         final isProfit = pnlAmount >= 0;
 
         return Container(

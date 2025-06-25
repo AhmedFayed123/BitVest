@@ -1,20 +1,22 @@
 class Data {
   Data({
-      this.currency, 
-      this.amount, 
-      this.price, 
-      this.totalCost,});
+    this.currency,
+    this.amount,
+    this.price,
+    this.totalCost,
+  });
 
-  Data.fromJson(dynamic json) {
-    currency = json['currency'];
-    amount = json['amount'];
-    price = json['price'];
-    totalCost = json['total_cost'];
-  }
   String? currency;
   double? amount;
   double? price;
   double? totalCost;
+
+  Data.fromJson(dynamic json) {
+    currency = json['currency'];
+    amount = (json['amount'] as num?)?.toDouble();
+    price = (json['price'] as num?)?.toDouble();
+    totalCost = (json['total_cost'] as num?)?.toDouble();
+  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -24,5 +26,4 @@ class Data {
     map['total_cost'] = totalCost;
     return map;
   }
-
 }

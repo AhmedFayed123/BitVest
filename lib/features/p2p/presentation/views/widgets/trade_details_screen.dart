@@ -171,9 +171,11 @@ class TradeDetailsScreen extends StatelessWidget {
     bool accepted = await controller.acceptAd(amount: amount, adId: id);
 
     if (accepted) {
+      print('llllllllllllll');
+      print(paymentDetails);
       Get.to(() => PaymentScreen(
         adId: id,
-        paymentDetails: controller.paymentDetails.value,
+        paymentDetails: paymentDetails
       ));
     }
   }

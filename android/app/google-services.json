@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "653519949446",
+    "project_id": "bitvest-57d35",
+    "storage_bucket": "bitvest-57d35.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653519949446:android:d8d97cceaa55719e074b07",
+        "android_client_info": {
+          "package_name": "com.example.bitvest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653519949446-os26etupgvco0g76amj1s6p57icgq3st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bitvest",
+            "certificate_hash": "8f6f130477b1a78ebdaecb07cb381037523e23d4"
+          }
+        },
+        {
+          "client_id": "653519949446-8v7oldi1lj3had1jo6lo8ekpn4ehqm6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW776ZUmf9RJT-GOiw4ajJtSpnZkh8nho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653519949446-8v7oldi1lj3had1jo6lo8ekpn4ehqm6e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

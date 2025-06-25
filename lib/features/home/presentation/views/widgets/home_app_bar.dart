@@ -9,14 +9,18 @@ import '../../../../../core/constant/sizes.dart';
 import '../../../../../core/constant/strings.dart';
 import '../../../../../core/constant/styles.dart';
 import '../../../../../core/resources/images.dart';
-import '../../../../account_verification/presentation/views/gender_screen.dart';
+import '../../controllers/home_controller/home_controller.dart';
+import 'notification_screen.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key, required this.scaffoldKey});
-  final GlobalKey<ScaffoldState> scaffoldKey ;
+
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: kButtonShadow,
@@ -33,10 +37,11 @@ class HomeAppBar extends StatelessWidget {
               ),
               onPressed: () {
                 scaffoldKey.currentState!.openDrawer();
-
               },
             ),
-            SizedBox(width: 5.w,),
+            SizedBox(
+              width: 5.w,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +57,7 @@ class HomeAppBar extends StatelessWidget {
                     color: kWhiteColor, // Override color for error text
                     fontWeight: FontWeight.w600, // Bold the message
                     fontSize:
-                    Sizes.kSubHeadingSize, // Use the correct font size
+                        Sizes.kSubHeadingSize, // Use the correct font size
                   ),
                 ),
               ],
@@ -67,20 +72,22 @@ class HomeAppBar extends StatelessWidget {
                 Get.to(SearchScreen());
               },
             ),
-            IconButton(
-              icon: const Icon(
-                AppIcons.qrCode,
-                color: kWhiteColor,
-              ),
-              onPressed: () {Get.to(GenderScreen(),);},
-            ),
-            IconButton(
-              icon: const Icon(
-                AppIcons.notifications_active,
-                color: kWhiteColor,
-              ),
-              onPressed: () {},
-            ),
+            Obx(() {
+              final hasUnread = controller.notifications.value
+                  ?.notifications
+                  ?.any((n) => n.readAt == null) ?? false;
+
+              return Badge(
+                isLabelVisible: hasUnread,
+                backgroundColor: Colors.red,
+                offset: const Offset(8, -6),
+                smallSize: 8,
+                child: IconButton(
+                  icon: Icon(AppIcons.notifications_active, color: kWhiteColor),
+                  onPressed: () => Get.to(() => const NotificationsScreen()),
+                ),
+              );
+            })
           ],
         ),
       ),

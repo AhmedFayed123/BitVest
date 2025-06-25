@@ -19,11 +19,13 @@ class DepositView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deposit'),
+        title: const Text('Deposit'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(AppIcons.back_arrow, color: kPrimaryTextColor),
-          onPressed: () { Get.back(); },
+          onPressed: () {
+            Get.back();
+          },
         ),
       ),
       body: Padding(
@@ -31,26 +33,36 @@ class DepositView extends StatelessWidget {
         child: Column(
           children: [
             CustomTextFormField(
-              hintText: Strings.amount, // Assuming 'Strings.amount' is the English string
+              hintText: Strings.amount,
               controller: amountController,
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 20.h),
             Obx(() {
               return controller.isLoading.value
-                  ? CircleLoading()
+                  ? const CircleLoading()
                   : CustomButton(
-                text: "Start Deposit", // Changed to English
+                text: "Start Deposit",
                 onPressed: () {
                   final amount = double.tryParse(amountController.text);
                   if (amount != null) {
                     controller.startDeposit(amount);
                   } else {
-                    Get.snackbar('Alert', 'Please enter a valid amount'); // Changed to English
+                    Get.snackbar('Alert', 'Please enter a valid amount');
                   }
                 },
                 isLoading: controller.isLoading.value,
               );
+            }),
+            const SizedBox(height: 20),
+            Obx(() {
+              if (controller.paymentResult.value.isNotEmpty) {
+                return Text(
+                  'Payment Result:\n${controller.paymentResult.value}',
+                  style: const TextStyle(color: Colors.green),
+                );
+              }
+              return Container();
             }),
           ],
         ),

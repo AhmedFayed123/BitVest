@@ -1,5 +1,5 @@
-import 'package:bitvest/features/home/data/models/ads_model/Ads_model.dart';
-import 'package:bitvest/features/home/data/models/search_model/Search_model.dart';
+
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -8,14 +8,17 @@ import '../../../../../core/errors/server_failures.dart';
 import '../../../../../core/network/dio_helper/dio_helper.dart';
 import '../../../../../core/services/service_locator.dart';
 import '../../../../../core/services/storage_service.dart';
+import '../../models/ads_model/Ads_model.dart';
 import '../../models/coins_list/Coin_list_model.dart';
 import '../../models/news_model/News_model.dart';
+import '../../models/notifications_model/notifications_response.dart';
 import '../../models/popular_coins_model/Popular_coins_model.dart';
+import '../../models/search_model/Search_model.dart';
 import 'home_repo.dart';
 
 class HomeRepoImpl extends HomeRepo {
-  final Dio dio;
 
+  Dio dio;
   HomeRepoImpl({required this.dio});
 
   @override
@@ -142,6 +145,23 @@ class HomeRepoImpl extends HomeRepo {
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, NotificationsResponse>> fetchNotification() async{
+    try {
+      final response = await DioHelper.getData(
+          url: AppEndpoints.notification,
+          token: await sl<StorageService>().getToken(),
+    );
+      print('Notifications');
+      print(response.data);
+    return right(NotificationsResponse.fromJson(response.data));
+    } on DioException catch (e) {
+    return left(ServerFailure.fromDioError(e));
+    } catch (e) {
+    return left(ServerFailure(e.toString()));
     }
   }
 }

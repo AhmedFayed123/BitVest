@@ -25,12 +25,8 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (url) {
-            if (url.contains("success")) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Payment successful!")),
-              );
-            }
+            // هنا تقدر تتحقق من أي كلمة أو حالة خاصة في الرابط لو حبيت
+            print('Page loaded: $url');
           },
         ),
       )
@@ -41,11 +37,13 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: const Text('Payment'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(AppIcons.back_arrow, color: kPrimaryTextColor),
-          onPressed: () { Get.back(); },
+          onPressed: () {
+            Get.back();
+          },
         ),
       ),
       body: WebViewWidget(controller: _controller),

@@ -1,3 +1,4 @@
+import 'package:bitvest/features/wallet/data/models/transaction_history/transaction_response.dart';
 import 'package:get/get.dart';
 import 'package:dartz/dartz.dart';
 import 'package:bitvest/core/errors/server_failures.dart';
@@ -6,7 +7,6 @@ import 'package:bitvest/features/wallet/data/models/wallets_model/Wallets_model.
 import 'package:bitvest/features/wallet/data/repo/wallet_repo.dart';
 
 import '../../../../core/services/service_locator.dart';
-import '../../data/models/transaction_history/Transaction_history.dart';
 
 class WalletController extends GetxController {
   final WalletRepo walletRepo = sl<WalletRepo>();
@@ -20,7 +20,7 @@ class WalletController extends GetxController {
   var walletsErrorMessage = RxnString();
 
 
-  var transactionHistory = Rxn<TransactionHistory>();
+  var transactionHistory = Rxn<TransactionsResponse>();
   var isTransactionLoading = false.obs;
   var transactionErrorMessage = RxnString();
 
@@ -40,7 +40,7 @@ class WalletController extends GetxController {
     transactionErrorMessage.value = null;
 
     try {
-      Either<Failure, TransactionHistory> result = await walletRepo.transactionHistory();
+      Either<Failure, TransactionsResponse> result = await walletRepo.transactionHistory();
 
       result.fold(
             (failure) {
@@ -49,7 +49,7 @@ class WalletController extends GetxController {
         },
             (data) {
           transactionHistory.value = data;
-          print("✅ Transaction History Loaded: ${data.data?.length ?? 0} items");
+          print("✅ Transaction History Loaded: ${data.transactions.length} items");
         },
       );
     } catch (e) {

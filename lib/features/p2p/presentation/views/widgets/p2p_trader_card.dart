@@ -60,16 +60,11 @@ class P2pTraderCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // Quick Details
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _detail("Amount",
-                    "${trader.amount ?? ''} ${trader.currency ?? ''}"),
-                _detail("Price",
-                    "${trader.fiatAmount ?? ''} ${trader.fiatCurrency ?? ''}"),
-              ],
-            ),
+            _detail("Amount",
+                "${trader.amount ?? ''} ${trader.currency ?? ''}"),
+            const SizedBox(height: 6),
+            _detail("Price",
+                "${trader.fiatAmount ?? ''} ${trader.fiatCurrency ?? ''}"),
 
             const SizedBox(height: 6),
 
@@ -123,15 +118,22 @@ class P2pTraderCard extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           text: '$label: ',
-          style: const TextStyle(color: Colors.white70, fontSize: 13),
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 13,
+          ),
           children: [
             TextSpan(
               text: value,
               style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w500),
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

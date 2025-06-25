@@ -57,12 +57,17 @@ class DioHelper {
       'Authorization': 'Bearer $token',
       'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
     };
+
     return await dio!.post(
       url,
       queryParameters: query,
       data: data,
+      options: Options(
+        validateStatus: (status) => status != null,
+      ),
     );
   }
+
 
   static Future<Response> patchData({
     required String url,

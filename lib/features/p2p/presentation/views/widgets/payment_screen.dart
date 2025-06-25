@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../core/constant/colors.dart';
 import '../../controller/p2p_controller.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -69,30 +70,44 @@ class PaymentScreen extends StatelessWidget {
     return Card(
       color: Colors.grey[900],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Please transfer the amount to the following account:",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),
+            Row(
+              children: const [
+                Icon(Icons.payment, color: kPositiveTrendColor, size: 28),
+                SizedBox(width: 8),
+                Text(
+                  "Payment Details",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             Text(
-              paymentDetails!,
-              style: const TextStyle(fontSize: 15, color: Colors.white),
-            ),
-            const Divider(color: Colors.white),
-            const Text(
-              "Note: You have 15 minutes to complete the payment.",
-              style: TextStyle(color: Colors.redAccent, fontSize: 13),
+              paymentDetails ?? 'No payment details available.',
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                height: 1.4,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 6,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
       ),
     );
   }
+
 
   Widget _buildPaymentProofUpload() {
     return Column(

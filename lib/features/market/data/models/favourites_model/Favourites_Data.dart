@@ -17,14 +17,13 @@ class FavouritesData {
     symbol = json['symbol'];
     icon = json['icon'];
 
-    // Convert int to double safely
     price = (json['price'] as num?)?.toDouble();
     changeRatePercentage = (json['change_rate_percentage'] as num?)?.toDouble();
     changeRateUsdt = (json['change_rate_usdt'] as num?)?.toDouble();
 
-    volume = json['volume'];
-    marketCap = json['market_cap'];
-    marketCapRank = json['market_cap_rank'];
+    volume = (json['volume'] as num?)?.toInt();
+    marketCap = (json['market_cap'] as num?)?.toInt();
+    marketCapRank = (json['market_cap_rank'] as num?)?.toInt();
   }
 
   String? id;

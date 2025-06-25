@@ -4,6 +4,7 @@ import '../../../../../core/services/service_locator.dart';
 import '../../../data/models/ads_model/Ads.dart';
 import '../../../data/models/coins_list/Coin_list_model.dart';
 import '../../../data/models/news_model/News_model.dart';
+import '../../../data/models/notifications_model/notifications_response.dart';
 import '../../../data/models/popular_coins_model/Popular_coins_model.dart';
 import '../../../data/models/search_model/Search_model.dart';
 import '../../../data/repos/home_repo/home_repo.dart';
@@ -11,6 +12,7 @@ import '../../../data/repos/home_repo/home_repo.dart';
 class HomeController extends GetxController {
   final HomeRepo homeRepo = sl<HomeRepo>();
 
+  // DATA MODELS
   Rx<NewsModel?> news = Rx<NewsModel?>(null);
   Rxn<PopularCoinsModel> popularCoins = Rxn<PopularCoinsModel>();
   Rxn<CoinsListModel> highestVolume = Rxn<CoinsListModel>();
@@ -18,7 +20,9 @@ class HomeController extends GetxController {
   Rxn<CoinsListModel> highestChangeDown = Rxn<CoinsListModel>();
   Rxn<List<Ads>> adsList = Rxn<List<Ads>>();
   RxList<SearchModel> searchResults = <SearchModel>[].obs;
+  Rxn<NotificationsResponse> notifications = Rxn<NotificationsResponse>();
 
+  // UI STATE
   RxBool isLoading = false.obs;
   RxString errorMessage = ''.obs;
 
@@ -39,6 +43,7 @@ class HomeController extends GetxController {
       fetchHighestChangeUpList(),
       fetchAds(),
       fetchNews(),
+      fetchNotifications(),
     ]);
 
     isLoading.value = false;
@@ -137,6 +142,18 @@ class HomeController extends GetxController {
       );
     } catch (e) {
       errorMessage.value = "Error loading highest change up: ${e.toString()}";
+    }
+  }
+
+  Future<void> fetchNotifications() async {
+    try {
+      final result = await homeRepo.fetchNotification();
+      result.fold(
+            (failure) => errorMessage.value = _getErrorMessage(failure),
+            (notificationsData) => notifications.value = notificationsData,
+      );
+    } catch (e) {
+      errorMessage.value = "Error loading notifications: ${e.toString()}";
     }
   }
 

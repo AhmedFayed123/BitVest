@@ -1,41 +1,37 @@
-class Data {
-  Data({
+class FuturesWallets {
+  FuturesWallets({
       this.id, 
-      this.walletId, 
-      this.transactionType, 
-      this.amount, 
+      this.userId, 
       this.currency, 
-      this.status, 
+      this.balance, 
+      this.margin, 
       this.createdAt, 
       this.updatedAt,});
 
-  Data.fromJson(dynamic json) {
+  FuturesWallets.fromJson(dynamic json) {
     id = json['id'];
-    walletId = json['wallet_id'];
-    transactionType = json['transaction_type'];
-    amount = json['amount'];
+    userId = json['user_id'];
     currency = json['currency'];
-    status = json['status'];
+    balance = json['balance'];
+    margin = json['margin'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
   int? id;
-  int? walletId;
-  String? transactionType;
-  String? amount;
+  int? userId;
   String? currency;
-  String? status;
+  String? balance;
+  String? margin;
   String? createdAt;
   String? updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    map['wallet_id'] = walletId;
-    map['transaction_type'] = transactionType;
-    map['amount'] = amount;
+    map['user_id'] = userId;
     map['currency'] = currency;
-    map['status'] = status;
+    map['balance'] = balance;
+    map['margin'] = margin;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
     return map;

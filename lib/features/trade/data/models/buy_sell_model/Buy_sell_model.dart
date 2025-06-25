@@ -2,18 +2,21 @@ import 'Data.dart';
 
 class BuySellModel {
   BuySellModel({
-      this.success, 
-      this.message, 
-      this.data,});
+    this.success,
+    this.message,
+    this.data,
+  });
 
-  BuySellModel.fromJson(dynamic json) {
-    success = json['success'];
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
   bool? success;
   String? message;
   Data? data;
+
+  BuySellModel.fromJson(dynamic json) {
+    final rawSuccess = json['success'];
+    success = rawSuccess == true || rawSuccess.toString().toLowerCase() == 'true';
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -24,5 +27,4 @@ class BuySellModel {
     }
     return map;
   }
-
 }

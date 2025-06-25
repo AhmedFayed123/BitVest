@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 import '../../controllers/wallet_controller.dart';
 
-
 class TransactionHistoryScreen extends StatelessWidget {
   const TransactionHistoryScreen({super.key});
 
@@ -13,76 +12,99 @@ class TransactionHistoryScreen extends StatelessWidget {
     final WalletController controller = Get.find<WalletController>();
 
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF1F1F1F),
         title: const Text('Transaction History'),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
+        iconTheme: const IconThemeData(color: Colors.white),
+        elevation: 0,
       ),
       body: Obx(() {
         if (controller.isTransactionLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (controller.transactionErrorMessage.value != null) {
+        final error = controller.transactionErrorMessage.value;
+        if (error != null) {
           return Center(
             child: Text(
-              controller.transactionErrorMessage.value!,
+              error,
               style: const TextStyle(color: Colors.red),
             ),
           );
         }
 
-        final transactions = controller.transactionHistory.value?.data ?? [];
-
+        final transactions = controller.transactionHistory.value?.transactions ?? [];
         if (transactions.isEmpty) {
-          return const Center(child: Text('No transactions found.'));
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.receipt_long_rounded, size: 70, color: Colors.grey.shade600),
+                const SizedBox(height: 16),
+                Text(
+                  "No Transactions Found",
+                  style: TextStyle(fontSize: 18, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  "You haven't made any transactions yet.",
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                ),
+              ],
+            ),
+          );
         }
 
         return ListView.separated(
           padding: const EdgeInsets.all(16),
           itemCount: transactions.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             final tx = transactions[index];
-            final isBuy = tx.transactionType?.toLowerCase() == 'buy';
+            final isBuy = (tx.transactionType ?? '').toLowerCase() == 'buy';
+            final rawStatus = (tx.status ?? '');
+            final status = rawStatus.capitalize!;
+            final statusColor = _getStatusColor(status);
+            final currency = (tx.currency ?? '').toUpperCase();
 
             return Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade200,
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                color: const Color(0xFF1F1F1F),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Colors.grey[800]!),
               ),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor:
-                    isBuy ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: isBuy
+                          ? Colors.green.withOpacity(0.15)
+                          : Colors.red.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.all(12),
                     child: Icon(
-                      isBuy ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
+                      isBuy ? Icons.trending_up : Icons.trending_down,
                       color: isBuy ? Colors.green : Colors.red,
+                      size: 28,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${isBuy ? 'Buy' : 'Sell'} ${tx.currency?.toUpperCase()}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
+                          '${isBuy ? 'Buy' : 'Sell'} $currency',
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           _formatDate(tx.createdAt),
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(fontSize: 13, color: Colors.grey[500]),
                         ),
                       ],
                     ),
@@ -91,26 +113,19 @@ class TransactionHistoryScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '${tx.amount} ${tx.currency?.toUpperCase()}',
-                        style: TextStyle(
-                          color: isBuy ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        '${tx.amount} $currency',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isBuy ? Colors.green : Colors.red),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey.shade50,
+                          color: statusColor.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          tx.status?.capitalize ?? '',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black54,
-                          ),
+                          status,
+                          style: TextStyle(color: statusColor, fontSize: 12, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
@@ -124,10 +139,20 @@ class TransactionHistoryScreen extends StatelessWidget {
     );
   }
 
-  String _formatDate(String? rawDate) {
-    if (rawDate == null) return '';
-    final dateTime = DateTime.tryParse(rawDate);
-    if (dateTime == null) return rawDate;
+  String _formatDate(DateTime dateTime) {
     return DateFormat('dd MMM yyyy, hh:mm a').format(dateTime);
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return Colors.orange;
+      case 'completed':
+        return Colors.green;
+      case 'failed':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
   }
 }

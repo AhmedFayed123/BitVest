@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/colors.dart';
+import '../../../future/presentation/views/future_view.dart';
 import '../../../market/presentation/views/market_view.dart';
 import '../../../trade/presentation/views/Trade_view.dart';
 import '../../../wallet/presentation/views/wallet_view.dart';
@@ -24,7 +25,10 @@ class HomeView extends StatelessWidget {
         scaffoldKey: scaffoldKey,
       ),
       MarketView(),
-      TradeView(coinId: 'bitcoin',),
+      TradeView(
+        coinId: 'bitcoin',
+      ),
+      FutureView(),
       WalletView(),
     ];
     return SafeArea(
@@ -50,8 +54,13 @@ class HomeView extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
-                icon: Icon(Icons.swap_horiz),
+                icon: Icon(Icons.candlestick_chart),
                 label: "Trade".tr,
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: kPrimaryColor,
+                icon: Icon(Icons.swap_calls),
+                label: "Future".tr,
               ),
               BottomNavigationBarItem(
                 backgroundColor: kPrimaryColor,
